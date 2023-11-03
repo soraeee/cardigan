@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #161616;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,25 +14,87 @@
   -webkit-text-size-adjust: 100%;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
 }
 
-body {
-  margin: 0;
+/* Holy shit i am so bad at css */
+.cardDisplay {
+  margin: 0 auto;
   display: flex;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-flow: column nowrap;
+  justify-content: center;
+  max-width: 100%;
+  align-items: center;
+  
+  gap: 15px;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.card {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+
+  border: 2px solid;
+  border-radius: 4px;
+
+  min-width: 60%;
+  min-height: 100px;
+
+  padding: 10px;
+
+  transition: border-color 0.25s;
+}
+.card:hover {
+  border-color: #646cff;
+  cursor: pointer;
+}
+
+.card-text-upper {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: start;
+  justify-content: space-between;
+  text-shadow: 1px 1px 10px #000000;
+}
+
+.card-text-title {
+  font-weight: 800;
+  font-size: 2.5em;
+}
+.card-text-artist {
+  font-weight: 400;
+  font-size: 1.25em;
+}
+.card-text-subtitle {
+  font-weight: 400;
+  font-style: oblique;
+  font-size: 1.25em;
+}
+.card-text-tier {
+  font-weight: 600;
+  font-size: 1.4em;
+}
+.card-text-diff {
+  font-weight: 600;
+  font-size: 1.4em;
+}
+
+.card-text-lower {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: end;
+  justify-content: space-between;
+  text-shadow: 1px 1px 5px #000000;
 }
 
 button {
@@ -48,21 +110,4 @@ button {
 }
 button:hover {
   border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import './App.css'
+import './index.css'
+import './reset.css'
 
 import CardDraw from './CardDraw'
 
