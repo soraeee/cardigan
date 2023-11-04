@@ -117,7 +117,7 @@ function CardDraw() {
 					let bannerBackground = {};
 					if (chart.hasGfx) {
 						bannerBackground = {
-							"background": `linear-gradient(90deg, #0a0a0af0 15%, #161616a7 100%), url("src/assets/rip135-assets/${chart.gfxPath}")`,
+							"background": `linear-gradient(90deg, #0a0a0af0 15%, #161616a7 100%), url("./src/assets/rip135-assets/${chart.gfxPath}")`,
 							"background-size": "cover",
 							"background-repeat": "no-repeat",
 							"background-position": "100% 50%"
