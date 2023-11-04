@@ -1,7 +1,36 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+@font-face {
+  font-family: 'Miso';
+  font-style: normal;
   font-weight: 400;
+  src: local('Miso'), url('fonts/miso.woff') format('woff');
+}
+  
+@font-face {
+  font-family: 'Miso';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Miso Light'), url('fonts/miso-light.woff') format('woff');
+}
+  
+@font-face {
+  font-family: 'Miso';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Miso Bold'), url('fonts/miso-bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Mega';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Mega'), url('fonts/mega.woff') format('woff');
+}
+
+:root {
+  font-family: Miso, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: normal;
+  letter-spacing: -1px;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -36,7 +65,7 @@
   max-width: 100%;
   align-items: center;
   
-  gap: 15px;
+  gap: 8px;
 }
 
 .card {
@@ -47,10 +76,11 @@
   border: 2px solid;
   border-radius: 4px;
 
-  min-width: 60%;
-  min-height: 100px;
+  width: 80%;
+  max-width: 800px;
+  min-height: 65px;
 
-  padding: 10px;
+  padding: 12px;
 
   transition: border-color 0.25s;
 }
@@ -59,42 +89,88 @@
   cursor: pointer;
 }
 
-.card-text-upper {
+.card-left {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-diff {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  min-height: 38px;
+}
+.card-text-diff {
+  font-size: 1.4em;
+  font-family: Mega;
+  letter-spacing: 0.02em;
+  margin-right: -3px;
+  color: black;
+}
+
+.card-meta {
   display: flex;
   flex-flow: column nowrap;
   align-items: start;
-  justify-content: space-between;
+  justify-content: center;
   text-shadow: 1px 1px 10px #000000;
+}
+.card-meta > * {
+  margin: -2px 0;
 }
 
 .card-text-title {
+  font-size: 2.2em;
   font-weight: 800;
-  font-size: 2.5em;
 }
 .card-text-artist {
-  font-weight: 400;
-  font-size: 1.25em;
+  font-weight: 200;
+  font-size: 1.2em;
+  margin: -6px 0 -4px;
 }
 .card-text-subtitle {
-  font-weight: 400;
+  font-weight: 200;
   font-style: oblique;
-  font-size: 1.25em;
+  font-size: 1.2em;
 }
+
+.card-text-nocmod {
+  position: relative;
+  font-size: 0.45em;
+  font-weight: 400;
+  display: inline-block;
+  background-color: #FF1744;
+  color: black;
+  padding: 2px 4px;
+  border-radius: 4px;
+  text-shadow: none;
+  left: 6px;
+  top: -6px;
+  box-shadow: 1px 1px 5px #000000;
+}
+
+.card-right {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: end;
+  justify-content: center;
+  text-shadow: 1px 1px 5px #000000;
+}
+.card-right > * {
+  margin: -2px 0;
+}
+
 .card-text-tier {
   font-weight: 600;
   font-size: 1.4em;
 }
-.card-text-diff {
-  font-weight: 600;
-  font-size: 1.4em;
-}
-
-.card-text-lower {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: end;
-  justify-content: space-between;
-  text-shadow: 1px 1px 5px #000000;
+.card-text-bpm {
+  font-weight: 400;
+  font-size: 1em;
 }
 
 button {
@@ -111,3 +187,10 @@ button {
 button:hover {
   border-color: #646cff;
 }
+
+.diff-n { background-color: #a355b8; }
+.diff-e { background-color: #1ec51d; }
+.diff-m { background-color: #d6db41; }
+.diff-h { background-color: #ba3049; }
+.diff-x { background-color: #2691c5; }
+.diff-edit { background-color: #f7f7f7; }
