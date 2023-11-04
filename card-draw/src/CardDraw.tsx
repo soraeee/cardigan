@@ -13,10 +13,11 @@ function CardDraw() {
 		difficulty: number;
 		difficultyslot: string;
 		displaybpm: number[];
-		bpmstring: string; // hi sore
+		bpmstring: string;
 		tier: number;
 		nocmod: boolean;
-		hasBanner: boolean;
+		gfxPath: string;
+		hasGfx: boolean;
 	}
 
 	const chartarr: Chart[] = [];
@@ -35,16 +36,15 @@ function CardDraw() {
 			const songartist: string = (chart.artisttranslit != "") ? chart.artisttranslit : chart.artist
 			const songsubtitle: string = (chart.subtitletranslit != "") ? chart.subtitletranslit : chart.subtitle
 
-			const displaybpm = chart.displaybpm.map(x => Math.round(Number(x)))
 			let displaybpmFormatted = ""
-			if (displaybpm[0] === displaybpm[1]) {
-				displaybpmFormatted = String(Math.round(displaybpm[0]))
+			if (chart.displaybpm[0] === chart.displaybpm[1]) {
+				displaybpmFormatted = String(Math.round(chart.displaybpm[0]))
 			} else {
-				displaybpmFormatted = displaybpm[0] + " - " + displaybpm[1]
+				displaybpmFormatted = chart.displaybpm[0] + " - " + chart.displaybpm[1]
 			}
 
-			let hasBanner = false
-			if (chart.bnpath != "") hasBanner = true
+			let hasGfx = false
+			if (chart.gfxPath != "") hasGfx = true
 
 			// Add properly formatted metadata to array
 			chartarr.push({
@@ -52,14 +52,14 @@ function CardDraw() {
 				title: songtitle.replace(/\(No CMOD\)/,"").trim(),
 				artist: songartist,
 				subtitle: songsubtitle,
-				difficulty: Number(chart.difficulties[0].difficulty),
+				difficulty: chart.difficulties[0].difficulty,
 				difficultyslot: chart.difficulties[0].slot,
-				//probably make pack.json have this be Number[] in the json
-				displaybpm: chart.displaybpm.map(x => Number(x)),
+				displaybpm: chart.displaybpm,
 				bpmstring: displaybpmFormatted,
 				tier: tier,
 				nocmod: /\(No CMOD\)/.test(songtitle),
-				hasBanner: hasBanner,
+				gfxPath: chart.gfxPath,
+				hasGfx: hasGfx,
 			})
 		}
 	});
@@ -108,9 +108,9 @@ function CardDraw() {
 				}).map((chart) => {
 					// Stolen from DDRTools sorry man lol
 					let bannerBackground = {};
-					if (chart.hasBanner) {
+					if (chart.hasGfx) {
 						bannerBackground = {
-							"background": `linear-gradient(90deg, #161616DD 20%, #161616AA 100%), url("src/assets/rip135-assets/bn-${chart.id}.png")`,
+							"background": `linear-gradient(90deg, #0a0a0af0 15%, #161616a7 100%), url("src/assets/rip135-assets/${chart.gfxPath}")`,
 							"background-size": "cover",
 							"background-repeat": "no-repeat",
 							"background-position": "100% 50%"
