@@ -24,7 +24,7 @@ function CardDraw() {
 	const numToDraw = 7;
 
 	// Current card draw state
-	const [spread, setSpread] = useState<number[]>([])
+	const [spread, setSpread] = useState<Chart[]>([])
 
 	// Process chart metadata to something that we actually need
 	chartJSON.charts.forEach(chart => {
@@ -49,7 +49,7 @@ function CardDraw() {
 			// Add properly formatted metadata to array
 			chartarr.push({
 				id: Number(chart.sid),
-				title: songtitle.replace(/\(No CMOD\)/,"").trim(),
+				title: songtitle.replace(/\(No CMOD\)/, "").trim(),
 				artist: songartist,
 				subtitle: songsubtitle,
 				difficulty: chart.difficulties[0].difficulty,
@@ -93,7 +93,16 @@ function CardDraw() {
 			drawnIds[i] = chartIds[i]
 			// todo: remove the id from chartIds once finished. probably need to replace chartIds[i] with chartIds[0] when doing that
 		}
-		setSpread(drawnIds)
+		const drawnCharts: Chart[] = []
+		drawnIds.forEach((id) => {
+			// This sucks man i hate O(n^2)
+			// but i'm not working with 10000 charts so it's ok :^)
+			const chartMatch: Chart[] = chartarr.filter(chart => {
+				return chart["id"] === id
+			})
+			drawnCharts.push(chartMatch[0])
+		})
+		setSpread(drawnCharts)
 	}
 
 	// todo: split cards into its own component
@@ -103,9 +112,7 @@ function CardDraw() {
 				<button onClick={draw} className="button">Draw</button>
 			</div>
 			<div className="cardDisplay">
-				{chartarr.filter((chart) => {
-					if (spread.includes(chart["id"])) return chart
-				}).map((chart) => {
+				{spread.map((chart) => {
 					// Stolen from DDRTools sorry man lol
 					let bannerBackground = {};
 					if (chart.hasGfx) {
@@ -119,11 +126,11 @@ function CardDraw() {
 					// difficulty stuff
 					let diffClasses = 'card-diff';
 					switch (chart.difficultyslot) {
-						case 'Novice':		diffClasses += ' diff-n'; break;
-						case 'Easy':		diffClasses += ' diff-e'; break;
-						case 'Medium':		diffClasses += ' diff-m'; break;
-						case 'Hard':		diffClasses += ' diff-h'; break;
-						case 'Challenge':	diffClasses += ' diff-x'; break;
+						case 'Novice': diffClasses += ' diff-n'; break;
+						case 'Easy': diffClasses += ' diff-e'; break;
+						case 'Medium': diffClasses += ' diff-m'; break;
+						case 'Hard': diffClasses += ' diff-h'; break;
+						case 'Challenge': diffClasses += ' diff-x'; break;
 					}
 					// cmod?
 					let noCmodTag;
