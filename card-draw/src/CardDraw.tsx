@@ -1,5 +1,5 @@
 import chartJSON from './pack.json'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './index.css'
 import './reset.css'
 import Card from './Card';
@@ -26,6 +26,19 @@ function CardDraw() {
 
 	// Current card draw state
 	const [spread, setSpread] = useState<Chart[]>([])
+	const [range, setRange] = useState<number[]>([1, 11])
+	const [eligibleCharts, setEligibleCharts] = useState<number[]>([])
+
+	// init
+	useEffect(() => {
+		let chartIds: number[] = []
+		// Chart IDs remaining in the pool
+		// Todo: reduce this to selected tiers
+		for (let i = 0; i < chartarr.length; i++) {
+			chartIds[i] = i
+		}
+		setEligibleCharts(chartIds)
+	}, [])
 
 	// Process chart metadata to something that we actually need
 	chartJSON.charts.forEach(chart => {
@@ -65,13 +78,6 @@ function CardDraw() {
 		}
 	});
 
-	// Chart IDs remaining in the pool
-	// Todo: reduce this to selected tiers
-	const chartIds: number[] = []
-	for (let i = 0; i < chartarr.length; i++) {
-		chartIds[i] = i
-	}
-
 	function swapIndices(a: number, b: number, array: number[]) {
 		const c = array[a]
 		array[a] = array[b]
@@ -82,8 +88,30 @@ function CardDraw() {
 		return Math.floor(Math.random() * max);
 	}
 
+	// Change draw range
+	function changeDrawRange(a: number, b: number) {
+		// clamp a, b to [0, 11]
+		const min = 0
+		const max = 11
+		a = Math.min(Math.max(a, min), b)
+		b = Math.min(Math.max(b, a), max)
+
+		setRange([a, b])
+
+		// Change eligible IDs to be within range
+		let chartIds: number[] = []
+		let chartsInRange: Chart[] = chartarr.filter((chart) => {
+			return chart["tier"] >= a && chart["tier"] <= b
+		})
+		chartsInRange.forEach((chart) => {
+			chartIds.push(chart.id)
+		})
+		setEligibleCharts(chartIds)
+	}
+
 	// Draw n number of charts from the available pool
 	function draw() {
+		let chartIds: number[] = eligibleCharts
 		// Fisher-Yates shuffle
 		for (let i = chartIds.length - 1; i >= 0; i--) {
 			swapIndices(i, getRandomInt(i), chartIds);
@@ -111,10 +139,16 @@ function CardDraw() {
 		<>
 			<div className="header">
 				<button onClick={draw} className="button">Draw</button>
+				{/* Probably want to seperate this out into a sidebar or something, lol */}
+				{/* Could be slightly better - input is a bit jank, could have a "Set" button. dunno */}
+				<div className="settings">
+					<input type="number" min="1" step="1" max="11" value={range[0]} onChange={e => { changeDrawRange(Number(e.currentTarget.value), range[1]) }} />
+					<input type="number" min="1" step="1" max="11" value={range[1]} onChange={e => { changeDrawRange(range[0], Number(e.currentTarget.value)) }} />
+				</div>
 			</div>
 			<div className="cardDisplay">
 				{spread.map((chart) => {
-					return(<Card chart = {chart}/>)
+					return (<Card key={chart.id} chart={chart} />)
 				})}
 			</div>
 		</>
