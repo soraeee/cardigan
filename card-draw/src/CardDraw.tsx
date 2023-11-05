@@ -29,6 +29,9 @@ function CardDraw() {
 	const [range, setRange] = useState<number[]>([1, 11])
 	const [eligibleCharts, setEligibleCharts] = useState<number[]>([])
 
+	// Modal will open when chart's ID matches this state
+	const [modalOpened, setModalOpened] = useState<number>(-1)
+
 	// init
 	useEffect(() => {
 		let chartIds: number[] = []
@@ -131,10 +134,10 @@ function CardDraw() {
 			})
 			drawnCharts.push(chartMatch[0])
 		})
+		setModalOpened(-1)
 		setSpread(drawnCharts)
 	}
 
-	// todo: split cards into its own component
 	return (
 		<>
 			<div className="header">
@@ -148,7 +151,7 @@ function CardDraw() {
 			</div>
 			<div className="cardDisplay">
 				{spread.map((chart) => {
-					return (<Card key={chart.id} chart={chart} />)
+					return (<Card key={chart.id} chart={chart} modalOpened = {modalOpened} setModalOpened = {setModalOpened}/>)
 				})}
 			</div>
 		</>

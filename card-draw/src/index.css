@@ -81,6 +81,13 @@
   min-height: 65px;
 
   padding: 12px;
+  
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+
+  position: relative;
+  z-index: 3;
 
   transition: border-color 0.25s;
 }
@@ -194,3 +201,23 @@ button:hover {
 .diff-h { background-color: #ba3049; }
 .diff-x { background-color: #2691c5; }
 .diff-edit { background-color: #f7f7f7; }
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #00000000;
+  height: 100%;
+  width: 100vw; 
+
+  z-index: 1;
+}
+
+.modal-items {
+  z-index: 2;
+  position: relative;
+}
+.header {
+  z-index: 2;
+  position: relative;
+}
