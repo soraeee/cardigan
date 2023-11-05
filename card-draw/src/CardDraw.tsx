@@ -149,9 +149,14 @@ function CardDraw() {
 					<input type="number" min="1" step="1" max="11" value={range[1]} onChange={e => { changeDrawRange(range[0], Number(e.currentTarget.value)) }} />
 				</div>
 			</div>
+			{/* Show message when no card draw is present */}
 			<div className="cardDisplay">
+				{spread.length === 0 && <div className = "nodraw">
+					<img src="/nodraw.png" className = "nodraw-img"/>
+					<p className = "nodraw-text">No charts currently drawn :o</p>
+				</div>}
 				{spread.map((chart) => {
-					return (<Card key={chart.id} chart={chart} modalOpened = {modalOpened} setModalOpened = {setModalOpened}/>)
+					return (<Card key={chart.id} chart={chart} modalOpened={modalOpened} setModalOpened={setModalOpened} />)
 				})}
 			</div>
 		</>

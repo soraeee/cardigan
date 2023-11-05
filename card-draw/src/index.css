@@ -4,14 +4,14 @@
   font-weight: 400;
   src: local('Miso'), url('fonts/miso.woff') format('woff');
 }
-  
+
 @font-face {
   font-family: 'Miso';
   font-style: normal;
   font-weight: 100;
   src: local('Miso Light'), url('fonts/miso-light.woff') format('woff');
 }
-  
+
 @font-face {
   font-family: 'Miso';
   font-style: normal;
@@ -48,9 +48,11 @@
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
@@ -64,7 +66,7 @@
   justify-content: center;
   max-width: 100%;
   align-items: center;
-  
+
   gap: 8px;
 }
 
@@ -81,16 +83,20 @@
   min-height: 65px;
 
   padding: 12px;
-  
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
 
   position: relative;
   z-index: 3;
 
   transition: border-color 0.25s;
 }
+
 .card:hover {
   border-color: #646cff;
   cursor: pointer;
@@ -111,6 +117,7 @@
   min-width: 38px;
   min-height: 38px;
 }
+
 .card-text-diff {
   font-size: 1.4em;
   font-family: Mega;
@@ -126,7 +133,8 @@
   justify-content: center;
   text-shadow: 1px 1px 10px #000000;
 }
-.card-meta > * {
+
+.card-meta>* {
   margin: -2px 0;
 }
 
@@ -134,11 +142,13 @@
   font-size: 2.2em;
   font-weight: 800;
 }
+
 .card-text-artist {
   font-weight: 200;
   font-size: 1.2em;
   margin: -6px 0 -4px;
 }
+
 .card-text-subtitle {
   font-weight: 200;
   font-style: oblique;
@@ -167,7 +177,8 @@
   justify-content: center;
   text-shadow: 1px 1px 5px #000000;
 }
-.card-right > * {
+
+.card-right>* {
   margin: -2px 0;
 }
 
@@ -175,6 +186,7 @@
   font-weight: 600;
   font-size: 1.4em;
 }
+
 .card-text-bpm {
   font-weight: 400;
   font-size: 1em;
@@ -191,16 +203,34 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
 
-.diff-n { background-color: #a355b8; }
-.diff-e { background-color: #1ec51d; }
-.diff-m { background-color: #d6db41; }
-.diff-h { background-color: #ba3049; }
-.diff-x { background-color: #2691c5; }
-.diff-edit { background-color: #f7f7f7; }
+.diff-n {
+  background-color: #a355b8;
+}
+
+.diff-e {
+  background-color: #1ec51d;
+}
+
+.diff-m {
+  background-color: #d6db41;
+}
+
+.diff-h {
+  background-color: #ba3049;
+}
+
+.diff-x {
+  background-color: #2691c5;
+}
+
+.diff-edit {
+  background-color: #f7f7f7;
+}
 
 .modal-backdrop {
   position: absolute;
@@ -208,7 +238,7 @@ button:hover {
   left: 0;
   background: #00000000;
   height: 100%;
-  width: 100vw; 
+  width: 100vw;
 
   z-index: 1;
 }
@@ -217,7 +247,27 @@ button:hover {
   z-index: 2;
   position: relative;
 }
+
 .header {
   z-index: 2;
   position: relative;
+}
+
+.nodraw {
+  margin: 0 auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  max-width: 100%;
+  align-items: center;
+}
+.nodraw-img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+}
+.nodraw-text {
+  margin: 0 auto;
+  font-size: 3em;
+  font-weight: 400;
 }
