@@ -13,34 +13,37 @@ function Card(props: any) {
 		let gradColor1: string = "#0a0a0af0 15%"
 		let gradColor2: string = "#161616a7 100%"
 		let borderColor: string = "#808080FF"
-		if (cardState[0] === 2) { // Veto
-
-			switch (cardState[1]) {
-				case 1:
-					gradColor2 = "#54B4FF33 100%"
-					break;
-				case 2:
-					gradColor2 = "#FF515133 100%"
-					break;
-			}
-			gradColor1 = "#161616F0 15%"
-			borderColor = "#404040FF"
-		} else if (cardState[0] === 1) { // Protect
-			switch (cardState[1]) {
-				case 1:
-					gradColor1 = "#54B4FF44 15%"
-					borderColor = "#54B4FFFF"
-					break;
-				case 2:
-					gradColor1 = "#FF515144 15%"
-					borderColor = "#FF5151FF"
-					break;
-			}
-			gradColor2 = "#161616a7 100%"
-		} else {
-			gradColor1 = "#0a0a0af0 15%"
-			gradColor2 = "#161616a7 100%"
-			borderColor = "#808080FF"
+		switch (cardState[0]) {
+			case 0: // Neutral
+				gradColor1 = "#0a0a0af0 15%"
+				gradColor2 = "#161616a7 100%"
+				borderColor = "#808080FF"
+				break;
+			case 1: // Protect
+				switch (cardState[1]) {
+					case 1:
+						gradColor1 = "#54B4FF44 15%"
+						borderColor = "#54B4FFFF"
+						break;
+					case 2:
+						gradColor1 = "#FF515144 15%"
+						borderColor = "#FF5151FF"
+						break;
+				}
+				gradColor2 = "#161616a7 100%"
+				break;
+			case 2: // Veto
+				switch (cardState[1]) {
+					case 1:
+						gradColor2 = "#54B4FF33 100%"
+						break;
+					case 2:
+						gradColor2 = "#FF515133 100%"
+						break;
+				}
+				gradColor1 = "#161616F0 15%"
+				borderColor = "#404040FF"
+				break;
 		}
 		bannerBackground = {
 			"background": `linear-gradient(90deg, ${gradColor1}, ${gradColor2}), url("rip135-assets/${props.chart.gfxPath}")`,
@@ -77,7 +80,7 @@ function Card(props: any) {
 		}
 	}
 	return <>
-		<div key={props.chart.id} className="card" style={{...bannerBackground, ...cardBorder}} onClick={toggleModal}>
+		<div key={props.chart.id} className="card" style={{ ...bannerBackground, ...cardBorder }} onClick={toggleModal}>
 			<div className="card-left">
 				<div className={diffClasses}>
 					<p className='card-text-diff'>{props.chart.difficulty}</p>
