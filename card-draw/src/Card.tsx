@@ -1,4 +1,4 @@
-import { useState } from 'react';
+{/*import { useState } from 'react';*/}
 import './index.css'
 import './reset.css'
 import CardModal from './CardModal';
@@ -33,12 +33,11 @@ function Card(props: any) {
 
 	// open modal on click
 	function toggleModal() {
-		if (props.modalOpened === props.key) {
+		if (props.modalOpened === props.chart.id) {
 			props.setModalOpened(-1)
 		} else {
 			props.setModalOpened(props.chart.id)
 		}
-		console.log(props.modalOpened)
 	}
 
 	return <>

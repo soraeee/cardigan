@@ -152,7 +152,7 @@ function CardDraw() {
 			{/* Show message when no card draw is present */}
 			<div className="cardDisplay">
 				{spread.length === 0 && <div className = "nodraw">
-					<img src="/nodraw.png" className = "nodraw-img"/>
+					<img src="nodraw.png" className = "nodraw-img"/>
 					<p className = "nodraw-text">No charts currently drawn :o</p>
 				</div>}
 				{spread.map((chart) => {
