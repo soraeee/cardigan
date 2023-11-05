@@ -1,20 +1,57 @@
-{/*import { useState } from 'react';*/}
+import { useState } from 'react';
 import './index.css'
 import './reset.css'
 import CardModal from './CardModal';
 
 function Card(props: any) {
-	//const [cardState, setCardState] = useState<number[]>([])
+	const [cardState, setCardState] = useState<number[]>([])
 
 	// Stolen from DDRTools sorry man lol
 	let bannerBackground = {};
+	let cardBorder = {}
 	if (props.chart.hasGfx) {
+		let gradColor1: string = "#0a0a0af0 15%"
+		let gradColor2: string = "#161616a7 100%"
+		let borderColor: string = "#808080FF"
+		if (cardState[0] === 2) { // Veto
+
+			switch (cardState[1]) {
+				case 1:
+					gradColor2 = "#54B4FF33 100%"
+					break;
+				case 2:
+					gradColor2 = "#FF515133 100%"
+					break;
+			}
+			gradColor1 = "#161616F0 15%"
+			borderColor = "#404040FF"
+		} else if (cardState[0] === 1) { // Protect
+			switch (cardState[1]) {
+				case 1:
+					gradColor1 = "#54B4FF44 15%"
+					borderColor = "#54B4FFFF"
+					break;
+				case 2:
+					gradColor1 = "#FF515144 15%"
+					borderColor = "#FF5151FF"
+					break;
+			}
+			gradColor2 = "#161616a7 100%"
+		} else {
+			gradColor1 = "#0a0a0af0 15%"
+			gradColor2 = "#161616a7 100%"
+			borderColor = "#808080FF"
+		}
 		bannerBackground = {
-			"background": `linear-gradient(90deg, #0a0a0af0 15%, #161616a7 100%), url("rip135-assets/${props.chart.gfxPath}")`,
+			"background": `linear-gradient(90deg, ${gradColor1}, ${gradColor2}), url("rip135-assets/${props.chart.gfxPath}")`,
 			"background-size": "cover",
 			"background-repeat": "no-repeat",
 			"background-position": "100% 50%"
 		};
+
+		cardBorder = {
+			"border-color": borderColor
+		}
 	}
 	// difficulty stuff
 	let diffClasses = 'card-diff';
@@ -39,9 +76,8 @@ function Card(props: any) {
 			props.setModalOpened(props.chart.id)
 		}
 	}
-
 	return <>
-		<div key={props.chart.id} className="card" style={bannerBackground} onClick={toggleModal}>
+		<div key={props.chart.id} className="card" style={{...bannerBackground, ...cardBorder}} onClick={toggleModal}>
 			<div className="card-left">
 				<div className={diffClasses}>
 					<p className='card-text-diff'>{props.chart.difficulty}</p>
@@ -57,7 +93,7 @@ function Card(props: any) {
 				<p className="card-text-bpm">{props.chart.bpmstring} BPM</p>
 			</div>
 		</div>
-		{props.modalOpened === props.chart.id && <CardModal modalOpened={props.modalOpened} setModalOpened={props.setModalOpened} />}
+		{props.modalOpened === props.chart.id && <CardModal modalOpened={props.modalOpened} setModalOpened={props.setModalOpened} setCardStatus={setCardState} />}
 	</>
 }
 

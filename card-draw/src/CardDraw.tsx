@@ -134,14 +134,22 @@ function CardDraw() {
 			})
 			drawnCharts.push(chartMatch[0])
 		})
-		setModalOpened(-1)
 		setSpread(drawnCharts)
+	}
+
+	// Reset card draw
+	// Useful for no replacement draws
+	function reset() {
+		// todo: restore all removed charts back to the pool
+		setSpread([])
+		setModalOpened(-1)
 	}
 
 	return (
 		<>
 			<div className="header">
 				<button onClick={draw} className="button">Draw</button>
+				<button onClick={reset} className="button">Reset</button>
 				{/* Probably want to seperate this out into a sidebar or something, lol */}
 				{/* Could be slightly better - input is a bit jank, could have a "Set" button. dunno */}
 				<div className="settings">
@@ -154,6 +162,7 @@ function CardDraw() {
 				{spread.length === 0 && <div className = "nodraw">
 					<img src="nodraw.png" className = "nodraw-img"/>
 					<p className = "nodraw-text">No charts currently drawn :o</p>
+					<p className = "nodraw-text-sub">Press "Draw" for a new set of charts</p>
 				</div>}
 				{spread.map((chart) => {
 					return (<Card key={chart.id} chart={chart} modalOpened={modalOpened} setModalOpened={setModalOpened} />)
