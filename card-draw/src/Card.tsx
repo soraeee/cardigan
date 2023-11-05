@@ -48,7 +48,7 @@ function Card(props: any) {
 				</div>
 				<div className="card-meta">
 					<p className="card-text-artist">{props.chart.artist}</p>
-					<p className="card-text-title">{props.chart.title}{noCmodTag}</p>
+					<div className="card-title"><p className="card-text-title">{props.chart.title}</p>{noCmodTag}</div>
 					<p className="card-text-subtitle">{props.chart.subtitle}</p>
 				</div>
 			</div>

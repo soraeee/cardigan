@@ -34,7 +34,7 @@ function CardDraw() {
 
 	// init
 	useEffect(() => {
-		let chartIds: number[] = []
+		const chartIds: number[] = []
 		// Chart IDs remaining in the pool
 		// Todo: reduce this to selected tiers
 		for (let i = 0; i < chartarr.length; i++) {
@@ -102,8 +102,8 @@ function CardDraw() {
 		setRange([a, b])
 
 		// Change eligible IDs to be within range
-		let chartIds: number[] = []
-		let chartsInRange: Chart[] = chartarr.filter((chart) => {
+		const chartIds: number[] = []
+		const chartsInRange: Chart[] = chartarr.filter((chart) => {
 			return chart["tier"] >= a && chart["tier"] <= b
 		})
 		chartsInRange.forEach((chart) => {
@@ -114,7 +114,7 @@ function CardDraw() {
 
 	// Draw n number of charts from the available pool
 	function draw() {
-		let chartIds: number[] = eligibleCharts
+		const chartIds: number[] = eligibleCharts
 		// Fisher-Yates shuffle
 		for (let i = chartIds.length - 1; i >= 0; i--) {
 			swapIndices(i, getRandomInt(i), chartIds);
