@@ -151,7 +151,7 @@
   font-weight: 800;
   white-space: nowrap;
   max-width: 360px; /* 660-300 */
-  /*mask-image: linear-gradient(90deg, #fff 95%, transparent);
+  /*mask-image: linear-gradient(90deg, #fff 95%, transparent);*/
 }
 
 .card-text-artist {
@@ -240,6 +240,7 @@ button:hover {
   background-color: #f7f7f7;
 }
 
+/* Card modal classes */
 .modal-backdrop {
   position: absolute;
   top: 0;
@@ -251,9 +252,31 @@ button:hover {
   z-index: 1;
 }
 
-.modal-items {
+.modal-wrapper {
   z-index: 2;
   position: relative;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 80px;
+}
+
+.modal-section {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 30px;
+}
+
+.modal-section-inner {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.modal-text-major {
+  font-size: 3em;
+  font-weight: 800;
 }
 
 .header {
@@ -261,6 +284,7 @@ button:hover {
   position: relative;
 }
 
+/* Classes used when there is no card draw on screen */
 .nodraw {
   margin: 0 auto;
   display: flex;
@@ -269,11 +293,13 @@ button:hover {
   max-width: 100%;
   align-items: center;
 }
+
 .nodraw-img {
   display: block;
   margin: 0 auto;
   width: 100%;
 }
+
 .nodraw-text {
   margin: 0 auto;
   font-size: 3em;
@@ -282,4 +308,10 @@ button:hover {
 
 .settings {
   margin-bottom: 100px
+}
+
+.nodraw-text-sub {
+  margin: 0 auto;
+  font-size: 2em;
+  font-weight: 400;
 }
