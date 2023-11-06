@@ -15,10 +15,20 @@ function CardModal(props: any) {
 						</div>
 						<div className="modal-section-inner">
 							<div className="modal-button">
-								<button onClick={() => props.setCardStatus([1, 1])}>Protect</button>
+								<button className="modal-button" onClick={() => props.setCardStatus([1, 1])}>
+									<p className="modal-button-text">Protect&nbsp;&nbsp;</p>
+									<img className="icon-svg"
+										style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
+										src="protect.svg"></img>
+								</button>
 							</div>
 							<div className="modal-button">
-								<button onClick={() => props.setCardStatus([2, 1])}>Veto</button>
+								<button className="modal-button" onClick={() => props.setCardStatus([2, 1])}>
+									<p className="modal-button-text">Veto&nbsp;&nbsp;</p>
+									<img className="icon-svg"
+										style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
+										src="veto.svg"></img>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -28,10 +38,20 @@ function CardModal(props: any) {
 						</div>
 						<div className="modal-section-inner">
 							<div className="modal-button">
-								<button onClick={() => props.setCardStatus([1, 2])}>Protect</button>
+								<button className="modal-button" onClick={() => props.setCardStatus([1, 2])}>
+									<p className="modal-button-text">Protect&nbsp;&nbsp;</p>
+									<img className="icon-svg"
+										style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
+										src="protect.svg"></img>
+								</button>
 							</div>
 							<div className="modal-button">
-								<button onClick={() => props.setCardStatus([2, 2])}>Veto</button>
+								<button className="modal-button" onClick={() => props.setCardStatus([2, 2])}>
+									<p className="modal-button-text">Veto&nbsp;&nbsp;</p>
+									<img className="icon-svg"
+										style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
+										src="veto.svg"></img>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -43,10 +63,20 @@ function CardModal(props: any) {
 						</div>
 						<div className="modal-section-inner">
 							<div className="modal-button">
-								<button onClick={() => props.setCardStatus([0, 0])}>Reset</button>
+								<button className="modal-button" onClick={() => props.setCardStatus([0, 0])}>
+									<p className="modal-button-text">Reset</p>
+									<img className="icon-svg"
+										style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
+										src="reset.svg"></img>
+								</button>
 							</div>
 							<div className="modal-button">
-								<button>Redraw</button>
+								<button className="modal-button">
+									<p className="modal-button-text">Redraw</p>
+									<img className="icon-svg"
+										style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
+										src="redraw.svg"></img>
+								</button>
 							</div>
 						</div>
 					</div>

@@ -61,8 +61,8 @@ function Card(props: any) {
 						gradColor2 = "#FF515133 100%"
 						break;
 				}
-				gradColor1 = "#161616F0 15%"
-				borderColor = "#404040FF"
+				gradColor1 = "#0a0a0af0 50%"
+				borderColor = "#242424FF"
 				break;
 		}
 		bannerBackground = {

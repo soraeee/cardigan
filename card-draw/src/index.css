@@ -190,6 +190,7 @@
   gap: 80px;
 }
 
+/* Card status classes */
 .card-status-tooltip {
   display: flex;
   flex-flow: row nowrap;
@@ -219,13 +220,14 @@
 
 
 button {
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #242424;
+  border-color:#505050;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -298,11 +300,25 @@ button:hover {
 .modal-section-inner {
   display: flex;
   flex-flow: column nowrap;
+  gap: 4px;
 }
 
 .modal-text-major {
   font-size: 3em;
   font-weight: 800;
+}
+
+.modal-button { /* somehow managed to use this in two nested elements in a row but it works so who cares we take those */
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3px;
+  width: 120px;
+}
+
+.modal-button-text {
+  font-size: 1.2em;
 }
 
 .header {
