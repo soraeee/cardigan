@@ -1,10 +1,25 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import './index.css'
 import './reset.css'
 import CardModal from './CardModal';
 
 function Card(props: any) {
 	const [cardState, setCardState] = useState<number[]>([])
+
+	interface Chart {
+		id: number;
+		title: string;
+		subtitle: string;
+		artist: string;
+		difficulty: number;
+		difficultyslot: string;
+		displaybpm: number[];
+		bpmstring: string;
+		tier: number;
+		nocmod: boolean;
+		gfxPath: string;
+		hasGfx: boolean;
+	}
 
 	// Stolen from DDRTools sorry man lol
 	let bannerBackground = {};
@@ -47,10 +62,13 @@ function Card(props: any) {
 		}
 		bannerBackground = {
 			"background": `linear-gradient(90deg, ${gradColor1}, ${gradColor2}), url("rip135-assets/${props.chart.gfxPath}")`,
+		};
+
+		{/*
+			These properties were breaking the image when any of the veto/protext buttons were clicked lol
 			"background-size": "cover",
 			"background-repeat": "no-repeat",
-			"background-position": "100% 50%"
-		};
+			"background-position": "100% 50%" */}
 
 		cardBorder = {
 			"border-color": borderColor
@@ -79,6 +97,40 @@ function Card(props: any) {
 			props.setModalOpened(props.chart.id)
 		}
 	}
+
+	// Set if a card is protected/vetoed, and move it according to protect order
+	function setCardStatus(status: number[]) {
+		if (status[0] == 1) {
+			// Moving protected charts to the start
+			// Remove the chart from the spread
+			let newSpread: Chart[] = props.spread.filter((chart: Chart) => {
+				return chart["id"] != props.chart.id
+			})
+			// Add the chart back into the spread at the start, with later protects appearing after earlier ones
+			newSpread.splice(props.protectOrder, 0, props.chart)
+			// Wtf react
+			props.setProtectOrder(props.protectOrder + 1)
+			props.setSpread(newSpread)
+		} else {
+			// Move the pointer to put protects in back one if we're changing a protected chart to veto/neutral
+			if (cardState[0] == 1) {
+				props.setProtectOrder(props.protectOrder - 1)
+			}
+			if (status[0] == 2) {
+				// Move vetoed charts to the end
+				// Remove the chart from the spread
+				let newSpread: Chart[] = props.spread.filter((chart: Chart) => {
+					return chart["id"] != props.chart.id
+				})
+				// Add the chart back into the spread at the end (we don't care about order lol)
+				newSpread.push(props.chart)
+				props.setSpread(newSpread)
+			}
+		}
+		props.setModalOpened(-1)
+		setCardState(status)
+	}
+
 	return <>
 		<div key={props.chart.id} className="card" style={{ ...bannerBackground, ...cardBorder }} onClick={toggleModal}>
 			<div className="card-left">
@@ -91,12 +143,21 @@ function Card(props: any) {
 					<p className="card-text-subtitle">{props.chart.subtitle}</p>
 				</div>
 			</div>
-			<div className="card-right">
-				<p className="card-text-tier">Tier {props.chart.tier}</p>
-				<p className="card-text-bpm">{props.chart.bpmstring} BPM</p>
+
+
+			<div className="card-right-wrapper">
+				{cardState[0] > 0 && <div className="card-status-tooltip">
+					<p className="card-status-playertext">P{cardState[1]}</p>
+					{cardState[0] === 1 && <img className="icon-svg" src="/protect.svg"></img>}
+					{cardState[0] === 2 && <img className="icon-svg" src="/veto.svg"></img>}
+				</div>}
+				<div className="card-right">
+					<p className="card-text-tier">Tier {props.chart.tier}</p>
+					<p className="card-text-bpm">{props.chart.bpmstring} BPM</p>
+				</div>
 			</div>
 		</div>
-		{props.modalOpened === props.chart.id && <CardModal modalOpened={props.modalOpened} setModalOpened={props.setModalOpened} setCardStatus={setCardState} />}
+		{props.modalOpened === props.chart.id && <CardModal modalOpened={props.modalOpened} setModalOpened={props.setModalOpened} setCardStatus={setCardStatus} />}
 	</>
 }
 

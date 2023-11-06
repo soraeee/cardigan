@@ -28,6 +28,7 @@ function CardDraw() {
 	const [spread, setSpread] = useState<Chart[]>([])
 	const [range, setRange] = useState<number[]>([1, 11])
 	const [eligibleCharts, setEligibleCharts] = useState<number[]>([])
+	const [protectOrder, setProtectOrder] = useState<number>(0)
 
 	// Modal will open when chart's ID matches this state
 	const [modalOpened, setModalOpened] = useState<number>(-1)
@@ -135,6 +136,7 @@ function CardDraw() {
 			drawnCharts.push(chartMatch[0])
 		})
 		setSpread(drawnCharts)
+		setModalOpened(-1)
 	}
 
 	// Reset card draw
@@ -159,13 +161,23 @@ function CardDraw() {
 			</div>
 			{/* Show message when no card draw is present */}
 			<div className="cardDisplay">
-				{spread.length === 0 && <div className = "nodraw">
-					<img src="nodraw.png" className = "nodraw-img"/>
-					<p className = "nodraw-text">No charts currently drawn :o</p>
-					<p className = "nodraw-text-sub">Press "Draw" for a new set of charts</p>
+				{spread.length === 0 && <div className="nodraw">
+					<img src="nodraw.png" className="nodraw-img" />
+					<p className="nodraw-text">No charts currently drawn :o</p>
+					<p className="nodraw-text-sub">Press "Draw" for a new set of charts</p>
 				</div>}
 				{spread.map((chart) => {
-					return (<Card key={chart.id} chart={chart} modalOpened={modalOpened} setModalOpened={setModalOpened} />)
+					return (<Card key={chart.id} 
+						chart={chart} 
+
+						modalOpened={modalOpened} 
+						setModalOpened={setModalOpened} 
+
+						spread={spread} 
+						setSpread={setSpread} 
+						
+						protectOrder={protectOrder} 
+						setProtectOrder={setProtectOrder} />)
 				})}
 			</div>
 		</>
