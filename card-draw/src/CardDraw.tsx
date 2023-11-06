@@ -4,33 +4,33 @@ import './index.css'
 import './reset.css'
 import Card from './Card';
 
-function CardDraw() {
+const CardDraw = () => {
 
 	interface Chart {
-		id: number;
-		title: string;
-		subtitle: string;
-		artist: string;
-		difficulty: number;
-		difficultyslot: string;
-		displaybpm: number[];
-		bpmstring: string;
-		tier: number;
-		nocmod: boolean;
-		gfxPath: string;
-		hasGfx: boolean;
+		id:				number;
+		title:			string;
+		subtitle:		string;
+		artist:			string;
+		difficulty:		number;
+		difficultyslot:	string;
+		displaybpm:		number[];
+		bpmstring:		string;
+		tier:			number;
+		nocmod:			boolean;
+		gfxPath:		string;
+		hasGfx:			boolean;
 	}
 
 	const chartarr: Chart[] = [];
 	const numToDraw = 7;
 
 	// Current card draw state
-	const [spread, setSpread] = useState<Chart[]>([])
-	const [range, setRange] = useState<number[]>([1, 11])
-	const [eligibleCharts, setEligibleCharts] = useState<number[]>([])
+	const [spread, setSpread] = useState<Chart[]>([]);
+	const [range, setRange] = useState<number[]>([1, 11]);
+	const [eligibleCharts, setEligibleCharts] = useState<number[]>([]);
 
 	// Modal will open when chart's ID matches this state
-	const [modalOpened, setModalOpened] = useState<number>(-1)
+	const [modalOpened, setModalOpened] = useState<number>(-1);
 
 	// init
 	useEffect(() => {
@@ -38,82 +38,90 @@ function CardDraw() {
 		// Chart IDs remaining in the pool
 		// Todo: reduce this to selected tiers
 		for (let i = 0; i < chartarr.length; i++) {
-			chartIds[i] = i
+			chartIds[i] = i;
 		}
 		setEligibleCharts(chartIds)
-	}, [])
+	}, [chartarr.length]);
+
+	// Gets transliterated string, if available
+	const translit = (chart: {[index: string]:any}, prop: string) => {
+		return (chart[`${prop}translit`] != "") ? chart[`${prop}translit`] : chart[`${prop}`];
+	}
+
+	// Rounds number and converts to a string
+	const strround = (n: number) => String(Math.round(n));
+
+	// Clamps number to a range 
+	const clamp = (n: number, min: number, max: number) => {
+		return Math.min(Math.max(n, min), max);
+	}
 
 	// Process chart metadata to something that we actually need
 	chartJSON.charts.forEach(chart => {
 		{
 			// Convert "[Txx] name" format into a Tier value
-			const tier: number = Number(chart.title.substring(2, 4))
-			// Use transliterated titles if available
-			const songtitle: string = (chart.titletranslit != "") ? chart.titletranslit.substring(6, chart.titletranslit.length) : chart.title.substring(6, chart.title.length)
-			const songartist: string = (chart.artisttranslit != "") ? chart.artisttranslit : chart.artist
-			const songsubtitle: string = (chart.subtitletranslit != "") ? chart.subtitletranslit : chart.subtitle
+			const tier: number = Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]);
 
-			let displaybpmFormatted = ""
-			if (chart.displaybpm[0] === chart.displaybpm[1]) {
-				displaybpmFormatted = String(Math.round(chart.displaybpm[0]))
-			} else {
-				displaybpmFormatted = chart.displaybpm[0] + " - " + chart.displaybpm[1]
+			const songtitle: string = translit(chart, "title").replace(/\[T\d{1,2}\]\s?/, "");
+			const songartist: string = translit(chart, "artist");
+			const songsubtitle: string = translit(chart, "subtitle");
+
+			let displaybpmFormatted = strround(chart.displaybpm[0]);
+			if (chart.displaybpm[0] !== chart.displaybpm[1]) {
+				displaybpmFormatted += " - " + strround(chart.displaybpm[1]);
 			}
 
-			let hasGfx = false
-			if (chart.gfxPath != "") hasGfx = true
+			const hasGfx = chart.gfxPath != "";
 
 			// Add properly formatted metadata to array
 			chartarr.push({
-				id: Number(chart.sid),
-				title: songtitle.replace(/\(No CMOD\)/, "").trim(),
-				artist: songartist,
-				subtitle: songsubtitle,
-				difficulty: chart.difficulties[0].difficulty,
-				difficultyslot: chart.difficulties[0].slot,
-				displaybpm: chart.displaybpm,
-				bpmstring: displaybpmFormatted,
-				tier: tier,
-				nocmod: /\(No CMOD\)/.test(songtitle),
-				gfxPath: chart.gfxPath,
-				hasGfx: hasGfx,
+				id:				Number(chart.sid),
+				title:			songtitle.replace(/\(No CMOD\)/, "").trim(),
+				artist:			songartist,
+				subtitle:		songsubtitle,
+				difficulty:		chart.difficulties[0].difficulty,
+				difficultyslot:	chart.difficulties[0].slot,
+				displaybpm:		chart.displaybpm,
+				bpmstring:		displaybpmFormatted,
+				tier:			tier,
+				nocmod:			/\(No CMOD\)/.test(songtitle),
+				gfxPath:		chart.gfxPath,
+				hasGfx:			hasGfx,
 			})
 		}
 	});
 
-	function swapIndices(a: number, b: number, array: number[]) {
-		const c = array[a]
-		array[a] = array[b]
-		array[b] = c
+	const swapIndices = (a: number, b: number, array: number[]) => {
+		const c = array[a];
+		array[a] = array[b];
+		array[b] = c;
 	}
 
-	function getRandomInt(max: number) {
-		return Math.floor(Math.random() * max);
-	}
+	const getRandomInt = (max: number) => Math.floor(Math.random() * max);
 
 	// Change draw range
-	function changeDrawRange(a: number, b: number) {
+	const changeDrawRange = (a: number, b: number) => {
 		// clamp a, b to [0, 11]
-		const min = 0
-		const max = 11
-		a = Math.min(Math.max(a, min), b)
-		b = Math.min(Math.max(b, a), max)
+		const min = 0;
+		const max = 11;
+		a = clamp(a, min, b);
+		b = clamp(b, a, max);
 
-		setRange([a, b])
+		setRange([a, b]);
 
 		// Change eligible IDs to be within range
 		const chartIds: number[] = []
 		const chartsInRange: Chart[] = chartarr.filter((chart) => {
-			return chart["tier"] >= a && chart["tier"] <= b
+			return chart["tier"] >= a && chart["tier"] <= b;
 		})
 		chartsInRange.forEach((chart) => {
-			chartIds.push(chart.id)
+			chartIds.push(chart.id);
 		})
-		setEligibleCharts(chartIds)
+		setEligibleCharts(chartIds);
 	}
 
 	// Draw n number of charts from the available pool
-	function draw() {
+	const draw = () => {
 		const chartIds: number[] = eligibleCharts
 		// Fisher-Yates shuffle
 		for (let i = chartIds.length - 1; i >= 0; i--) {
@@ -122,7 +130,7 @@ function CardDraw() {
 
 		const drawnIds: number[] = []
 		for (let i = 0; i < numToDraw; i++) {
-			drawnIds[i] = chartIds[i]
+			drawnIds[i] = chartIds[i];
 			// todo: remove the id from chartIds once finished. probably need to replace chartIds[i] with chartIds[0] when doing that
 		}
 		const drawnCharts: Chart[] = []
@@ -130,45 +138,43 @@ function CardDraw() {
 			// This sucks man i hate O(n^2)
 			// but i'm not working with 10000 charts so it's ok :^)
 			const chartMatch: Chart[] = chartarr.filter(chart => {
-				return chart["id"] === id
+				return chart["id"] === id;
 			})
-			drawnCharts.push(chartMatch[0])
+			drawnCharts.push(chartMatch[0]);
 		})
-		setSpread(drawnCharts)
+		setSpread(drawnCharts);
 	}
 
 	// Reset card draw
 	// Useful for no replacement draws
-	function reset() {
+	const reset = () => {
 		// todo: restore all removed charts back to the pool
-		setSpread([])
-		setModalOpened(-1)
+		setSpread([]);
+		setModalOpened(-1);
 	}
 
-	return (
-		<>
-			<div className="header">
-				<button onClick={draw} className="button">Draw</button>
-				<button onClick={reset} className="button">Reset</button>
-				{/* Probably want to seperate this out into a sidebar or something, lol */}
-				{/* Could be slightly better - input is a bit jank, could have a "Set" button. dunno */}
-				<div className="settings">
-					<input type="number" min="1" step="1" max="11" value={range[0]} onChange={e => { changeDrawRange(Number(e.currentTarget.value), range[1]) }} />
-					<input type="number" min="1" step="1" max="11" value={range[1]} onChange={e => { changeDrawRange(range[0], Number(e.currentTarget.value)) }} />
-				</div>
+	return (<>
+		<div className="header">
+			<button onClick={draw} className="button">Draw</button>
+			<button onClick={reset} className="button">Reset</button>
+			{/* Probably want to seperate this out into a sidebar or something, lol */}
+			{/* Could be slightly better - input is a bit jank, could have a "Set" button. dunno */}
+			<div className="settings">
+				<input type="number" min="1" step="1" max="11" value={range[0]} onChange={e => { changeDrawRange(Number(e.currentTarget.value), range[1]) }} />
+				<input type="number" min="1" step="1" max="11" value={range[1]} onChange={e => { changeDrawRange(range[0], Number(e.currentTarget.value)) }} />
 			</div>
-			{/* Show message when no card draw is present */}
-			<div className="cardDisplay">
-				{spread.length === 0 && <div className = "nodraw">
-					<img src="nodraw.png" className = "nodraw-img"/>
-					<p className = "nodraw-text">No charts currently drawn :o</p>
-					<p className = "nodraw-text-sub">Press "Draw" for a new set of charts</p>
-				</div>}
-				{spread.map((chart) => {
-					return (<Card key={chart.id} chart={chart} modalOpened={modalOpened} setModalOpened={setModalOpened} />)
-				})}
-			</div>
-		</>
-	)
+		</div>
+		{/* Show message when no card draw is present */}
+		<div className="cardDisplay">
+			{spread.length === 0 && <div className = "nodraw">
+				<img src="nodraw.png" className = "nodraw-img"/>
+				<p className = "nodraw-text">No charts currently drawn :o</p>
+				<p className = "nodraw-text-sub">Press "Draw" for a new set of charts</p>
+			</div>}
+			{spread.map((chart) => {
+				return (<Card key={chart.id} chart={chart} modalOpened={modalOpened} setModalOpened={setModalOpened} />)
+			})}
+		</div>
+	</>)
 }
 export default CardDraw

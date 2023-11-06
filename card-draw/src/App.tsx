@@ -1,15 +1,7 @@
 import './index.css'
 import './reset.css'
-
 import CardDraw from './CardDraw'
 
-function App() {
+const App = () => <><CardDraw/></>;
 
-  return (
-    <>
-      <CardDraw />
-    </>
-  )
-}
-
-export default App
+export default App;
