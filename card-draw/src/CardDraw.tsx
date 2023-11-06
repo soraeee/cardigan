@@ -137,6 +137,7 @@ function CardDraw() {
 		})
 		setSpread(drawnCharts)
 		setModalOpened(-1)
+		setProtectOrder(0)
 	}
 
 	// Reset card draw
@@ -145,6 +146,7 @@ function CardDraw() {
 		// todo: restore all removed charts back to the pool
 		setSpread([])
 		setModalOpened(-1)
+		setProtectOrder(0)
 	}
 
 	return (
@@ -175,7 +177,7 @@ function CardDraw() {
 
 						spread={spread} 
 						setSpread={setSpread} 
-						
+
 						protectOrder={protectOrder} 
 						setProtectOrder={setProtectOrder} />)
 				})}
