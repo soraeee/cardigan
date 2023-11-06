@@ -33,6 +33,9 @@ function CardDraw() {
 	// Modal will open when chart's ID matches this state
 	const [modalOpened, setModalOpened] = useState<number>(-1)
 
+	// fuck this lol, only way i can think of trying to tell Card that a new draw happened without lifting cardState up
+	const [numDraw, setNumDraw] = useState<number>(0)
+
 	// init
 	useEffect(() => {
 		let chartIds: number[] = []
@@ -138,12 +141,14 @@ function CardDraw() {
 		setSpread(drawnCharts)
 		setModalOpened(-1)
 		setProtectOrder(0)
+		setNumDraw(numDraw + 1)
 	}
 
 	// Reset card draw
 	// Useful for no replacement draws
 	function reset() {
 		// todo: restore all removed charts back to the pool
+		
 		setSpread([])
 		setModalOpened(-1)
 		setProtectOrder(0)
@@ -179,7 +184,9 @@ function CardDraw() {
 						setSpread={setSpread} 
 
 						protectOrder={protectOrder} 
-						setProtectOrder={setProtectOrder} />)
+						setProtectOrder={setProtectOrder}
+						
+						numDraw = {numDraw}/>)
 				})}
 			</div>
 		</>

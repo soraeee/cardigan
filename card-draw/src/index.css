@@ -176,6 +176,7 @@
   align-items: end;
   justify-content: center;
   text-shadow: 1px 1px 5px #000000;
+  width: 90px;
 }
 
 .card-right>* {
@@ -213,6 +214,7 @@
 .card-text-bpm {
   font-weight: 400;
   font-size: 1em;
+  text-align: right;
 }
 
 
@@ -254,6 +256,14 @@ button:hover {
 
 .diff-edit {
   background-color: #f7f7f7;
+}
+
+/* Player text colors */
+.text-p1 {
+  color: #54B4FF;
+}
+.text-p2 {
+  color: #FF5151;
 }
 
 /* Card modal classes */

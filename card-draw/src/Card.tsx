@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './index.css'
 import './reset.css'
 import CardModal from './CardModal';
@@ -20,6 +20,11 @@ function Card(props: any) {
 		gfxPath: string;
 		hasGfx: boolean;
 	}
+
+	// Reset card state on a new draw
+	useEffect(() => {
+		setCardState([0, 0])
+	}, [props.numDraw])
 
 	// Stolen from DDRTools sorry man lol
 	let bannerBackground = {};
@@ -74,6 +79,16 @@ function Card(props: any) {
 			"border-color": borderColor
 		}
 	}
+	// player text color
+	// kind of redundant but i'm too lazy to figure out a more elegant solution
+	let playerColor = {}
+	switch (cardState[1]) {
+		case 1:
+			playerColor = { "color": "#54B4FF" }; break;
+		case 2:
+			playerColor = { "color": "#FF5151" }; break;
+	}
+
 	// difficulty stuff
 	let diffClasses = 'card-diff';
 	switch (props.chart.difficultyslot) {
@@ -107,7 +122,7 @@ function Card(props: any) {
 				return chart["id"] != props.chart.id
 			})
 			// Add the chart back into the spread at the start, with later protects appearing after earlier ones
-			if (cardState[0] == 1){
+			if (cardState[0] == 1) {
 				// Don't move it forward one spot if we're changing protect to protect
 				newSpread.splice(props.protectOrder - 1, 0, props.chart)
 			} else {
@@ -151,9 +166,15 @@ function Card(props: any) {
 
 			<div className="card-right-wrapper">
 				{cardState[0] > 0 && <div className="card-status-tooltip">
-					<p className="card-status-playertext">P{cardState[1]}</p>
-					{cardState[0] === 1 && <img className="icon-svg" src="protect.svg"></img>}
-					{cardState[0] === 2 && <img className="icon-svg" src="veto.svg"></img>}
+					<p className="card-status-playertext" style={playerColor}>P{cardState[1]}</p>
+					{cardState[0] === 1 && <img className="icon-svg"
+						style={{ "width": "35px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
+						src="protect.svg">
+					</img>}
+					{cardState[0] === 2 && <img className="icon-svg"
+						style={{ "width": "35px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
+						src="veto.svg">
+					</img>}
 				</div>}
 				<div className="card-right">
 					<p className="card-text-tier">Tier {props.chart.tier}</p>
