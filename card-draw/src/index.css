@@ -327,3 +327,27 @@ button:hover {
   font-size: 2em;
   font-weight: 400;
 }
+
+/* Footer */
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.footer-text {
+  font-size: 1.25em;
+  font-weight: 400;
+}
+
+.footer-text > a {
+  text-decoration: underline;
+  transition: filter 0.25s;
+}
+
+.footer-text > a:hover {
+  filter: drop-shadow(0 0 0.2rem #ffffff);
+}

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import './index.css'
 import './reset.css'
 import CardModal from './CardModal';
