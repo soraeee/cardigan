@@ -152,8 +152,8 @@ function Card(props: any) {
 			<div className="card-right-wrapper">
 				{cardState[0] > 0 && <div className="card-status-tooltip">
 					<p className="card-status-playertext">P{cardState[1]}</p>
-					{cardState[0] === 1 && <img className="icon-svg" src="/protect.svg"></img>}
-					{cardState[0] === 2 && <img className="icon-svg" src="/veto.svg"></img>}
+					{cardState[0] === 1 && <img className="icon-svg" src="protect.svg"></img>}
+					{cardState[0] === 2 && <img className="icon-svg" src="veto.svg"></img>}
 				</div>}
 				<div className="card-right">
 					<p className="card-text-tier">Tier {props.chart.tier}</p>
