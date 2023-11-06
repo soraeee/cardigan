@@ -107,9 +107,13 @@ function Card(props: any) {
 				return chart["id"] != props.chart.id
 			})
 			// Add the chart back into the spread at the start, with later protects appearing after earlier ones
-			newSpread.splice(props.protectOrder, 0, props.chart)
-			// Wtf react
-			props.setProtectOrder(props.protectOrder + 1)
+			if (cardState[0] == 1){
+				// Don't move it forward one spot if we're changing protect to protect
+				newSpread.splice(props.protectOrder - 1, 0, props.chart)
+			} else {
+				newSpread.splice(props.protectOrder, 0, props.chart)
+				props.setProtectOrder(props.protectOrder + 1)
+			}
 			props.setSpread(newSpread)
 		} else {
 			// Move the pointer to put protects in back one if we're changing a protected chart to veto/neutral
