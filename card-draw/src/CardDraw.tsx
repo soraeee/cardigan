@@ -1,10 +1,10 @@
 import chartJSON from './pack.json'
 import { useState, useEffect } from 'react';
-import './index.css'
-import './reset.css'
+import './index.css';
+import './reset.css';
 import Card from './Card';
 
-const CardDraw = () => {
+function CardDraw() {
 
 	interface Chart {
 		id:				number;
@@ -21,26 +21,34 @@ const CardDraw = () => {
 		hasGfx:			boolean;
 	}
 
+	// Toggle to see eligible/used card pools
+	const debug = false;
+
 	const chartarr: Chart[] = [];
 	const numToDraw = 7;
 
 	// Current card draw state
 	const [spread, setSpread] = useState<Chart[]>([]);
 	const [range, setRange] = useState<number[]>([1, 11]);
-	const [eligibleCharts, setEligibleCharts] = useState<number[]>([]);
+	const [eligibleCharts, setEligibleCharts] = useState<number[][]>([[], []]); // [0] -> can be drawn, [1] -> removed from pool in no replacement draws
+	const [protectOrder, setProtectOrder] = useState<number>(0);
 
 	// Modal will open when chart's ID matches this state
 	const [modalOpened, setModalOpened] = useState<number>(-1);
 
+	// fuck this lol, only way i can think of trying to tell Card that a new draw happened without lifting cardState up
+	const [numDraw, setNumDraw] = useState<number>(0);
+
+	const [noRP, setNoRP] = useState<boolean>(true);
+
 	// init
 	useEffect(() => {
-		const chartIds: number[] = []
+		const chartIds: number[] = [];
 		// Chart IDs remaining in the pool
-		// Todo: reduce this to selected tiers
 		for (let i = 0; i < chartarr.length; i++) {
 			chartIds[i] = i;
 		}
-		setEligibleCharts(chartIds)
+		setEligibleCharts([chartIds, []]);
 	}, [chartarr.length]);
 
 	// Gets transliterated string, if available
@@ -87,7 +95,7 @@ const CardDraw = () => {
 				nocmod:			/\(No CMOD\)/.test(songtitle),
 				gfxPath:		chart.gfxPath,
 				hasGfx:			hasGfx,
-			})
+			});
 		}
 	});
 
@@ -107,33 +115,53 @@ const CardDraw = () => {
 		a = clamp(a, min, b);
 		b = clamp(b, a, max);
 
-		setRange([a, b]);
+		setRange([a, b])
 
 		// Change eligible IDs to be within range
-		const chartIds: number[] = []
+		const chartIds: number[] = [];
 		const chartsInRange: Chart[] = chartarr.filter((chart) => {
 			return chart["tier"] >= a && chart["tier"] <= b;
 		})
 		chartsInRange.forEach((chart) => {
 			chartIds.push(chart.id);
 		})
-		setEligibleCharts(chartIds);
+		setEligibleCharts([chartIds, []]);
 	}
 
 	// Draw n number of charts from the available pool
+	// could have probably just done this without converting charts to ids, but lol whatever
 	const draw = () => {
-		const chartIds: number[] = eligibleCharts
+		let chartIds: number[] = eligibleCharts[0]
 		// Fisher-Yates shuffle
 		for (let i = chartIds.length - 1; i >= 0; i--) {
 			swapIndices(i, getRandomInt(i), chartIds);
 		}
 
+		let spentIds: number[] = [...eligibleCharts[1]]
 		const drawnIds: number[] = []
+		// Check if there are less charts left in the pool than the number to draw, and add charts back to the pool if true
+		// caveat with this algo - when this is the case, the remaining charts will always show up first in the draw. idk if that's a huge issue, lol
+		if (chartIds.length < numToDraw) {
+			// Shuffle spent charts
+			for (let i = spentIds.length - 1; i >= 0; i--) {
+				swapIndices(i, getRandomInt(i), spentIds);
+			}
+			// Reset chartIds and spentIds
+			chartIds = [...chartIds, ...spentIds];
+			spentIds = [];
+		}
+
+		// Draw n charts, add those charts to the spent pool
 		for (let i = 0; i < numToDraw; i++) {
 			drawnIds[i] = chartIds[i];
-			// todo: remove the id from chartIds once finished. probably need to replace chartIds[i] with chartIds[0] when doing that
+			if (noRP) spentIds.push(drawnIds[i]);
 		}
-		const drawnCharts: Chart[] = []
+
+		// Remove IDs from eligible pool
+		if (noRP) chartIds.splice(0, numToDraw);
+
+		// Get actual chart metadata from drawn IDs
+		const drawnCharts: Chart[] = [];
 		drawnIds.forEach((id) => {
 			// This sucks man i hate O(n^2)
 			// but i'm not working with 10000 charts so it's ok :^)
@@ -142,15 +170,91 @@ const CardDraw = () => {
 			})
 			drawnCharts.push(chartMatch[0]);
 		})
+
+		// lol
+		setEligibleCharts([chartIds, spentIds]);
 		setSpread(drawnCharts);
+		setModalOpened(-1);
+		setProtectOrder(0);
+		setNumDraw(numDraw + 1);
+	}
+
+	// This is fucking stupid, i don't know what i'm doing
+	const redraw = (id: number) => {
+		// Find index of chart to redraw
+		let ind: number = -1;
+		for (let i = 0; i < spread.length; i++) {
+			if (spread[i].id === id) ind = i;
+		}
+
+		let chartIds: number[] = eligibleCharts[0];
+		let nextChartId: number;
+		let spentIds: number[] = eligibleCharts[1];
+
+		// Get the next chart in line
+		if (noRP) { // Redraw with no replacement enabled
+			// Check if there are less charts left in the pool than the number to draw, and add charts back to the pool if true
+			if (chartIds.length === 0) {
+				// Get current draw
+				const spreadIds: number[] = []
+				spread.forEach((chart) => {
+					spreadIds.push(chart["id"])
+				})
+				console.log(spreadIds)
+
+				// Set spentIds to charts already in the spread and chartIds to everything else
+				chartIds = spentIds
+				chartIds = chartIds.filter((id) => {
+					return !spreadIds.includes(id)
+				})
+				spentIds = spentIds.filter((id) => {
+					if (spreadIds.includes(id)) console.log(id)
+					return spreadIds.includes(id)
+				})
+
+				// Shuffle eligible charts
+				for (let i = chartIds.length - 1; i >= 0; i--) {
+					swapIndices(i, getRandomInt(i), chartIds);
+				}
+			}
+			nextChartId = chartIds[0] // Get the next chart, which is the very next chart in the eligible list
+			chartIds.splice(0, 1) // Remove chart from eligible charts
+			spentIds.push(nextChartId) // Add the drawn chart to the spent pool
+		} else { // Redraw without replacement
+			nextChartId = chartIds[spread.length] // Get the next chart, which is directly after the initial n charts drawn in the list
+			chartIds.splice(spread.length, 1) // Remove that chart
+			chartIds.splice(ind, 1, nextChartId) // Add it to the intended spot
+			chartIds.push(id) // Add the old chart to the end
+		}
+
+		// Get chart metadata from ID
+		const chartMatch: Chart[] = chartarr.filter(chart => {
+			return chart["id"] === nextChartId
+		})
+
+		// Splice new chart into spread
+		const newSpread: Chart[] = spread
+		newSpread.splice(ind, 1, chartMatch[0])
+
+		// Set everything again oh god
+		setModalOpened(-1)
+		setEligibleCharts([chartIds, spentIds])
+		setSpread(newSpread)
 	}
 
 	// Reset card draw
 	// Useful for no replacement draws
 	const reset = () => {
-		// todo: restore all removed charts back to the pool
-		setSpread([]);
-		setModalOpened(-1);
+		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []])
+		setSpread([])
+		setModalOpened(-1)
+		setProtectOrder(0)
+	}
+
+	// Reset removed pool and toggle no replacement setting
+	const changeNoRP = (value: boolean) => {
+		setNoRP(value)
+		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []])
 	}
 
 	return (<>
@@ -159,6 +263,11 @@ const CardDraw = () => {
 			<button onClick={reset} className="button">Reset</button>
 			{/* Probably want to seperate this out into a sidebar or something, lol */}
 			{/* Could be slightly better - input is a bit jank, could have a "Set" button. dunno */}
+
+			<div className="settings">
+				<input type="checkbox" name="norp" id="norp" value="norp-enabled" onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP} />
+				<p>Enable no replacement draws</p>
+			</div>
 			<div className="settings">
 				<input type="number" min="1" step="1" max="11" value={range[0]} onChange={e => { changeDrawRange(Number(e.currentTarget.value), range[1]) }} />
 				<input type="number" min="1" step="1" max="11" value={range[1]} onChange={e => { changeDrawRange(range[0], Number(e.currentTarget.value)) }} />
@@ -166,15 +275,38 @@ const CardDraw = () => {
 		</div>
 		{/* Show message when no card draw is present */}
 		<div className="cardDisplay">
-			{spread.length === 0 && <div className = "nodraw">
-				<img src="nodraw.png" className = "nodraw-img"/>
-				<p className = "nodraw-text">No charts currently drawn :o</p>
-				<p className = "nodraw-text-sub">Press "Draw" for a new set of charts</p>
+			{spread.length === 0 && <div className="nodraw">
+				<img src="nodraw.png" className="nodraw-img" />
+				<p className="nodraw-text">No charts currently drawn :o</p>
+				<p className="nodraw-text-sub">Press "Draw" for a new set of charts</p>
 			</div>}
 			{spread.map((chart) => {
-				return (<Card key={chart.id} chart={chart} modalOpened={modalOpened} setModalOpened={setModalOpened} />)
+				return (<Card
+					key				= {chart.id}
+					chart			= {chart}
+					modalOpened		= {modalOpened}
+					setModalOpened	= {setModalOpened}
+					spread			= {spread}
+					setSpread		= {setSpread}
+					protectOrder	= {protectOrder}
+					setProtectOrder	= {setProtectOrder}
+					numDraw			= {numDraw}
+					redraw			= {redraw}
+				/>)
 			})}
 		</div>
+		{debug && <>
+			<h1 className="modal-text-major text-p1">yea</h1>
+			{eligibleCharts[0].map((num) => {
+				const chart: Chart[] = chartarr.filter(chart => chart["id"] === num);
+				return (<p>{chart[0].title}</p>)
+			})}
+			<h1 className="modal-text-major text-p2">nah</h1>
+			{eligibleCharts[1].map((num) => {
+				const chart: Chart[] = chartarr.filter(chart => chart["id"] === num);
+				return (<p>{chart[0].title}</p>)
+			})}
+		</>}
 	</>)
 }
 export default CardDraw

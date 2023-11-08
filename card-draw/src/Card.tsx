@@ -1,10 +1,28 @@
-import { useState } from 'react';
-import './index.css'
-import './reset.css'
+import { useState, useEffect } from 'react';
+import './index.css';
+import './reset.css';
 import CardModal from './CardModal';
 
 const Card = (props: any) => {
 	const [cardState, setCardState] = useState<number[]>([]);
+
+	interface Chart {
+		id:				number;
+		title:			string;
+		subtitle:		string;
+		artist:			string;
+		difficulty:		number;
+		difficultyslot:	string;
+		displaybpm:		number[];
+		bpmstring:		string;
+		tier:			number;
+		nocmod:			boolean;
+		gfxPath:		string;
+		hasGfx:			boolean;
+	}
+
+	// Reset card state on a new draw
+	useEffect(() => { setCardState([0, 0]) }, [props.numDraw]);
 
 	// Stolen from DDRTools sorry man lol
 	let bannerBackground = {};
@@ -31,13 +49,18 @@ const Card = (props: any) => {
 				break;
 		}
 		bannerBackground = {
-			"background":			`linear-gradient(90deg, ${gradColor1}, ${gradColor2}), url("rip135-assets/${props.chart.gfxPath}")`,
-			"backgroundSize":		"cover",
-			"backgroundRepeat":		"no-repeat",
-			"backgroundPosition":	"100% 50%"
+			"background": `linear-gradient(90deg, ${gradColor1}, ${gradColor2}), url("rip135-assets/${props.chart.gfxPath}")`,
+			// These properties were breaking the image when any of the veto/protext buttons were clicked lol
+			/*"background-size": "cover",
+			"background-repeat": "no-repeat",
+			"background-position": "100% 50%"*/
 		};
 		cardBorder = { "borderColor": borderColor };
 	}
+
+	// player text color
+	// kind of redundant but i'm too lazy to figure out a more elegant solution
+	const playerColor = { "color" : cardState[1] === 1 ? "#54B4FF" : "#FF5151" };
 
 	// difficulty stuff
 	let diffClasses = 'card-diff';
@@ -64,6 +87,43 @@ const Card = (props: any) => {
 		}
 	}
 
+	// Set if a card is protected/vetoed, and move it according to protect order
+	const setCardStatus = (status: number[]) => {
+		if (status[0] == 1) {
+			// Moving protected charts to the start
+			// Remove the chart from the spread
+			const newSpread: Chart[] = props.spread.filter((chart: Chart) => {
+				return chart["id"] != props.chart.id;
+			})
+			// Add the chart back into the spread at the start, with later protects appearing after earlier ones
+			if (cardState[0] == 1) {
+				// Don't move it forward one spot if we're changing protect to protect
+				newSpread.splice(props.protectOrder - 1, 0, props.chart);
+			} else {
+				newSpread.splice(props.protectOrder, 0, props.chart);
+				props.setProtectOrder(props.protectOrder + 1);
+			}
+			props.setSpread(newSpread)
+		} else {
+			// Move the pointer to put protects in back one if we're changing a protected chart to veto/neutral
+			if (cardState[0] == 1) {
+				props.setProtectOrder(props.protectOrder - 1);
+			}
+			if (status[0] == 2) {
+				// Move vetoed charts to the end
+				// Remove the chart from the spread
+				const newSpread: Chart[] = props.spread.filter((chart: Chart) => {
+					return chart["id"] != props.chart.id;
+				})
+				// Add the chart back into the spread at the end (we don't care about order lol)
+				newSpread.push(props.chart);
+				props.setSpread(newSpread);
+			}
+		}
+		props.setModalOpened(-1);
+		setCardState(status);
+	}
+
 	return (<>
 		<div key={props.chart.id} className="card" style={{ ...bannerBackground, ...cardBorder }} onClick={toggleModal}>
 			<div className="card-left">
@@ -76,12 +136,30 @@ const Card = (props: any) => {
 					<p className="card-text-subtitle">{props.chart.subtitle}</p>
 				</div>
 			</div>
-			<div className="card-right">
-				<p className="card-text-tier">Tier {props.chart.tier}</p>
-				<p className="card-text-bpm">{props.chart.bpmstring} BPM</p>
+			<div className="card-right-wrapper">
+				{cardState[0] > 0 && <div className="card-status-tooltip">
+					<p className="card-status-playertext" style={playerColor}>P{cardState[1]}</p>
+					{cardState[0] === 1 && <img className="icon-svg"
+						style={{ "width": "35px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
+						src="protect.svg">
+					</img>}
+					{cardState[0] === 2 && <img className="icon-svg"
+						style={{ "width": "35px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
+						src="veto.svg">
+					</img>}
+				</div>}
+				<div className="card-right">
+					<p className="card-text-tier">Tier {props.chart.tier}</p>
+					<p className="card-text-bpm">{props.chart.bpmstring} BPM</p>
+				</div>
 			</div>
 		</div>
-		{props.modalOpened === props.chart.id && <CardModal modalOpened={props.modalOpened} setModalOpened={props.setModalOpened} setCardStatus={setCardState} />}
+		{props.modalOpened === props.chart.id && <CardModal
+			modalOpened={props.modalOpened}
+			setModalOpened={props.setModalOpened}
+			setCardStatus={setCardStatus}
+			redraw = {props.redraw}
+			chartId = {props.chart.id} />}
 	</>)
 }
 
