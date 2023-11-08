@@ -53,8 +53,16 @@ function Card(props: any) {
 				gradColor2 = "#161616a7 100%"
 				break;
 			case 2: // Veto
-				gradColor1 = "#0a0a0af0 50%"
-				gradColor2 = "#0a0a0af0 50%"
+				switch (cardState[1]) {
+					case 1:
+						gradColor2 = "#102230f0 100%"
+						break;
+					case 2:
+						gradColor2 = "#2b0d0df0 100%"
+						break;
+				}
+				gradColor1 = "#0a0a0af0 60%"
+				//gradColor2 = "#0a0a0af0 50%"
 				borderColor = "#242424FF"
 				break;
 		}
@@ -179,8 +187,8 @@ function Card(props: any) {
 			modalOpened={props.modalOpened}
 			setModalOpened={props.setModalOpened}
 			setCardStatus={setCardStatus}
-			redraw = {props.redraw}
-			chartId = {props.chart.id} />}
+			redraw={props.redraw}
+			chartId={props.chart.id} />}
 	</>
 }
 
