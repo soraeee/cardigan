@@ -21,13 +21,16 @@ function CardDraw() {
 		hasGfx: boolean;
 	}
 
+	// Toggle to see eligible/used card pools
+	const debug = false;
+
 	const chartarr: Chart[] = [];
 	const numToDraw = 7;
 
 	// Current card draw state
 	const [spread, setSpread] = useState<Chart[]>([])
 	const [range, setRange] = useState<number[]>([1, 11])
-	const [eligibleCharts, setEligibleCharts] = useState<number[]>([])
+	const [eligibleCharts, setEligibleCharts] = useState<number[][]>([[], []]) // [0] -> can be drawn, [1] -> removed from pool in no replacement draws
 	const [protectOrder, setProtectOrder] = useState<number>(0)
 
 	// Modal will open when chart's ID matches this state
@@ -36,15 +39,16 @@ function CardDraw() {
 	// fuck this lol, only way i can think of trying to tell Card that a new draw happened without lifting cardState up
 	const [numDraw, setNumDraw] = useState<number>(0)
 
+	const [noRP, setNoRP] = useState<boolean>(true)
+
 	// init
 	useEffect(() => {
 		let chartIds: number[] = []
 		// Chart IDs remaining in the pool
-		// Todo: reduce this to selected tiers
 		for (let i = 0; i < chartarr.length; i++) {
 			chartIds[i] = i
 		}
-		setEligibleCharts(chartIds)
+		setEligibleCharts([chartIds, []])
 	}, [])
 
 	// Process chart metadata to something that we actually need
@@ -113,22 +117,41 @@ function CardDraw() {
 		chartsInRange.forEach((chart) => {
 			chartIds.push(chart.id)
 		})
-		setEligibleCharts(chartIds)
+		setEligibleCharts([chartIds, []])
 	}
 
 	// Draw n number of charts from the available pool
 	function draw() {
-		let chartIds: number[] = eligibleCharts
+		let chartIds: number[] = eligibleCharts[0]
 		// Fisher-Yates shuffle
 		for (let i = chartIds.length - 1; i >= 0; i--) {
 			swapIndices(i, getRandomInt(i), chartIds);
 		}
 
+		let spentIds: number[] = [...eligibleCharts[1]]
 		const drawnIds: number[] = []
+		// Check if there are less charts left in the pool than the number to draw, and add charts back to the pool if true
+		// caveat with this algo - when this is the case, the remaining charts will always show up first in the draw. idk if that's a huge issue, lol
+		if (chartIds.length < numToDraw) {
+			// Shuffle spent charts
+			for (let i = spentIds.length - 1; i >= 0; i--) {
+				swapIndices(i, getRandomInt(i), spentIds);
+			}
+			// Reset chartIds and spentIds
+			chartIds = [...chartIds, ...spentIds]
+			spentIds = []
+		}
+
+		// Draw n charts, add those charts to the spent pool
 		for (let i = 0; i < numToDraw; i++) {
 			drawnIds[i] = chartIds[i]
-			// todo: remove the id from chartIds once finished. probably need to replace chartIds[i] with chartIds[0] when doing that
+			if (noRP) spentIds.push(drawnIds[i])
 		}
+
+		// Remove IDs from eligible pool
+		if (noRP) chartIds.splice(0, numToDraw)
+
+		// Get actual chart metadata from drawn IDs
 		const drawnCharts: Chart[] = []
 		drawnIds.forEach((id) => {
 			// This sucks man i hate O(n^2)
@@ -138,6 +161,9 @@ function CardDraw() {
 			})
 			drawnCharts.push(chartMatch[0])
 		})
+
+		// lol
+		setEligibleCharts([chartIds, spentIds])
 		setSpread(drawnCharts)
 		setModalOpened(-1)
 		setProtectOrder(0)
@@ -147,11 +173,16 @@ function CardDraw() {
 	// Reset card draw
 	// Useful for no replacement draws
 	function reset() {
-		// todo: restore all removed charts back to the pool
-		
+		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []])
 		setSpread([])
 		setModalOpened(-1)
 		setProtectOrder(0)
+	}
+
+	// Reset removed pool and toggle no replacement setting
+	function changeNoRP(value: boolean) {
+		setNoRP(value)
+		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []])
 	}
 
 	return (
@@ -161,6 +192,11 @@ function CardDraw() {
 				<button onClick={reset} className="button">Reset</button>
 				{/* Probably want to seperate this out into a sidebar or something, lol */}
 				{/* Could be slightly better - input is a bit jank, could have a "Set" button. dunno */}
+
+				<div className="settings">
+					<input type="checkbox" name="norp" id="norp" value="norp-enabled" onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP} />
+					<p>Enable no replacement draws</p>
+				</div>
 				<div className="settings">
 					<input type="number" min="1" step="1" max="11" value={range[0]} onChange={e => { changeDrawRange(Number(e.currentTarget.value), range[1]) }} />
 					<input type="number" min="1" step="1" max="11" value={range[1]} onChange={e => { changeDrawRange(range[0], Number(e.currentTarget.value)) }} />
@@ -174,21 +210,37 @@ function CardDraw() {
 					<p className="nodraw-text-sub">Press "Draw" for a new set of charts</p>
 				</div>}
 				{spread.map((chart) => {
-					return (<Card key={chart.id} 
-						chart={chart} 
+					return (<Card key={chart.id}
+						chart={chart}
 
-						modalOpened={modalOpened} 
-						setModalOpened={setModalOpened} 
+						modalOpened={modalOpened}
+						setModalOpened={setModalOpened}
 
-						spread={spread} 
-						setSpread={setSpread} 
+						spread={spread}
+						setSpread={setSpread}
 
-						protectOrder={protectOrder} 
+						protectOrder={protectOrder}
 						setProtectOrder={setProtectOrder}
-						
-						numDraw = {numDraw}/>)
+
+						numDraw={numDraw} />)
 				})}
 			</div>
+			{debug && <>
+				<h1 className="modal-text-major text-p1">yea</h1>
+				{eligibleCharts[0].map((num) => {
+					let chart: Chart[] = chartarr.filter(chart => {
+						return chart["id"] === num
+					})
+					return (<p>{chart[0].title}</p>)
+				})}
+				<h1 className="modal-text-major text-p2">nah</h1>
+				{eligibleCharts[1].map((num) => {
+					let chart: Chart[] = chartarr.filter(chart => {
+						return chart["id"] === num
+					})
+					return (<p>{chart[0].title}</p>)
+				})}
+			</>}
 		</>
 	)
 }

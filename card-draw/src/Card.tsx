@@ -182,7 +182,10 @@ function Card(props: any) {
 				</div>
 			</div>
 		</div>
-		{props.modalOpened === props.chart.id && <CardModal modalOpened={props.modalOpened} setModalOpened={props.setModalOpened} setCardStatus={setCardStatus} />}
+		{props.modalOpened === props.chart.id && <CardModal
+			modalOpened={props.modalOpened}
+			setModalOpened={props.setModalOpened}
+			setCardStatus={setCardStatus} />}
 	</>
 }
 
