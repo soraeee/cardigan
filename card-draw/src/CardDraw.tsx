@@ -22,7 +22,7 @@ function CardDraw() {
 	}
 
 	// Toggle to see eligible/used card pools
-	const debug = false;
+	const debug = true;
 
 	const chartarr: Chart[] = [];
 	const numToDraw = 7;
@@ -121,6 +121,7 @@ function CardDraw() {
 	}
 
 	// Draw n number of charts from the available pool
+	// could have probably just done this without converting charts to ids, but lol whatever
 	function draw() {
 		let chartIds: number[] = eligibleCharts[0]
 		// Fisher-Yates shuffle
@@ -168,6 +169,69 @@ function CardDraw() {
 		setModalOpened(-1)
 		setProtectOrder(0)
 		setNumDraw(numDraw + 1)
+	}
+
+	// This is fucking stupid, i don't know what i'm doing
+	function redraw(id: number) {
+		// Find index of chart to redraw
+		let ind: number = -1
+		for (let i = 0; i < spread.length; i++) {
+			if (spread[i].id === id) ind = i
+		}
+
+		let chartIds: number[] = eligibleCharts[0]
+		let nextChartId: number;
+		let spentIds: number[] = eligibleCharts[1]
+
+		// Get the next chart in line
+		if (noRP) { // Redraw with no replacement enabled
+			// Check if there are less charts left in the pool than the number to draw, and add charts back to the pool if true
+			if (chartIds.length === 0) {
+				// Get current draw
+				let spreadIds: number[] = []
+				spread.forEach((chart) => {
+					spreadIds.push(chart["id"])
+				})
+				console.log(spreadIds)
+
+				// Set spentIds to charts already in the spread and chartIds to everything else
+				chartIds = spentIds
+				chartIds = chartIds.filter((id) => {
+					return !spreadIds.includes(id)
+				})
+				spentIds = spentIds.filter((id) => {
+					if (spreadIds.includes(id)) console.log(id)
+					return spreadIds.includes(id)
+				})
+
+				// Shuffle eligible charts
+				for (let i = chartIds.length - 1; i >= 0; i--) {
+					swapIndices(i, getRandomInt(i), chartIds);
+				}
+			}
+			nextChartId = chartIds[0] // Get the next chart, which is the very next chart in the eligible list
+			chartIds.splice(0, 1) // Remove chart from eligible charts
+			spentIds.push(nextChartId) // Add the drawn chart to the spent pool
+		} else { // Redraw without replacement
+			nextChartId = chartIds[spread.length] // Get the next chart, which is directly after the initial n charts drawn in the list
+			chartIds.splice(spread.length, 1) // Remove that chart
+			chartIds.splice(ind, 1, nextChartId) // Add it to the intended spot
+			chartIds.push(id) // Add the old chart to the end
+		}
+
+		// Get chart metadata from ID
+		const chartMatch: Chart[] = chartarr.filter(chart => {
+			return chart["id"] === nextChartId
+		})
+
+		// Splice new chart into spread
+		let newSpread: Chart[] = spread
+		newSpread.splice(ind, 1, chartMatch[0])
+
+		// Set everything again oh god
+		setModalOpened(-1)
+		setEligibleCharts([chartIds, spentIds])
+		setSpread(newSpread)
 	}
 
 	// Reset card draw
@@ -222,7 +286,8 @@ function CardDraw() {
 						protectOrder={protectOrder}
 						setProtectOrder={setProtectOrder}
 
-						numDraw={numDraw} />)
+						numDraw={numDraw}
+						redraw={redraw} />)
 				})}
 			</div>
 			{debug && <>

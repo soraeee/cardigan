@@ -71,7 +71,7 @@ function CardModal(props: any) {
 								</button>
 							</div>
 							<div className="modal-button">
-								<button className="modal-button">
+								<button className="modal-button" onClick={() => props.redraw(props.chartId)}>
 									<p className="modal-button-text">Redraw</p>
 									<img className="icon-svg"
 										style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
