@@ -22,7 +22,7 @@ function CardDraw() {
 	}
 
 	// Toggle to see eligible/used card pools
-	const debug = true;
+	const debug = false;
 
 	const chartarr: Chart[] = [];
 	const numToDraw = 7;

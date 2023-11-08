@@ -30,13 +30,13 @@ function Card(props: any) {
 	let bannerBackground = {};
 	let cardBorder = {}
 	if (props.chart.hasGfx) {
-		let gradColor1: string = "#0a0a0af0 15%"
-		let gradColor2: string = "#161616a7 100%"
+		let gradColor1: string = ""
+		let gradColor2: string = ""
 		let borderColor: string = "#808080FF"
 		switch (cardState[0]) {
 			case 0: // Neutral
 				gradColor1 = "#0a0a0af0 15%"
-				gradColor2 = "#161616a7 100%"
+				gradColor2 = "#16161655 100%"
 				borderColor = "#808080FF"
 				break;
 			case 1: // Protect
@@ -53,15 +53,8 @@ function Card(props: any) {
 				gradColor2 = "#161616a7 100%"
 				break;
 			case 2: // Veto
-				switch (cardState[1]) {
-					case 1:
-						gradColor2 = "#54B4FF33 100%"
-						break;
-					case 2:
-						gradColor2 = "#FF515133 100%"
-						break;
-				}
 				gradColor1 = "#0a0a0af0 50%"
+				gradColor2 = "#0a0a0af0 50%"
 				borderColor = "#242424FF"
 				break;
 		}
