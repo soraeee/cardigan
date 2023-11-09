@@ -33,7 +33,7 @@
   letter-spacing: -1px;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: #f0f0f0;
   background-color: #161616;
 
   font-synthesis: none;
@@ -79,7 +79,7 @@
   border-radius: 4px;
 
   width: 80%;
-  max-width: 800px;
+  max-width: 720px;
   min-height: 65px;
 
   padding: 12px;
@@ -94,11 +94,11 @@
   position: relative;
   z-index: 3;
 
-  transition: filter 0.5s, border-color 0.5s;
+  transition: filter 0.15s, border-color 0.15s;
 }
 
 .card:hover {
-  filter: drop-shadow(0 0 0.4rem #ffffff);
+  filter: drop-shadow(0 0 0.2rem #ffffff);
   cursor: pointer;
 }
 
@@ -131,16 +131,27 @@
   flex-flow: column nowrap;
   align-items: start;
   justify-content: center;
-  text-shadow: 1px 1px 10px #000000;
+  /*text-shadow: 1px 1px 10px #000000;*/
 }
 
 .card-meta>* {
   margin: -2px 0;
 }
 
+.card-title {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
 .card-text-title {
   font-size: 2.2em;
   font-weight: 800;
+  white-space: nowrap;
+  max-width: 360px; /* 660-300 */
+  /*mask-image: linear-gradient(90deg, #fff 95%, transparent);*/
 }
 
 .card-text-artist {
@@ -156,18 +167,15 @@
 }
 
 .card-text-nocmod {
-  position: relative;
-  font-size: 0.45em;
+  font-size: 1em;
   font-weight: 400;
   display: inline-block;
   background-color: #FF1744;
   color: black;
   padding: 2px 4px;
   border-radius: 4px;
-  text-shadow: none;
-  left: 6px;
-  top: -6px;
-  box-shadow: 1px 1px 5px #000000;
+  /*text-shadow: none;*/
+  /*box-shadow: 1px 1px 5px #000000;*/
 }
 
 .card-right {
@@ -175,8 +183,7 @@
   flex-flow: column nowrap;
   align-items: end;
   justify-content: center;
-  text-shadow: 1px 1px 5px #000000;
-  width: 90px;
+  /*text-shadow: 1px 1px 5px #000000;*/
 }
 
 .card-right>* {
@@ -221,7 +228,7 @@
 
 button {
   border-radius: 6px;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
@@ -229,36 +236,23 @@ button {
   background-color: #242424;
   border-color:#505050;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.15s;
 }
 
 button:hover {
   border-color: #646cff;
 }
 
-.diff-n {
-  background-color: #a355b8;
-}
+.diff-n {   background-color: #a355b8; }
+.diff-e {   background-color: #1ec51d; }
+.diff-m {   background-color: #d6db41; }
+.diff-h {   background-color: #FF5151; }
+.diff-x {   background-color: #54B4FF; }
+.diff-ed {  background-color: #f7f7f7; }
 
-.diff-e {
-  background-color: #1ec51d;
-}
-
-.diff-m {
-  background-color: #d6db41;
-}
-
-.diff-h {
-  background-color: #ba3049;
-}
-
-.diff-x {
-  background-color: #2691c5;
-}
-
-.diff-edit {
-  background-color: #f7f7f7;
-}
+/* Player text colors */
+.text-p1 {  color: #54B4FF; }
+.text-p2 {  color: #FF5151; }
 
 /* Player text colors */
 .text-p1 {
@@ -273,17 +267,15 @@ button:hover {
   position: absolute;
   top: 0;
   left: 0;
-  background: #00000000;
+  background: #00000040;
   height: 100%;
   width: 100vw;
-
   z-index: 1;
 }
 
 .modal-wrapper {
   z-index: 2;
   position: relative;
-
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -322,8 +314,183 @@ button:hover {
 }
 
 .header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
   z-index: 2;
+  padding: 24px 36px;
+  background-color: #00000044;
+  margin: 0 auto 36px;
+}
+
+.settings {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 32px;
+}
+
+.settings-checkbox {
   position: relative;
+  user-select: none;
+  top: 2.5px;
+}
+
+.checkbox-label {
+  font-size: 1.2em;
+  font-weight: 200;
+  margin-bottom: 6px;
+}
+
+.checkbox-input {
+  appearance: none;
+  margin: 0;
+  height: 47px;
+  width: 47px;
+  border: 2px solid #808080;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  bottom:2px;
+}
+
+.checkbox-input:hover {
+  background-color: #1a2731;
+  border-color: #646cff;
+}
+
+.checkbox-input:after {
+  content: "Off";
+  font-family: Miso, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 3em;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-right: 1px;
+  color: #242424;
+  display: block;
+  position: relative;
+  text-align: center;
+}
+
+.checkbox-input:hover:after {
+  color: #404040;
+}
+
+.checkbox-input:checked:after {
+  content: "On";
+  color: #646cff;
+  display: block;
+  position: relative;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 32px;
+}
+
+.action-draw {
+  font-size: 1.5em;
+  font-weight: 800;
+  padding: 4px 28px;
+  background-color: #161616;
+  color: #646cff;
+}
+
+.action-reset {
+  font-size: 1.5em;
+  font-weight: 800;
+  padding: 4px 28px;
+  background-color: #161616;
+  color: #ff1744;
+}
+
+.action-reset:hover {
+  border-color: #ff1744
+}
+
+.numfield {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 4px;
+}
+
+.numfield-title {
+  font-size: 1.2em;
+  font-weight: 200;
+  user-select: none;
+}
+
+.numfield-inner {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #808080;
+  border-radius: 4px;
+}
+
+.numfield-inner:hover {
+  border-color: #646cff;
+}
+
+.numfield-value {
+  font-family: Miso, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 1.5em;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background-color: #00000044;
+  border: unset;
+  padding: 7.5px 8px;
+  width: 60px;
+  border-radius: 4px 0 0 4px;
+}
+
+.numfield-value:hover {
+  background-color: #1a2731;
+}
+
+.numfield-value:focus {
+  outline: unset;
+}
+
+.numfield-controls {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.numfield-controls > * {
+  padding: 2px 10px;
+  border: none;
+}
+
+.numfield-controls > *:hover {
+  background-color: #646cff;
+}
+
+.numfield-increment {
+  border-radius: 0 2px 0 0;
+}
+
+.numfield-decrement {
+  border-radius: 0 0 2px 0;
+}
+
+.caret-increment {
+  fill: #f0f0f0;
+  width: 12px;
+}
+
+.caret-decrement {
+  position: relative;
+  fill: #f0f0f0;
+  width: 12px;
+  transform: rotate(180deg);
+  top: 1px;
 }
 
 /* Classes used when there is no card draw on screen */
@@ -354,6 +521,23 @@ button:hover {
   font-weight: 400;
 }
 
+.debug {
+  margin-top: 36px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+}
+
+.debug-detail {
+  font-family: Ubuntu Mono, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0;
+  padding: 16px;
+  background-color: #00000044;
+  width: 48%;
+  text-align: justify;
+}
+
 /* Footer */
 .footer {
   position: fixed;
@@ -371,7 +555,7 @@ button:hover {
 
 .footer-text > a {
   text-decoration: underline;
-  transition: filter 0.25s;
+  transition: filter 0.15s;
 }
 
 .footer-text > a:hover {

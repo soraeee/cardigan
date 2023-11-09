@@ -1,5 +1,5 @@
-import './index.css'
-import './reset.css'
+import './index.css';
+import './reset.css';
 
 function Footer() {
 	return (<>
@@ -9,4 +9,4 @@ function Footer() {
 	</>)
 }
 
-export default Footer
+export default Footer;
