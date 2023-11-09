@@ -10,10 +10,21 @@
 @use 'components/numfield';
 @use 'components/settings';
 
-:root {
+html {
+  scroll-behavior: smooth;
   @include font.miso(1em);
   color: color.$lite;
   background-color: color.$dark;
+}
+
+.main {
+  display: grid;
+  grid-template-areas: "content" "footer";
+}
+
+.content {
+  grid-area: content;
+  min-height: calc(100vh - 52px);
 }
 
 // Player text colors
