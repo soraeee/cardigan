@@ -34,6 +34,7 @@
 
   color-scheme: light dark;
   color: #f0f0f0;
+  
   background-color: #161616;
 
   font-synthesis: none;
@@ -60,7 +61,7 @@
 
 /* Holy shit i am so bad at css */
 .cardDisplay {
-  margin: 0 auto;
+  margin: 0 auto 75px auto;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -540,24 +541,57 @@ button:hover {
 
 /* Footer */
 .footer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   text-align: center;
-  margin-bottom: 10px;
-}
-
-.footer-text {
-  font-size: 1.25em;
-  font-weight: 400;
-}
-
-.footer-text > a {
-  text-decoration: underline;
-  transition: filter 0.15s;
+  padding: 10px 0px;
+  
+  background-color: #0e0e0ecc;
+  z-index: 5;
 }
 
 .footer-text > a:hover {
   filter: drop-shadow(0 0 0.2rem #ffffff);
+  cursor: pointer;
+}
+
+/* About page */
+.about-wrapper {
+  margin: 40px 25% 75px 25%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: start;
+  gap: 12px;
+}
+
+.about-header {
+  font-size: 3.5em;
+  font-weight: 800;
+  color: #FF5151;
+}
+.about-text {
+  font-size: 1.6em;
+  font-weight: 100;
+  text-align: start;
+}
+.about-question {
+  font-size: 2em;
+  font-weight: 800;
+  font-style: oblique;
+  text-align: start;
+}
+
+.link {
+  text-decoration: underline;
+  transition: filter 0.15s;
+}
+
+.link:hover {
+  filter: drop-shadow(0 0 0.2rem #ffffff);
+  cursor: pointer;
 }
