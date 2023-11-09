@@ -13,5 +13,5 @@ Use `npm run dev` to run a local copy of the project.
 Use `npm run build` to build the project.  
 If you have a way to host the website (e.g. GitHub Pages or Cloudflare Pages), set that up appropriately, then use `npm run deploy` to build and deploy the project.  
   
-## Screenshots
-(coming soon)
+## Screenshots  
+![Screenshot of the app](https://i.imgur.com/7rK8X9n.png)
