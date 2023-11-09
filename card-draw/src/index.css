@@ -44,21 +44,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
 /* Holy shit i am so bad at css */
 .cardDisplay {
   margin: 0 auto 75px auto;
@@ -594,4 +579,74 @@ button:hover {
 .link:hover {
   filter: drop-shadow(0 0 0.2rem #ffffff);
   cursor: pointer;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #FAF9F6;
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+  
+  .card-meta>* {
+    color: #ffffff;
+  }
+
+  .card-right>* {
+    color: #ffffff;
+  }
+
+  .footer-text {
+    color: #000000;
+  }
+
+  .footer-text>* {
+    color: #000000;
+  }
+
+  .modal-button>* {
+    color: #ffffff;
+  }
+
+  .checkbox-label {
+    color: #000000;
+  }
+
+  .numfield-inner>* {
+    color: #000000;
+  }
+  
+  .numfield-title {
+    color: #000000;
+  }
+
+  .numfield-controls>* {
+    background-color: #353535;
+  }
+  .numfield-controls>*:hover {
+    background-color: #9ab6ca;
+  }
+
+  .header {
+    background-color: #c7c3b9;
+  }
+
+  .footer {
+    background-color: #c7c3b9;
+  }
+
+  .nodraw>* {
+    color: #000000;
+  }
+  
+  .numfield-value:hover {
+    background-color: #9ab6ca;
+  }
+  
+  .checkbox-input:hover {
+    background-color: #9ab6ca;
+  }
 }
