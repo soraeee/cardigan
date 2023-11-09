@@ -63,7 +63,7 @@ function CardModal(props: any) {
 					<div className="modal-section-inner">
 						<div className="modal-button">
 							<button className="modal-button" onClick={() => props.setCardStatus([0, 0])}>
-								<p className="modal-button-text">Reset</p>
+								<p className="modal-button-text">Clear</p>
 								<img className="icon-svg"
 									style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
 									src="reset.svg"></img>

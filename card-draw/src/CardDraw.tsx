@@ -120,12 +120,19 @@ function CardDraw() {
 	// Draw n number of charts from the available pool
 	const draw = () => {
 		let chartPool: Chart[] = eligibleCharts[0]
+		let spentCharts: Chart[] = [...eligibleCharts[1]];
+
+		// Don't explode when there aren't enough charts to draw
+		if (chartPool.length + spentCharts.length < numToDraw) {
+			console.log("Not enough charts to draw!")
+			return
+		};
+
 		// Fisher-Yates shuffle
 		for (let i = chartPool.length - 1; i >= 0; i--) {
 			swapIndices(i, getRandomInt(i), chartPool);
 		}
 
-		let spentCharts: Chart[] = [...eligibleCharts[1]];
 		const drawnCharts: Chart[] = [];
 		// Check if there are less charts left in the pool than the number to draw, and add charts back to the pool if true
 		// caveat with this algo - when this is the case, the remaining charts will always show up first in the draw. idk if that's a huge issue, lol

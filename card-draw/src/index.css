@@ -131,7 +131,7 @@
   flex-flow: column nowrap;
   align-items: start;
   justify-content: center;
-  /*text-shadow: 1px 1px 10px #000000;*/
+  text-shadow: 1px 1px 10px #000000;
 }
 
 .card-meta>* {
@@ -183,7 +183,7 @@
   flex-flow: column nowrap;
   align-items: end;
   justify-content: center;
-  /*text-shadow: 1px 1px 5px #000000;*/
+  text-shadow: 1px 1px 5px #000000;
 }
 
 .card-right>* {
@@ -318,7 +318,7 @@ button:hover {
   flex-flow: row nowrap;
   justify-content: space-between;
   z-index: 2;
-  padding: 24px 36px;
+  padding: 16px 36px 24px;
   background-color: #00000044;
   margin: 0 auto 36px;
 }
