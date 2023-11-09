@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import './index.css';
 import './reset.css';
 import Card from './Card';
+import NumberField from './NumberField';
 
 function CardDraw() {
 
@@ -22,15 +23,17 @@ function CardDraw() {
 	}
 
 	// Toggle to see eligible/used card pools
-	const debug = false;
+	const debug = true;
 
 	const chartarr: Chart[] = [];
-	const numToDraw = 7;
+	const defaultNumToDraw = 7;
+	const [defaultMin, defaultMax] = [1, 11];
 
 	// Current card draw state
+	const [numToDraw, setNumToDraw] = useState<number>(defaultNumToDraw);
 	const [spread, setSpread] = useState<Chart[]>([]);
-	const [range, setRange] = useState<number[]>([1, 11]);
-	const [eligibleCharts, setEligibleCharts] = useState<number[][]>([[], []]); // [0] -> can be drawn, [1] -> removed from pool in no replacement draws
+	const [range, setRange] = useState<number[]>([defaultMin, defaultMax]);
+	const [eligibleCharts, setEligibleCharts] = useState<Chart[][]>([[], []]); // [0] -> can be drawn, [1] -> removed from pool in no replacement draws
 	const [protectOrder, setProtectOrder] = useState<number>(0);
 
 	// Modal will open when chart's ID matches this state
@@ -43,13 +46,9 @@ function CardDraw() {
 
 	// init
 	useEffect(() => {
-		const chartIds: number[] = [];
-		// Chart IDs remaining in the pool
-		for (let i = 0; i < chartarr.length; i++) {
-			chartIds[i] = i;
-		}
-		setEligibleCharts([chartIds, []]);
-	}, [chartarr.length]);
+		//populateCharts();
+		setEligibleCharts([chartarr, []]);
+	}, []);
 
 	// Gets transliterated string, if available
 	const translit = (chart: {[index: string]:any}, prop: string) => {
@@ -59,47 +58,46 @@ function CardDraw() {
 	// Rounds number and converts to a string
 	const strround = (n: number) => String(Math.round(n));
 
-	// Clamps number to a range 
-	const clamp = (n: number, min: number, max: number) => {
-		return Math.min(Math.max(n, min), max);
+	const populateCharts = () => {
+		// Process chart metadata to something that we actually need
+		chartJSON.charts.forEach(chart => {
+			{
+				// Convert "[Txx] name" format into a Tier value
+				const tier: number = Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]);
+
+				const songtitle: string = translit(chart, "title").replace(/\[T\d{1,2}\]\s?/, "");
+				const songartist: string = translit(chart, "artist");
+				const songsubtitle: string = translit(chart, "subtitle");
+
+				let displaybpmFormatted = strround(chart.displaybpm[0]);
+				if (chart.displaybpm[0] !== chart.displaybpm[1]) {
+					displaybpmFormatted += " - " + strround(chart.displaybpm[1]);
+				}
+
+				const hasGfx = chart.gfxPath != "";
+
+				// Add properly formatted metadata to array
+				chartarr.push({
+					id:				Number(chart.sid),
+					title:			songtitle.replace(/\(No CMOD\)/, "").trim(),
+					artist:			songartist,
+					subtitle:		songsubtitle,
+					difficulty:		chart.difficulties[0].difficulty,
+					difficultyslot:	chart.difficulties[0].slot,
+					displaybpm:		chart.displaybpm,
+					bpmstring:		displaybpmFormatted,
+					tier:			tier,
+					nocmod:			/\(No CMOD\)/.test(songtitle),
+					gfxPath:		chart.gfxPath,
+					hasGfx:			hasGfx,
+				});
+			}
+		});
 	}
 
-	// Process chart metadata to something that we actually need
-	chartJSON.charts.forEach(chart => {
-		{
-			// Convert "[Txx] name" format into a Tier value
-			const tier: number = Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]);
+	populateCharts();
 
-			const songtitle: string = translit(chart, "title").replace(/\[T\d{1,2}\]\s?/, "");
-			const songartist: string = translit(chart, "artist");
-			const songsubtitle: string = translit(chart, "subtitle");
-
-			let displaybpmFormatted = strround(chart.displaybpm[0]);
-			if (chart.displaybpm[0] !== chart.displaybpm[1]) {
-				displaybpmFormatted += " - " + strround(chart.displaybpm[1]);
-			}
-
-			const hasGfx = chart.gfxPath != "";
-
-			// Add properly formatted metadata to array
-			chartarr.push({
-				id:				Number(chart.sid),
-				title:			songtitle.replace(/\(No CMOD\)/, "").trim(),
-				artist:			songartist,
-				subtitle:		songsubtitle,
-				difficulty:		chart.difficulties[0].difficulty,
-				difficultyslot:	chart.difficulties[0].slot,
-				displaybpm:		chart.displaybpm,
-				bpmstring:		displaybpmFormatted,
-				tier:			tier,
-				nocmod:			/\(No CMOD\)/.test(songtitle),
-				gfxPath:		chart.gfxPath,
-				hasGfx:			hasGfx,
-			});
-		}
-	});
-
-	const swapIndices = (a: number, b: number, array: number[]) => {
+	const swapIndices = (a: number, b: number, array: any[]) => {
 		const c = array[a];
 		array[a] = array[b];
 		array[b] = c;
@@ -107,72 +105,49 @@ function CardDraw() {
 
 	const getRandomInt = (max: number) => Math.floor(Math.random() * max);
 
-	// Change draw range
 	const changeDrawRange = (a: number, b: number) => {
-		// clamp a, b to [0, 11]
-		const min = 0;
-		const max = 11;
-		a = clamp(a, min, b);
-		b = clamp(b, a, max);
+		setRange([a, b]);
 
-		setRange([a, b])
-
-		// Change eligible IDs to be within range
-		const chartIds: number[] = [];
-		const chartsInRange: Chart[] = chartarr.filter((chart) => {
-			return chart["tier"] >= a && chart["tier"] <= b;
+		// Change eligible charts to be within range
+		const chartsInRange: Chart[] = chartarr.filter(chart => {
+			if (chart["tier"] >= a && chart["tier"] <= b) return chart
 		})
-		chartsInRange.forEach((chart) => {
-			chartIds.push(chart.id);
-		})
-		setEligibleCharts([chartIds, []]);
+		setEligibleCharts([chartsInRange, []]);
 	}
 
 	// Draw n number of charts from the available pool
-	// could have probably just done this without converting charts to ids, but lol whatever
 	const draw = () => {
-		let chartIds: number[] = eligibleCharts[0]
+		let chartPool: Chart[] = eligibleCharts[0]
 		// Fisher-Yates shuffle
-		for (let i = chartIds.length - 1; i >= 0; i--) {
-			swapIndices(i, getRandomInt(i), chartIds);
+		for (let i = chartPool.length - 1; i >= 0; i--) {
+			swapIndices(i, getRandomInt(i), chartPool);
 		}
 
-		let spentIds: number[] = [...eligibleCharts[1]]
-		const drawnIds: number[] = []
+		let spentCharts: Chart[] = [...eligibleCharts[1]];
+		const drawnCharts: Chart[] = [];
 		// Check if there are less charts left in the pool than the number to draw, and add charts back to the pool if true
 		// caveat with this algo - when this is the case, the remaining charts will always show up first in the draw. idk if that's a huge issue, lol
-		if (chartIds.length < numToDraw) {
+		if (chartPool.length < numToDraw) {
 			// Shuffle spent charts
-			for (let i = spentIds.length - 1; i >= 0; i--) {
-				swapIndices(i, getRandomInt(i), spentIds);
+			for (let i = spentCharts.length - 1; i >= 0; i--) {
+				swapIndices(i, getRandomInt(i), spentCharts);
 			}
 			// Reset chartIds and spentIds
-			chartIds = [...chartIds, ...spentIds];
-			spentIds = [];
+			chartPool = [...chartPool, ...spentCharts];
+			spentCharts = [];
 		}
 
 		// Draw n charts, add those charts to the spent pool
 		for (let i = 0; i < numToDraw; i++) {
-			drawnIds[i] = chartIds[i];
-			if (noRP) spentIds.push(drawnIds[i]);
+			drawnCharts[i] = chartPool[i];
+			if (noRP) spentCharts.push(drawnCharts[i]);
 		}
 
 		// Remove IDs from eligible pool
-		if (noRP) chartIds.splice(0, numToDraw);
-
-		// Get actual chart metadata from drawn IDs
-		const drawnCharts: Chart[] = [];
-		drawnIds.forEach((id) => {
-			// This sucks man i hate O(n^2)
-			// but i'm not working with 10000 charts so it's ok :^)
-			const chartMatch: Chart[] = chartarr.filter(chart => {
-				return chart["id"] === id;
-			})
-			drawnCharts.push(chartMatch[0]);
-		})
+		if (noRP) chartPool.splice(0, numToDraw);
 
 		// lol
-		setEligibleCharts([chartIds, spentIds]);
+		setEligibleCharts([chartPool, spentCharts]);
 		setSpread(drawnCharts);
 		setModalOpened(-1);
 		setProtectOrder(0);
@@ -183,72 +158,62 @@ function CardDraw() {
 	const redraw = (id: number) => {
 		// Find index of chart to redraw
 		let ind: number = -1;
+		let oldChart: Chart = spread[0]; // shut up typescript
 		for (let i = 0; i < spread.length; i++) {
-			if (spread[i].id === id) ind = i;
+			if (spread[i].id === id) {
+				ind = i;
+				oldChart = spread[i];
+			}
 		}
 
-		let chartIds: number[] = eligibleCharts[0];
-		let nextChartId: number;
-		let spentIds: number[] = eligibleCharts[1];
+		let chartPool: Chart[] = eligibleCharts[0];
+		let nextChart: Chart;
+		let spentCharts: Chart[] = eligibleCharts[1];
 
 		// Get the next chart in line
 		if (noRP) { // Redraw with no replacement enabled
 			// Check if there are less charts left in the pool than the number to draw, and add charts back to the pool if true
-			if (chartIds.length === 0) {
+			if (chartPool.length === 0) {
 				// Get current draw
-				const spreadIds: number[] = []
-				spread.forEach((chart) => {
-					spreadIds.push(chart["id"])
-				})
-				console.log(spreadIds)
+				const spreadCharts: Chart[] = spread;
 
 				// Set spentIds to charts already in the spread and chartIds to everything else
-				chartIds = spentIds
-				chartIds = chartIds.filter((id) => {
-					return !spreadIds.includes(id)
-				})
-				spentIds = spentIds.filter((id) => {
-					if (spreadIds.includes(id)) console.log(id)
-					return spreadIds.includes(id)
-				})
+				chartPool = spentCharts
+				chartPool = chartPool.filter(chart => !spreadCharts.includes(chart));
+				spentCharts = spentCharts.filter(chart => spreadCharts.includes(chart));
 
 				// Shuffle eligible charts
-				for (let i = chartIds.length - 1; i >= 0; i--) {
-					swapIndices(i, getRandomInt(i), chartIds);
+				for (let i = chartPool.length - 1; i >= 0; i--) {
+					swapIndices(i, getRandomInt(i), chartPool);
 				}
 			}
-			nextChartId = chartIds[0] // Get the next chart, which is the very next chart in the eligible list
-			chartIds.splice(0, 1) // Remove chart from eligible charts
-			spentIds.push(nextChartId) // Add the drawn chart to the spent pool
+			nextChart = chartPool[0]; // Get the next chart, which is the very next chart in the eligible list
+			chartPool.splice(0, 1); // Remove chart from eligible charts
+			spentCharts.push(nextChart); // Add the drawn chart to the spent pool
 		} else { // Redraw without replacement
-			nextChartId = chartIds[spread.length] // Get the next chart, which is directly after the initial n charts drawn in the list
-			chartIds.splice(spread.length, 1) // Remove that chart
-			chartIds.splice(ind, 1, nextChartId) // Add it to the intended spot
-			chartIds.push(id) // Add the old chart to the end
+			nextChart = chartPool[spread.length]; // Get the next chart, which is directly after the initial n charts drawn in the list
+			chartPool.splice(spread.length, 1); // Remove that chart
+			chartPool.splice(ind, 1, nextChart); // Add it to the intended spot
+			chartPool.push(oldChart); // Add the old chart to the end
 		}
 
-		// Get chart metadata from ID
-		const chartMatch: Chart[] = chartarr.filter(chart => {
-			return chart["id"] === nextChartId
-		})
-
 		// Splice new chart into spread
-		const newSpread: Chart[] = spread
-		newSpread.splice(ind, 1, chartMatch[0])
+		const newSpread: Chart[] = spread;
+		newSpread.splice(ind, 1, nextChart);
 
 		// Set everything again oh god
-		setModalOpened(-1)
-		setEligibleCharts([chartIds, spentIds])
-		setSpread(newSpread)
+		setModalOpened(-1);
+		setEligibleCharts([chartPool, spentCharts]);
+		setSpread(newSpread);
 	}
 
 	// Reset card draw
 	// Useful for no replacement draws
 	const reset = () => {
-		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []])
-		setSpread([])
-		setModalOpened(-1)
-		setProtectOrder(0)
+		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []]);
+		setSpread([]);
+		setModalOpened(-1);
+		setProtectOrder(0);
 	}
 
 	// Reset removed pool and toggle no replacement setting
@@ -259,18 +224,18 @@ function CardDraw() {
 
 	return (<>
 		<div className="header">
-			<button onClick={draw} className="button">Draw</button>
-			<button onClick={reset} className="button">Reset</button>
-			{/* Probably want to seperate this out into a sidebar or something, lol */}
-			{/* Could be slightly better - input is a bit jank, could have a "Set" button. dunno */}
-
 			<div className="settings">
-				<input type="checkbox" name="norp" id="norp" value="norp-enabled" onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP} />
-				<p>Enable no replacement draws</p>
+				<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
+				<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}} />
+				<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}} />
+				<div className="settings-checkbox">
+					<p className="checkbox-label">Dupe protection</p>
+					<input className="checkbox-input" type="checkbox" name="norp" id="norp" value="norp-enabled" onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP}/>
+				</div>
 			</div>
-			<div className="settings">
-				<input type="number" min="1" step="1" max="11" value={range[0]} onChange={e => { changeDrawRange(Number(e.currentTarget.value), range[1]) }} />
-				<input type="number" min="1" step="1" max="11" value={range[1]} onChange={e => { changeDrawRange(range[0], Number(e.currentTarget.value)) }} />
+			<div className="actions">
+				<button onClick={draw} className="action-draw">Draw</button>
+				<button onClick={reset} className="action-reset">Reset</button>
 			</div>
 		</div>
 		{/* Show message when no card draw is present */}
@@ -296,16 +261,16 @@ function CardDraw() {
 			})}
 		</div>
 		{debug && <>
-			<h1 className="modal-text-major text-p1">yea</h1>
-			{eligibleCharts[0].map((num) => {
-				const chart: Chart[] = chartarr.filter(chart => chart["id"] === num);
-				return (<p>{chart[0].title}</p>)
-			})}
-			<h1 className="modal-text-major text-p2">nah</h1>
-			{eligibleCharts[1].map((num) => {
-				const chart: Chart[] = chartarr.filter(chart => chart["id"] === num);
-				return (<p>{chart[0].title}</p>)
-			})}
+			<div className="debug">
+				<div className="debug-detail">
+					<p className="text-p1">yea ({eligibleCharts[0].length})</p>
+					{eligibleCharts[0].map(chart => <span>{chart.title}, </span>)}
+				</div>
+				<div className="debug-detail">
+					<p className="text-p2">nah ({eligibleCharts[1].length})</p>
+					{eligibleCharts[1].map(chart => <span>{chart.title}, </span>)}
+				</div>
+			</div>
 		</>}
 	</>)
 }

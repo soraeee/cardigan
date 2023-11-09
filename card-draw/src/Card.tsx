@@ -43,9 +43,9 @@ const Card = (props: any) => {
 				borderColor	= cardState[1] === 1 ? "#54B4FFFF" : "#FF5151FF";
 				break;
 			case 2: // Veto
-				gradColor1	= "#161616F0 15%";
-				gradColor2	= cardState[1] === 1 ? "#54B4FF33 100%" : "#FF515133 100%";
-				borderColor	= "#404040FF";
+				gradColor1	= "#0a0a0af0 60%";
+				gradColor2	= cardState[1] === 1 ? "#102230f0 100%" : "#2b0d0df0 100%";
+				borderColor	= "#242424FF";
 				break;
 		}
 		bannerBackground = {
@@ -155,11 +155,11 @@ const Card = (props: any) => {
 			</div>
 		</div>
 		{props.modalOpened === props.chart.id && <CardModal
-			modalOpened={props.modalOpened}
-			setModalOpened={props.setModalOpened}
-			setCardStatus={setCardStatus}
-			redraw = {props.redraw}
-			chartId = {props.chart.id} />}
+			modalOpened		= {props.modalOpened}
+			setModalOpened	= {props.setModalOpened}
+			setCardStatus	= {setCardStatus}
+			redraw 			= {props.redraw}
+			chartId 		= {props.chart.id} />}
 	</>)
 }
 
