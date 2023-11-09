@@ -1,0 +1,45 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+
+.header {
+  @include mixin.flex($align: space-between);
+  padding: 24px 36px;
+  background-color: color.$darken;
+}
+
+.settings {
+  @include mixin.flex($align: space-between, $x-align: end, $gap: 32px);
+}
+
+.actions {
+  @include mixin.flex($align: space-between, $x-align: end, $gap: 32px);
+}
+
+.action {
+  @include font.miso(1.8em, $weight: 700);
+  letter-spacing: 0;
+  line-height: 1em;
+  padding: 6px 36px;
+  background-color: color.$dark;
+  @include mixin.border($radius: 6px, $color: color.$neutral);
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+
+  &-draw {
+    @extend .action;
+    color: color.$accent;
+    &:hover {
+      background-color: color.$accent-dark;
+      border-color: color.$accent;
+    }
+  }
+  &-reset {
+    @extend .action;
+    color: color.$warning;
+    &:hover {
+      background-color: color.$warning-dark;
+      border-color: color.$warning;
+    }
+  }
+}

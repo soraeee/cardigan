@@ -1,0 +1,14 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+
+.debug {
+  @include mixin.flex($align: space-evenly);
+  &-detail {
+    @include font.mono(11px);
+    background-color: color.$darken;
+    width: 48%;
+    padding: 16px;
+    text-align: justify;
+  }
+}

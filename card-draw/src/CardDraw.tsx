@@ -1,9 +1,7 @@
 import chartJSON from './pack.json'
 import { useState, useEffect } from 'react';
-import './index.css';
-import './reset.css';
-import Card from './Card';
-import NumberField from './NumberField';
+import Card from './components/Card';
+import NumberField from './components/NumberField';
 
 function CardDraw() {
 
@@ -228,7 +226,7 @@ function CardDraw() {
 				<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
 				<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}} />
 				<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}} />
-				<div className="settings-checkbox">
+				<div className="checkbox">
 					<p className="checkbox-label">Dupe protection</p>
 					<input className="checkbox-input" type="checkbox" name="norp" id="norp" value="norp-enabled" onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP}/>
 				</div>
@@ -239,7 +237,7 @@ function CardDraw() {
 			</div>
 		</div>
 		{/* Show message when no card draw is present */}
-		<div className="cardDisplay">
+		<div className="display">
 			{spread.length === 0 && <div className="nodraw">
 				<img src="nodraw.png" className="nodraw-img" />
 				<p className="nodraw-text">No charts currently drawn :o</p>

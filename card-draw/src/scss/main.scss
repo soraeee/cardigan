@@ -1,0 +1,44 @@
+@use 'util/color' as color;
+@use 'util/fonts' as font;
+@use 'util/mixins' as mixin;
+@use 'util/reset';
+@use 'components/card';
+@use 'components/checkbox';
+@use 'components/debug';
+@use 'components/footer';
+@use 'components/modal';
+@use 'components/numfield';
+@use 'components/settings';
+
+:root {
+  @include font.miso(1em);
+  color: color.$lite;
+  background-color: color.$dark;
+}
+
+// Player text colors
+.text-p1 { color: color.$p1; }
+.text-p2 { color: color.$p2; }
+
+.display {
+  @include mixin.flex($dir: column, $x-align: center, $gap: 8px);
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 48px;
+}
+
+// Classes used when there is no card draw on screen
+.nodraw {
+  @include mixin.flex($dir: column, $x-align: center);
+  margin: 0 auto;
+  user-select: none;
+  &-img {
+    width: 100%;
+  }
+  &-text {
+    font-size: 3em;
+    &-sub {
+      font-size: 2em;
+    }
+  }
+}

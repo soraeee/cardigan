@@ -1,0 +1,48 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+
+.checkbox {
+  user-select: none;
+
+  &-label {
+    font-size: 1.2em;
+    font-weight: 300;
+    margin-bottom: 3.5px;
+  }
+
+  $dim: 48px;
+  &-input {
+    appearance: none;
+    margin: 0;
+    height: $dim;
+    width: $dim;
+    @include mixin.border();
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s, background-color 0.15s;
+
+    &:after {
+      content: "Off";
+      @include font.miso(3em, color.$dark-lite, 700);
+      line-height: 1.05;
+      margin-right: 1px;
+      color: color.$dark-lite;
+      display: block;
+      text-align: center;
+    }
+
+    &:checked:after {
+      content: "On";
+      color: color.$accent;
+    }
+
+    &:hover {
+      background-color: color.$accent-dark;
+      border-color: color.$accent;
+      &:not(:checked):after {
+        color: color.$neutral;
+      }
+    }
+  }
+}

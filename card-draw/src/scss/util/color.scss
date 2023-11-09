@@ -1,0 +1,29 @@
+@use "sass:map";
+
+// base colors
+$lite:          #f0f0f0;
+$lite-dark:     #808080;
+$neutral:       #474747;
+$dark-lite:     #242424;
+$dark:          #161616;
+$accent:        #646cff;
+$accent-dark:   #1a2731;
+$warning:       #ff1744;
+$warning-dark:  #391d23;
+
+// transparents
+$darken:        #00000040;
+
+// difficulty colors
+$diffs: (
+    "novice":   #a355b8,
+    "easy":     #1ec51d,
+    "medium":   #d6db41,
+    "hard":     #ff5151,
+    "expert":   #54b4ff,
+    "edit":     #aaaaaa,
+);
+
+// player colors
+$p1:            map.get($diffs, "expert");
+$p2:            map.get($diffs, "hard");

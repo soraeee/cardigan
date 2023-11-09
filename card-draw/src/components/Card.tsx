@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import './index.css';
-import './reset.css';
 import CardModal from './CardModal';
 
 const Card = (props: any) => {
@@ -65,11 +63,12 @@ const Card = (props: any) => {
 	// difficulty stuff
 	let diffClasses = 'card-diff';
 	switch (props.chart.difficultyslot) {
-		case 'Novice':		diffClasses += ' diff-n'; break;
-		case 'Easy':		diffClasses += ' diff-e'; break;
-		case 'Medium':		diffClasses += ' diff-m'; break;
-		case 'Hard':		diffClasses += ' diff-h'; break;
-		case 'Challenge':	diffClasses += ' diff-x'; break;
+		case 'Novice':		diffClasses += ' diff-novice'; 	break;
+		case 'Easy':		diffClasses += ' diff-easy'; 	break;
+		case 'Medium':		diffClasses += ' diff-medium'; 	break;
+		case 'Hard':		diffClasses += ' diff-hard';	break;
+		case 'Challenge':	diffClasses += ' diff-expert'; 	break;
+		case 'Edit':		diffClasses += ' diff-edit'; 	break;
 	}
 
 	// cmod?

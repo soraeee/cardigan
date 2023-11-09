@@ -1,8 +1,6 @@
 /// <reference types="vite-plugin-svgr/client" />
 import { useState } from 'react';
-import './index.css';
-import './reset.css';
-import Caret from './assets/caret.svg?react';
+import Caret from '../assets/caret.svg?react';
 
 const NumberField = (props: any) => {
 

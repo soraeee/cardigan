@@ -1,0 +1,52 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+
+.modal {
+  &-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    //background: color.$darken;
+    height: 100%;
+    width: 100vw;
+    z-index: 1;
+  }
+  
+  &-wrapper {
+    @include mixin.flex($align: normal, $x-align: center, $gap: 50px);
+    z-index: 2;
+    position: relative;
+  }
+  
+  &-section {
+    @include mixin.flex($align: normal, $x-align: center, $gap: 10px);
+    &-inner {
+      @include mixin.flex($dir: column, $align: normal, $gap: 6px);
+    }
+  }
+
+  &-text-major {
+    font-size: 3em;
+    font-weight: 700;
+  }
+  
+  &-button {
+    @include mixin.flex($align: space-between, $x-align: center, $gap: 8px);
+    @include mixin.border($radius: 6px, $color: color.$neutral);
+    padding: 0.4em 1em;
+    min-width: 150px;
+    background-color: color.$dark-lite;
+    cursor: pointer;
+    transition: border-color 0.15s, background-color 0.15s;
+    &:hover {
+      background-color: color.$accent-dark;
+      border-color: color.$accent;
+    }
+    &-text {
+      @include font.miso(1.5em, color.$lite, 700);
+      letter-spacing: 0;
+      line-height: 0;
+    }
+  }
+}

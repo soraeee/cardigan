@@ -1,0 +1,26 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 12px;
+
+  &-text {
+    font-size: 1.25em;
+    font-weight: 400;
+
+    & > a {
+      text-decoration: underline;
+      transition: filter 0.15s;
+
+      &:hover {
+        filter: drop-shadow(0 0 0.2rem color.$lite);
+      }
+    }
+  }
+}

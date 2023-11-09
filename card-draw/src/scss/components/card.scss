@@ -1,0 +1,120 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+@use "sass:map";
+
+.card {
+  @include mixin.flex($align: space-between);
+  @include mixin.border();
+  width: 80%;
+  max-width: 720px;
+  min-height: 65px;
+  padding: 12px;
+  user-select: none;
+  position: relative;
+  z-index: 3;
+  transition: filter 0.15s, border-color 0.15s;
+  
+  &:hover {
+    filter: drop-shadow(0 0 0.2rem color.$lite);
+    cursor: pointer;
+  }
+  
+  &-left {
+    @include mixin.flex($align: normal, $x-align: center, $gap: 6px);
+  }
+  
+  $dim: 38px;
+  &-diff {
+    @include mixin.flex($x-align: center);
+    width: $dim;
+    height: $dim;
+  }
+  
+  &-text-diff {
+    @include font.mega(1.4em);
+  }
+  
+  &-meta {
+    @include mixin.flex($dir: column, $x-align: start);
+  }
+  
+  &-meta>* {
+    margin: -2px 0;
+  }
+  
+  &-title {
+    @include mixin.flex($x-align: center, $gap: 6px);
+  }
+
+  &-text {
+    &-artist {
+      font-size: 1.2em;
+      font-weight: 300;
+      margin: -6px 0 -4px;
+    }
+    
+    &-subtitle {
+      font-size: 1.2em;
+      font-weight: 300;
+    }
+    
+    &-nocmod {
+      display: inline-block;
+      background-color: color.$warning;
+      color: black;
+      padding: 2px 4px;
+      border-radius: 4px;
+    } 
+    
+    &-title {
+      font-size: 2.2em;
+      font-weight: 700;
+      white-space: nowrap;
+      max-width: 360px; //660-300
+      // mask-image: linear-gradient(90deg, color.$lite 95%, transparent);
+    }
+    
+    &-tier {
+      font-size: 1.4em;
+      font-weight: 700;
+    }
+    
+    &-bpm {
+      text-align: right;
+    }
+  }
+
+  &-right {
+    @include mixin.flex($dir: column, $x-align: end);
+
+    & > * {
+      margin: -2px 0;
+    }
+
+    &-wrapper {
+      @include mixin.flex($x-align: center, $gap: 80px);
+    }
+  }
+
+  // Card status classes
+  &-status {
+    &-tooltip {
+      @include mixin.flex($x-align: center, $gap: 20px);
+    }
+
+    &-playertext {
+      font-size: 2em;
+      font-weight: 700;
+    }
+  }
+}
+
+// I'M JUST BUILT [DIFF]ERENT
+.diff {
+  @each $diff in map.keys(color.$diffs) {
+    &-#{$diff} {
+      background-color: map.get(color.$diffs, $diff);
+    }
+  }
+}
