@@ -39,6 +39,16 @@ html {
   padding: 48px;
 }
 
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: color.$darken;
+  height: 100%;
+  width: 100vw;
+  z-index: 1;
+}
+
 // Classes used when there is no card draw on screen
 .nodraw {
   @include mixin.flex($dir: column, $x-align: center);

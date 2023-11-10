@@ -1,67 +1,50 @@
-function CardModal(props: any) {
+/// <reference types="vite-plugin-svgr/client" />
+import Gear from '../assets/gear.svg?react';
+import Protect from '../assets/protect.svg?react';
+import Redraw from '../assets/redraw.svg?react';
+import Reset from '../assets/reset.svg?react';
+import Veto from '../assets/veto.svg?react';
+//import Winner from '../assets/winner.svg?react';
 
+const CardModal = (props: any) => {
 	return (<>
-		<div>
-			{/* Modal closes when clicking outside of the modal */}
-			<div className="modal-backdrop" onClick={() => props.setModalOpened(-1)}></div>
-			<div className="modal-wrapper">
-				<div className="modal-section">
-					<div className="modal-section-inner">
-						<p className="modal-text-major text-p1">P1</p>
+		<div className="modal">
+			<div className="modal-section">
+				<p className="modal-text-major text-p1">P1</p>
+				<div className="modal-section-inner">
+					<div className="modal-button" onClick={() => props.setCardStatus([1, 1])}>
+						<Protect/>
+						<p className="modal-tooltip">Protect</p>
 					</div>
-					<div className="modal-section-inner">
-						<div className="modal-button" onClick={() => props.setCardStatus([1, 1])}>
-							<p className="modal-button-text">Protect&nbsp;&nbsp;</p>
-							<img className="icon-svg"
-							style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
-							src="protect.svg"></img>
-						</div>
-						<div className="modal-button" onClick={() => props.setCardStatus([2, 1])}>
-							<p className="modal-button-text">Veto&nbsp;&nbsp;</p>
-							<img className="icon-svg"
-							style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
-							src="veto.svg"></img>
-						</div>
+					<div className="modal-button" onClick={() => props.setCardStatus([2, 1])}>
+						<Veto/>
+						<p className="modal-tooltip">Veto</p>
 					</div>
 				</div>
-				<div className="modal-section">
-					<div className="modal-section-inner">
-						<p className="modal-text-major text-p2">P2</p>
+			</div>
+			<div className="modal-section">
+				<p className="modal-text-major text-p2">P2</p>
+				<div className="modal-section-inner">
+					<div className="modal-button" onClick={() => props.setCardStatus([1, 2])}>
+						<Protect/>
+						<p className="modal-tooltip">Protect</p>
 					</div>
-					<div className="modal-section-inner">
-						<div className="modal-button" onClick={() => props.setCardStatus([1, 2])}>
-							<p className="modal-button-text">Protect&nbsp;&nbsp;</p>
-							<img className="icon-svg"
-							style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
-							src="protect.svg"></img>
-						</div>
-						<div className="modal-button" onClick={() => props.setCardStatus([2, 2])}>
-							<p className="modal-button-text">Veto&nbsp;&nbsp;</p>
-							<img className="icon-svg"
-							style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
-							src="veto.svg"></img>
-						</div>
+					<div className="modal-button" onClick={() => props.setCardStatus([2, 2])}>
+						<Veto/>
+						<p className="modal-tooltip">Veto</p>
 					</div>
 				</div>
-				<div className="modal-section">
-					<div className="modal-section-inner">
-						<img className="icon-svg"
-							style={{ "width": "35px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
-							src="gear.svg"></img>
+			</div>
+			<div className="modal-section">
+				<Gear className="modal-settings"/>
+				<div className="modal-section-inner">
+					<div className="modal-button" onClick={() => props.setCardStatus([0, 0])}>
+						<Reset/>
+						<p className="modal-tooltip">Reset</p>
 					</div>
-					<div className="modal-section-inner">
-						<div className="modal-button" onClick={() => props.setCardStatus([0, 0])}>
-							<p className="modal-button-text">Reset</p>
-							<img className="icon-svg"
-							style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
-							src="reset.svg"></img>
-						</div>
-						<div className="modal-button" onClick={() => props.redraw(props.chartId)}>
-							<p className="modal-button-text">Redraw</p>
-							<img className="icon-svg"
-							style={{ "width": "20px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
-							src="redraw.svg"></img>
-						</div>
+					<div className="modal-button" onClick={() => props.redraw(props.chartId)}>
+						<Redraw/>
+						<p className="modal-tooltip">Redraw</p>
 					</div>
 				</div>
 			</div>

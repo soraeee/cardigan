@@ -6,17 +6,16 @@
 .card {
   @include mixin.flex($align: space-between);
   @include mixin.border();
+  z-index: 2;
   width: 80%;
   max-width: 720px;
   min-height: 65px;
   padding: 12px;
   user-select: none;
   position: relative;
-  z-index: 3;
-  transition: filter 0.15s, border-color 0.15s;
+  transition: border-color 0.15s;
   
   &:hover {
-    filter: drop-shadow(0 0 0.2rem color.$lite);
     cursor: pointer;
   }
   
@@ -99,10 +98,11 @@
 
   // Card status classes
   &-status {
-    &-tooltip {
-      @include mixin.flex($x-align: center, $gap: 20px);
+    @include mixin.flex($x-align: center, $gap: 20px);
+    &-icon {
+      width: 26px;
+      fill: color.$lite;
     }
-
     &-playertext {
       font-size: 2em;
       font-weight: 700;

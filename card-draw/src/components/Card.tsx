@@ -1,5 +1,9 @@
+
+/// <reference types="vite-plugin-svgr/client" />
 import { useState, useEffect } from 'react';
 import CardModal from './CardModal';
+import Protect from '../assets/protect.svg?react';
+import Veto from '../assets/veto.svg?react';
 
 const Card = (props: any) => {
 	const [cardState, setCardState] = useState<number[]>([]);
@@ -136,29 +140,23 @@ const Card = (props: any) => {
 				</div>
 			</div>
 			<div className="card-right-wrapper">
-				{cardState[0] > 0 && <div className="card-status-tooltip">
+				{cardState[0] > 0 && <div className="card-status">
 					<p className="card-status-playertext" style={playerColor}>P{cardState[1]}</p>
-					{cardState[0] === 1 && <img className="icon-svg"
-						style={{ "width": "35px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
-						src="protect.svg">
-					</img>}
-					{cardState[0] === 2 && <img className="icon-svg"
-						style={{ "width": "35px", "filter": "invert(100%) sepia(11%) saturate(7499%) hue-rotate(182deg) brightness(110%) contrast(100%)" }}
-						src="veto.svg">
-					</img>}
+					{cardState[0] === 1 && <Protect className="card-status-icon"/>}
+					{cardState[0] === 2 && <Veto className="card-status-icon"/>}
 				</div>}
 				<div className="card-right">
 					<p className="card-text-tier">Tier {props.chart.tier}</p>
 					<p className="card-text-bpm">{props.chart.bpmstring} BPM</p>
 				</div>
 			</div>
-		</div>
-		{props.modalOpened === props.chart.id && <CardModal
+			{props.modalOpened === props.chart.id && <CardModal
 			modalOpened		= {props.modalOpened}
 			setModalOpened	= {props.setModalOpened}
 			setCardStatus	= {setCardStatus}
 			redraw 			= {props.redraw}
 			chartId 		= {props.chart.id} />}
+		</div>
 	</>)
 }
 

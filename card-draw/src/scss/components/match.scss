@@ -15,7 +15,6 @@
     padding: 8px 12px;
     width: 100%;
     text-transform: uppercase;
-    caret-color: color.$dark-lite;
     transition: border-color 0.15s;
     &:hover, &:focus {
       border-color: color.$lite-dark;
@@ -73,9 +72,8 @@
     background-color: color.$darken;
     outline: unset;
     padding: 4px $pw;
-    width: 300px;
+    width: 240px;
     margin-right: calc($pw * -2 - 8px);
-    caret-color: color.$dark-lite;
     transition: border-color 0.15s;
   }
   &-score {

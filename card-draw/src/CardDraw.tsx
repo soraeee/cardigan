@@ -221,6 +221,8 @@ function CardDraw() {
 	}
 
 	return (<>
+		{/* Modal closes when clicking outside of the modal */}
+		{modalOpened > -1 && <div className="backdrop" onClick={() => setModalOpened(-1)}></div>}
 		<div className="header">
 			<div className="settings">
 				<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
