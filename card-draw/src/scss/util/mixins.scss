@@ -1,6 +1,6 @@
 @use '../util/color' as color;
 
-@mixin flex($dir: row, $wrap: nowrap, $align: center, $x-align: stretch, $gap: none) {
+@mixin flex($dir: row, $wrap: nowrap, $align: center, $x-align: stretch, $gap: 0) {
   display: flex;
   flex-flow: $dir $wrap;
   justify-content: $align;

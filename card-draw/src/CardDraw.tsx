@@ -236,8 +236,33 @@ function CardDraw() {
 				<button onClick={reset} className="action-reset">Reset</button>
 			</div>
 		</div>
-		{/* Show message when no card draw is present */}
 		<div className="display">
+			<div className="match">
+				<div className="input">
+					<input className="match-name" type="text" placeholder="Pool name"/>
+				</div>
+				<div className="match-players">
+					<div className="player-p1">
+						<div className="player-id">
+							<p className="player-id-text">P1</p>
+						</div>
+						<div className="player-info">
+							<input className="player-name" type="text" placeholder="Player 1"/>
+							<p className="player-score">(0-0)</p>
+						</div>
+					</div>
+					<div className="player-p2">
+						<div className="player-id">
+							<p className="player-id-text">P2</p>
+						</div>
+						<div className="player-info">
+							<input className="player-name" type="text" placeholder="Player 2"/>
+							<p className="player-score">(0-0)</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/* Show message when no card draw is present */}
 			{spread.length === 0 && <div className="nodraw">
 				<img src="nodraw.png" className="nodraw-img" />
 				<p className="nodraw-text">No charts currently drawn :o</p>

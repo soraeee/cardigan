@@ -25,5 +25,7 @@ $diffs: (
 );
 
 // player colors
-$p1:            map.get($diffs, "expert");
-$p2:            map.get($diffs, "hard");
+$p1:            #ff5151;
+$p2:            #54b4ff;
+$p1-dark:       #a23a3a;
+$p2-dark:       #3674a3;

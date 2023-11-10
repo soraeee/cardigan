@@ -13,6 +13,7 @@
   &-inner {
     @include mixin.flex($align: space-between, $x-align: center);
     @include mixin.border();
+    transition: border-color 0.15s;
     &:hover {
       border-color: color.$accent;
     }
@@ -26,9 +27,6 @@
     padding: 7.5px 8px;
     width: 45px;
     border-radius: 4px 0 0 4px;
-    &:hover {
-      background-color: color.$accent-dark;
-    }
     &:focus {
       outline: unset;
     }  
@@ -41,6 +39,7 @@
       border: none;
       background-color: color.$dark-lite;
       cursor: pointer;
+      transition: background-color 0.15s;
       &:hover {
         background-color: color.$accent;
       }
@@ -50,7 +49,6 @@
   &-increment {
     border-radius: 0 2px 0 0;
   }
-  
   &-decrement {
     border-radius: 0 0 2px 0;
   }

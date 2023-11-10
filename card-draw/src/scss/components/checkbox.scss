@@ -25,11 +25,12 @@
     &:after {
       content: "Off";
       @include font.miso(3em, color.$dark-lite, 700);
-      line-height: 1.05;
+      line-height: 1.1;
       margin-right: 1px;
       color: color.$dark-lite;
       display: block;
       text-align: center;
+      transition: color 0.15s;
     }
 
     &:checked:after {
