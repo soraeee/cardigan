@@ -1,9 +1,9 @@
 
 /// <reference types="vite-plugin-svgr/client" />
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import CardModal from './CardModal';
+import Reset from '../assets/Reset.svg?react';
 import Protect from '../assets/protect.svg?react';
-import Veto from '../assets/veto.svg?react';
 
 const Card = (props: any) => {
 	const [cardState, setCardState] = useState<number[]>([]);
@@ -26,46 +26,23 @@ const Card = (props: any) => {
 	// Reset card state on a new draw
 	useEffect(() => { setCardState([0, 0]) }, [props.numDraw]);
 
-	// Stolen from DDRTools sorry man lol
 	let bannerBackground = {};
-	let cardBorder = {};
 	if (props.chart.hasGfx) {
-		let gradColor1: string	= "#0a0a0af0 15%";
-		let gradColor2: string	= "#161616a7 100%";
-		let borderColor: string	= "#808080FF";
-		switch (cardState[0]) {
-			case 0: // Neutral
-				gradColor1	= "#0a0a0af0 15%";
-				gradColor2	= "#161616a7 100%";
-				borderColor	= "#808080FF";
-				break;
-			case 1: // Protect
-				gradColor1	= cardState[1] === 1 ? "#54B4FF44 15%" : "#FF515144 15%";
-				gradColor2	= "#161616a7 100%";
-				borderColor	= cardState[1] === 1 ? "#54B4FFFF" : "#FF5151FF";
-				break;
-			case 2: // Veto
-				gradColor1	= "#0a0a0af0 60%";
-				gradColor2	= cardState[1] === 1 ? "#102230f0 100%" : "#2b0d0df0 100%";
-				borderColor	= "#242424FF";
-				break;
-		}
 		bannerBackground = {
-			"background": `linear-gradient(90deg, ${gradColor1}, ${gradColor2}), url("rip135-assets/${props.chart.gfxPath}")`,
-			// These properties were breaking the image when any of the veto/protext buttons were clicked lol
-			/*"background-size": "cover",
-			"background-repeat": "no-repeat",
-			"background-position": "100% 50%"*/
+			"background": `linear-gradient(90deg, #0a0a0af0 15%, #161616a7 100%), url("rip135-assets/${props.chart.gfxPath}")`,
+			"backgroundSize": "cover",
+			"backgroundRepeat": "no-repeat",
+			"backgroundPosition": "100% 50%"
 		};
-		cardBorder = { "borderColor": borderColor };
 	}
 
 	// player text color
 	// kind of redundant but i'm too lazy to figure out a more elegant solution
-	const playerColor = { "color" : cardState[1] === 1 ? "#54B4FF" : "#FF5151" };
+	const playerColor = cardState[1] === 1 ? "#FF5151" : "#54B4FF";
+	const playerColorDark = cardState[1] === 1 ? "#a23a3a" : "#3674a3";
 
 	// difficulty stuff
-	let diffClasses = 'card-diff';
+	let diffClasses = cardState[0] !== 2 ? 'card-diff' : 'vcard-diff';
 	switch (props.chart.difficultyslot) {
 		case 'Novice':		diffClasses += ' diff-novice'; 	break;
 		case 'Easy':		diffClasses += ' diff-easy'; 	break;
@@ -78,7 +55,8 @@ const Card = (props: any) => {
 	// cmod?
 	let noCmodTag;
 	if (props.chart.nocmod) {
-		noCmodTag = <div className="card-text-nocmod">No CMOD</div>
+		const cmodClass = cardState[0] !== 2 ? "card-text-nocmod" : "vcard-text-nocmod";
+		noCmodTag = <div className={cmodClass}>No CMOD</div>
 	}
 
 	// open modal on click
@@ -127,37 +105,93 @@ const Card = (props: any) => {
 		setCardState(status);
 	}
 
-	return (<>
-		<div key={props.chart.id} className="card" style={{ ...bannerBackground, ...cardBorder }} onClick={toggleModal}>
-			<div className="card-left">
-				<div className={diffClasses}>
-					<p className='card-text-diff'>{props.chart.difficulty}</p>
+	// handle big title text
+	const refCard: any = useRef(null);
+	const refTitle: any = useRef(null);
+	const [cardWidth, setCardWidth] = useState(0);
+	const [titleWidth, setTitleWidth] = useState(0);
+	useLayoutEffect(() => {
+		setCardWidth(refCard.current.clientWidth);
+		setTitleWidth(refTitle.current.clientWidth);
+	});
+	useEffect(() => {
+		const handleWindowResize = () => {
+			setCardWidth(refCard.current.clientWidth);
+			setTitleWidth(refTitle.current.clientWidth);
+		}
+		window.addEventListener('resize', handleWindowResize);
+		return () => window.removeEventListener('resize', handleWindowResize);
+	}, []);
+
+	let titleMask = {};
+	const statusWidth = cardState[0] === 1 ? 68 : 0;
+	const noCmodWidth = noCmodTag ? 38 : 0;
+	const calcWidth = cardWidth - statusWidth - noCmodWidth - 150;
+	if (titleWidth >= calcWidth) {
+		titleMask = { 
+			"maskImage": "linear-gradient(90deg, #f0f0f0 93%, transparent 100%)",
+			"whiteSpace": "nowrap",
+			"max-width": calcWidth,
+			"overflow": "hidden",
+		};
+	}
+
+	const defaultCard = (<>
+		<div className="card" ref={refCard}>
+			{cardState[0] > 0 && <div className="card-status" style={{"backgroundColor" : playerColor}}>
+				{cardState[0] === 1 && <Protect className="card-status-icon"/>}
+				<p className="card-status-text" style={{"color" : playerColorDark}}>P{cardState[1]}</p>
+			</div>}
+			<div key={props.chart.id} className="card-inner" style={bannerBackground} onClick={toggleModal}>
+				<div className="card-left">
+					<div className={diffClasses}>
+						<p className='card-text-diff'>{props.chart.difficulty}</p>
+					</div>
+					<div className="card-meta">
+						<p className="card-text-artist">{props.chart.artist}</p>
+						<div className="card-title">
+							<p className="card-text-title" ref={refTitle} style={titleMask}>{props.chart.title}</p>
+							{noCmodTag}
+						</div>
+						<p className="card-text-subtitle">{props.chart.subtitle}</p>
+					</div>
 				</div>
-				<div className="card-meta">
-					<p className="card-text-artist">{props.chart.artist}</p>
-					<div className="card-title"><p className="card-text-title">{props.chart.title}</p>{noCmodTag}</div>
-					<p className="card-text-subtitle">{props.chart.subtitle}</p>
-				</div>
-			</div>
-			<div className="card-right-wrapper">
-				{cardState[0] > 0 && <div className="card-status">
-					<p className="card-status-playertext" style={playerColor}>P{cardState[1]}</p>
-					{cardState[0] === 1 && <Protect className="card-status-icon"/>}
-					{cardState[0] === 2 && <Veto className="card-status-icon"/>}
-				</div>}
 				<div className="card-right">
 					<p className="card-text-tier">Tier {props.chart.tier}</p>
 					<p className="card-text-bpm">{props.chart.bpmstring} BPM</p>
 				</div>
+				{props.modalOpened === props.chart.id && <CardModal
+				modalOpened		= {props.modalOpened}
+				setModalOpened	= {props.setModalOpened}
+				cardState		= {cardState}
+				setCardStatus	= {setCardStatus}
+				redraw 			= {props.redraw}
+				chartId 		= {props.chart.id} />}
 			</div>
-			{props.modalOpened === props.chart.id && <CardModal
-			modalOpened		= {props.modalOpened}
-			setModalOpened	= {props.setModalOpened}
-			setCardStatus	= {setCardStatus}
-			redraw 			= {props.redraw}
-			chartId 		= {props.chart.id} />}
 		</div>
 	</>)
+
+	const vetoedCard = (<>
+		<div className="vcard" ref={refCard}>
+			<div className="vcard-status" style={{"backgroundColor" : playerColorDark}}>
+				<p className="vcard-status-text">Vetoed</p>
+			</div>
+			<div key={props.chart.id} className="vcard-inner">
+				<div className="vcard-left">
+					<div className={diffClasses}>
+						<p className='vcard-text-diff'>{props.chart.difficulty}</p>
+					</div>
+					<div className="vcard-title"><p className="vcard-text-title" ref={refTitle}>{props.chart.title}</p>{noCmodTag}</div>
+				</div>
+			</div>
+			<div className="modal-close" onClick={() => setCardStatus([0, 0])}>
+				<Reset className="modal-close-icon"/>
+				<p className="modal-tooltip">Reset</p>
+			</div>
+		</div>
+	</>)
+
+	return cardState[0] !== 2 ? defaultCard : vetoedCard;
 }
 
 export default Card;

@@ -3,31 +3,60 @@
 @use '../util/mixins' as mixin;
 @use "sass:map";
 
+$card-width: 720px;
+$side-width: 65px;
+
 .card {
-  @include mixin.flex($align: space-between);
+  @include mixin.flex($align: stretch);
   @include mixin.border();
   z-index: 2;
   width: 80%;
-  max-width: 720px;
-  min-height: 65px;
-  padding: 12px;
-  user-select: none;
-  position: relative;
+  max-width: $card-width;
+  min-height: 64px;
   transition: border-color 0.15s;
-  
   &:hover {
+    border-color: color.$accent;
     cursor: pointer;
+  }
+
+  &-status {
+    @include mixin.flex($x-align: center);
+    width: $side-width;
+    border-radius: 2px 0 0 2px;
+    position: relative;
+    &-icon {
+      width: 58px;
+      fill: color.$lite;
+    }
+    &-text {
+      position: absolute;
+      font-size: 2.3em;
+      font-weight: 700;
+      letter-spacing: -1.25px;
+      color: black;
+      text-align: center;
+      top: 41%;
+      transform: translateY(-41%);
+    }
+  }
+
+  &-inner {
+    @include mixin.flex($align: space-between);
+    flex-grow: 1;
+    padding: 6px 12px;
+    user-select: none;
+    position: relative;
   }
   
   &-left {
     @include mixin.flex($align: normal, $x-align: center, $gap: 6px);
   }
   
-  $dim: 38px;
+  $diff-dim: 38px;
   &-diff {
     @include mixin.flex($x-align: center);
-    width: $dim;
-    height: $dim;
+    width: $diff-dim;
+    height: $diff-dim;
   }
   
   &-text-diff {
@@ -50,12 +79,13 @@
     &-artist {
       font-size: 1.2em;
       font-weight: 300;
-      margin: -6px 0 -4px;
+      margin: -3px 0 -6px;
     }
     
     &-subtitle {
       font-size: 1.2em;
       font-weight: 300;
+      margin: -4px 0 0;
     }
     
     &-nocmod {
@@ -69,43 +99,98 @@
     &-title {
       font-size: 2.2em;
       font-weight: 700;
-      white-space: nowrap;
-      max-width: 360px; //660-300
-      // mask-image: linear-gradient(90deg, color.$lite 95%, transparent);
+      line-height: normal;
     }
     
     &-tier {
-      font-size: 1.4em;
+      font-size: 1.5em;
       font-weight: 700;
     }
     
     &-bpm {
+      font-size: 1.1em;
       text-align: right;
     }
   }
 
   &-right {
     @include mixin.flex($dir: column, $x-align: end);
-
+    width: 65px;
     & > * {
       margin: -2px 0;
     }
+  }
+}
 
-    &-wrapper {
-      @include mixin.flex($x-align: center, $gap: 80px);
+.vcard {
+  @include mixin.flex($align: stretch, $x-align: stretch);
+  @include mixin.border($color: color.$neutral);
+  z-index: 2;
+  width: 80%;
+  max-width: 720px;
+  transition: border-color 0.15s;
+  &:hover {
+    border-color: color.$lite-dark;
+    cursor: pointer;
+  }
+
+  $padding: 4px 11px;
+  &-status {
+    @include mixin.flex($dir: row, $align: center, $x-align: center, $gap: 4px);
+    padding: $padding;
+    width: $side-width;
+    border-radius: 2px 0 0 2px;
+    &-text {
+      font-size: 1em;
+      font-weight: 700;
+      letter-spacing: -0.33px;
+      color: color.$dark-lite;
     }
   }
 
-  // Card status classes
-  &-status {
-    @include mixin.flex($x-align: center, $gap: 20px);
-    &-icon {
-      width: 26px;
-      fill: color.$lite;
-    }
-    &-playertext {
-      font-size: 2em;
+  &-inner {
+    @include mixin.flex($align: space-between);
+    flex-grow: 1;
+    user-select: none;
+    position: relative;
+    background-color: color.$neutral;
+    padding: $padding;
+  }
+  
+  &-left {
+    @include mixin.flex($align: normal, $x-align: center, $gap: 4px);
+  }
+  
+  $diff-dim: 20px;
+  &-diff {
+    @include mixin.flex($x-align: center);
+    width: $diff-dim;
+    height: $diff-dim;
+  }
+  
+  &-text-diff {
+    @include font.mega(0.75em);
+  }
+  
+  &-title {
+    @include mixin.flex($x-align: center, $gap: 4px);
+  }
+
+  &-text {
+    &-nocmod {
+      display: inline-block;
+      color: color.$lite-dark;
+      border-radius: 4px;
+      &::before { content: "(" }
+      &::after { content: ")" }
+    } 
+    
+    &-title {
+      font-size: 1.3em;
       font-weight: 700;
+      white-space: nowrap;
+      max-width: 360px; //660-300
+      // mask-image: linear-gradient(90deg, color.$lite 95%, transparent);
     }
   }
 }

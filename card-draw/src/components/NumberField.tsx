@@ -26,7 +26,6 @@ const NumberField = (props: any) => {
     }
 
     const otherChange = (e: any) => {
-        console.log(e.currentTarget.value);
         let n = !isNaN(Number(e.currentTarget.value)) ? Number(e.currentTarget.value) : value;
         n = clamp(n, props.min, props.max);
         setValue(n);

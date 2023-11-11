@@ -42,6 +42,17 @@
       fill: color.$lite;
     }
   }
+
+  &-close {
+    position: relative;
+    padding: 3px 16px;
+    background-color: color.$neutral;
+    &-icon {
+      width: 23px;
+      margin-bottom: -3px;
+      fill: color.$lite;
+    }
+  }
   
   &-settings {
     width: 32px;
@@ -74,7 +85,11 @@
       border-color: color.$darkest transparent transparent transparent;
     }
   }
-  &-button:hover &-tooltip {
+  &-close &-tooltip {
+    left: -2px;
+  }
+  &-button:hover &-tooltip, 
+  &-close:hover &-tooltip {
     opacity: 1;
     top: -34px;
   }
