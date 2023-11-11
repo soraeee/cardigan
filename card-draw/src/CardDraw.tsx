@@ -47,7 +47,6 @@ const CardDraw = () => {
 		//populateCharts();
 		setEligibleCharts([chartarr, []]);
 	}, []);
-
 	// Gets transliterated string, if available
 	const translit = (chart: {[index: string]:any}, prop: string) => {
 		return (chart[`${prop}translit`] != "") ? chart[`${prop}translit`] : chart[`${prop}`];
@@ -117,6 +116,16 @@ const CardDraw = () => {
 	const winsTotal	= winsP1 + winsP2;
 	const lossesP1	= winsTotal - winsP1;
 	const lossesP2	= winsTotal - winsP2;
+
+	// Get, clear values of input fields
+	const [matchName, setMatchName] = useState<string>('');
+	const [p1Name, setP1Name] = useState<string>('');
+	const [p2Name, setP2Name] = useState<string>('');
+	const inputSetFuncs = [setMatchName, setP1Name, setP2Name];
+	const changeMatchName = (e: any) => setMatchName(e.target.value);
+	const changeP1Name = (e: any) => setP1Name(e.target.value);
+	const changeP2Name = (e: any) => setP2Name(e.target.value);
+	const clearFields = () => inputSetFuncs.forEach(func => func(''));
 
 	// Draw n number of charts from the available pool
 	const draw = () => {
@@ -221,6 +230,7 @@ const CardDraw = () => {
 		setProtectOrder(0);
 		setWinsP1(0);
 		setWinsP2(0);
+		clearFields();
 	}
 
 	// Reset removed pool and toggle no replacement setting
@@ -250,7 +260,7 @@ const CardDraw = () => {
 		<div className="display">
 			<div className="match">
 				<div className="input">
-					<input className="match-name" type="text" placeholder="Pool name"/>
+					<input className="match-name" type="text" placeholder="Pool name" value={matchName} onChange={changeMatchName}/>
 				</div>
 				<div className="match-players">
 					<div className="player-p1">
@@ -258,7 +268,7 @@ const CardDraw = () => {
 							<p className="player-id-text">P1</p>
 						</div>
 						<div className="player-info">
-							<input className="player-name" type="text" placeholder="Player 1"/>
+							<input className="player-name"type="text" placeholder="Player 1" value={p1Name} onChange={changeP1Name} />
 							<p className="player-score">({winsP1}-{lossesP1})</p>
 						</div>
 					</div>
@@ -267,7 +277,7 @@ const CardDraw = () => {
 							<p className="player-id-text">P2</p>
 						</div>
 						<div className="player-info">
-							<input className="player-name" type="text" placeholder="Player 2"/>
+							<input className="player-name"type="text" placeholder="Player 2" value={p2Name} onChange={changeP2Name} />
 							<p className="player-score">({winsP2}-{lossesP2})</p>
 						</div>
 					</div>
