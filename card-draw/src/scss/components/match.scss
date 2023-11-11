@@ -10,7 +10,7 @@
     @include font.miso(2.25em, color.$lite, 700);
     @include mixin.border($color: transparent);
     line-height: 0;
-    background-color: color.$darken;
+    background-color: color.$dark2;
     outline: unset;
     padding: 8px 12px;
     width: 100%;
@@ -55,12 +55,14 @@
     @include mixin.flex($x-align: center);
     width: $dim;
     height: $dim;
+    user-select: none;
     &-text {
       @include font.mega(0.75em);
     }
   }
   &-info {
     @include mixin.flex($x-align: center);
+    user-select: none;
   }
   
   $pw: 12px;
@@ -69,7 +71,7 @@
     @include mixin.border($color: transparent);
     letter-spacing: -0.5px;
     line-height: 0;
-    background-color: color.$darken;
+    background-color: color.$dark2;
     outline: unset;
     padding: 4px $pw;
     width: 240px;

@@ -13,6 +13,7 @@ $side-width: 65px;
   width: 80%;
   max-width: $card-width;
   min-height: 64px;
+  user-select: none;
   transition: border-color 0.15s;
   &:hover {
     border-color: color.$accent;
@@ -30,13 +31,13 @@ $side-width: 65px;
     }
     &-text {
       position: absolute;
-      font-size: 2.3em;
+      font-size: 3em;
       font-weight: 700;
-      letter-spacing: -1.25px;
+      letter-spacing: -2px;
       color: black;
       text-align: center;
-      top: 41%;
-      transform: translateY(-41%);
+      top: 43%;
+      transform: translateY(-43%);
     }
   }
 
@@ -44,7 +45,7 @@ $side-width: 65px;
     @include mixin.flex($align: space-between);
     flex-grow: 1;
     padding: 6px 12px;
-    user-select: none;
+    border-radius: 0 2px 2px 0;
     position: relative;
   }
   
@@ -115,19 +116,18 @@ $side-width: 65px;
 
   &-right {
     @include mixin.flex($dir: column, $x-align: end);
-    width: 65px;
+    width: 74px;
     & > * {
       margin: -2px 0;
     }
   }
 }
-
 .vcard {
   @include mixin.flex($align: stretch, $x-align: stretch);
   @include mixin.border($color: color.$neutral);
   z-index: 2;
   width: 80%;
-  max-width: 720px;
+  max-width: $card-width;
   transition: border-color 0.15s;
   &:hover {
     border-color: color.$lite-dark;
@@ -180,7 +180,6 @@ $side-width: 65px;
     &-nocmod {
       display: inline-block;
       color: color.$lite-dark;
-      border-radius: 4px;
       &::before { content: "(" }
       &::after { content: ")" }
     } 
@@ -188,18 +187,13 @@ $side-width: 65px;
     &-title {
       font-size: 1.3em;
       font-weight: 700;
-      white-space: nowrap;
-      max-width: 360px; //660-300
-      // mask-image: linear-gradient(90deg, color.$lite 95%, transparent);
     }
   }
 }
 
 // I'M JUST BUILT [DIFF]ERENT
-.diff {
-  @each $diff in map.keys(color.$diffs) {
-    &-#{$diff} {
-      background-color: map.get(color.$diffs, $diff);
-    }
+@each $diff in map.keys(color.$diffs) {
+  .diff-#{$diff} {
+    background-color: map.get(color.$diffs, $diff);
   }
 }

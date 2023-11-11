@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Card from './components/Card';
 import NumberField from './components/NumberField';
 
-function CardDraw() {
+const CardDraw = () => {
 
 	interface Chart {
 		id:				number;
@@ -59,37 +59,35 @@ function CardDraw() {
 	const populateCharts = () => {
 		// Process chart metadata to something that we actually need
 		chartJSON.charts.forEach(chart => {
-			{
-				// Convert "[Txx] name" format into a Tier value
-				const tier: number = Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]);
+			// Convert "[Txx] name" format into a Tier value
+			const tier: number = Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]);
 
-				const songtitle: string = translit(chart, "title").replace(/\[T\d{1,2}\]\s?/, "");
-				const songartist: string = translit(chart, "artist");
-				const songsubtitle: string = translit(chart, "subtitle");
+			const songtitle: string = translit(chart, "title").replace(/\[T\d{1,2}\]\s?/, "");
+			const songartist: string = translit(chart, "artist");
+			const songsubtitle: string = translit(chart, "subtitle");
 
-				let displaybpmFormatted = strround(chart.displaybpm[0]);
-				if (chart.displaybpm[0] !== chart.displaybpm[1]) {
-					displaybpmFormatted += " - " + strround(chart.displaybpm[1]);
-				}
-
-				const hasGfx = chart.gfxPath != "";
-
-				// Add properly formatted metadata to array
-				chartarr.push({
-					id:				Number(chart.sid),
-					title:			songtitle.replace(/\(No CMOD\)/, "").trim(),
-					artist:			songartist,
-					subtitle:		songsubtitle,
-					difficulty:		chart.difficulties[0].difficulty,
-					difficultyslot:	chart.difficulties[0].slot,
-					displaybpm:		chart.displaybpm,
-					bpmstring:		displaybpmFormatted,
-					tier:			tier,
-					nocmod:			/\(No CMOD\)/.test(songtitle),
-					gfxPath:		chart.gfxPath,
-					hasGfx:			hasGfx,
-				});
+			let displaybpmFormatted = strround(chart.displaybpm[0]);
+			if (chart.displaybpm[0] !== chart.displaybpm[1]) {
+				displaybpmFormatted += " - " + strround(chart.displaybpm[1]);
 			}
+
+			const hasGfx = chart.gfxPath != "";
+
+			// Add properly formatted metadata to array
+			chartarr.push({
+				id:				Number(chart.sid),
+				title:			songtitle.replace(/\(No CMOD\)/, "").trim(),
+				artist:			songartist,
+				subtitle:		songsubtitle,
+				difficulty:		chart.difficulties[0].difficulty,
+				difficultyslot:	chart.difficulties[0].slot,
+				displaybpm:		chart.displaybpm,
+				bpmstring:		displaybpmFormatted,
+				tier:			tier,
+				nocmod:			/\(No CMOD\)/.test(songtitle),
+				gfxPath:		chart.gfxPath,
+				hasGfx:			hasGfx,
+			});
 		});
 	}
 
@@ -112,6 +110,13 @@ function CardDraw() {
 		})
 		setEligibleCharts([chartsInRange, []]);
 	}
+
+	// Calculate win-loss stats
+	const [winsP1, setWinsP1] = useState<number>(0);
+	const [winsP2, setWinsP2] = useState<number>(0);
+	const winsTotal	= winsP1 + winsP2;
+	const lossesP1	= winsTotal - winsP1;
+	const lossesP2	= winsTotal - winsP2;
 
 	// Draw n number of charts from the available pool
 	const draw = () => {
@@ -150,6 +155,8 @@ function CardDraw() {
 		setModalOpened(-1);
 		setProtectOrder(0);
 		setNumDraw(numDraw + 1);
+		setWinsP1(0);
+		setWinsP2(0);
 	}
 
 	// This is fucking stupid, i don't know what i'm doing
@@ -212,6 +219,8 @@ function CardDraw() {
 		setSpread([]);
 		setModalOpened(-1);
 		setProtectOrder(0);
+		setWinsP1(0);
+		setWinsP2(0);
 	}
 
 	// Reset removed pool and toggle no replacement setting
@@ -219,7 +228,7 @@ function CardDraw() {
 		setNoRP(value)
 		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []])
 	}
-
+	
 	return (<>
 		{/* Modal closes when clicking outside of the modal */}
 		{modalOpened > -1 && <div className="backdrop" onClick={() => setModalOpened(-1)}></div>}
@@ -250,7 +259,7 @@ function CardDraw() {
 						</div>
 						<div className="player-info">
 							<input className="player-name" type="text" placeholder="Player 1"/>
-							<p className="player-score">(0-0)</p>
+							<p className="player-score">({winsP1}-{lossesP1})</p>
 						</div>
 					</div>
 					<div className="player-p2">
@@ -259,7 +268,7 @@ function CardDraw() {
 						</div>
 						<div className="player-info">
 							<input className="player-name" type="text" placeholder="Player 2"/>
-							<p className="player-score">(0-0)</p>
+							<p className="player-score">({winsP2}-{lossesP2})</p>
 						</div>
 					</div>
 				</div>
@@ -282,6 +291,10 @@ function CardDraw() {
 					setProtectOrder	= {setProtectOrder}
 					numDraw			= {numDraw}
 					redraw			= {redraw}
+					// AAAAAA
+					onChange		= {(n: number, pn: number) => {
+						pn === 1 ? setWinsP1(winsP1 + n) : setWinsP2(winsP2 + n)
+					}}
 				/>)
 			})}
 		</div>

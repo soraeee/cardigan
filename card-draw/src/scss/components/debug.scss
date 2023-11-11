@@ -7,7 +7,7 @@
   margin-bottom: 32px;
   &-detail {
     @include font.mono(11px);
-    background-color: color.$darken;
+    background-color: color.$dark2;
     width: 45%;
     padding: 16px;
     text-align: justify;

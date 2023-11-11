@@ -3,7 +3,7 @@
 @use '../util/mixins' as mixin;
 
 .modal {
-  @include mixin.flex($x-align: center, $gap: 24px);
+  @include mixin.flex($x-align: center, $gap: 14px);
   z-index: 3;
   position: absolute;
   top: 0;
@@ -15,22 +15,22 @@
   padding: 8px 12px;
 
   &-section {
-    @include mixin.flex($x-align: center, $gap: 8px);
+    @include mixin.flex($x-align: center, $gap: 4px);
     &-inner {
-      @include mixin.flex($gap: 6px);
+      @include mixin.flex($gap: 4px);
     }
   }
 
   &-text-major {
-    font-size: 2em;
+    font-size: 1.8em;
     font-weight: 700;
   }
   
   &-button {
-    @include mixin.flex($align: space-between, $x-align: center, $gap: 8px);
+    @include mixin.flex($align: center);
     @include mixin.border($radius: 6px);
     position: relative;
-    padding: 6px;
+    padding: 4px;
     background-color: color.$dark;
     cursor: pointer;
     transition: border-color 0.15s, background-color 0.15s;
@@ -38,7 +38,7 @@
       border-color: color.$accent;
     }
     & > svg {
-      width: 26px;
+      width: 25px;
       fill: color.$lite;
     }
   }
@@ -55,8 +55,8 @@
   }
   
   &-settings {
-    width: 32px;
-    fill: #d6db41;
+    width: 28px;
+    fill: color.$lite-dark;
   }
 
   &-tooltip {
@@ -70,7 +70,7 @@
     border-radius: 4px;
     padding: 4px 0;
     position: absolute;
-    left: -11px;
+    left: -13px;
     top: -32px;
     z-index: 3;
     transition: opacity 0.15s, top 0.15s ease-in-out;
