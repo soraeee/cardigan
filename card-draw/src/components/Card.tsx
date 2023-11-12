@@ -37,7 +37,7 @@ const Card = (props: any) => {
 	if (props.chart.hasGfx) {
 		let backgroundCss = `linear-gradient(90deg, #0a0a0af0 15%, #161616a7 100%), url("rip135-assets/${props.chart.gfxPath}")`;
 		if (cardState[0] === 3) {
-			backgroundCss = `linear-gradient(90deg, ${playerColorDark}f0, 30%, #161616a7 100%), url("rip135-assets/${props.chart.gfxPath}")`;
+			backgroundCss = `linear-gradient(90deg, ${playerColorDark}df, 50%, #161616a7 100%), url("rip135-assets/${props.chart.gfxPath}")`;
 		}
 		bannerBackground = {
 			"background": backgroundCss,

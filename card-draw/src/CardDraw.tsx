@@ -2,6 +2,7 @@ import chartJSON from './pack.json'
 import { useState, useEffect } from 'react';
 import Card from './components/Card';
 import NumberField from './components/NumberField';
+import DialogBox from './components/DialogBox';
 
 const CardDraw = () => {
 
@@ -21,7 +22,7 @@ const CardDraw = () => {
 	}
 
 	// Toggle to see eligible/used card pools
-	const debug = false;
+	const debug = true;
 
 	const chartarr: Chart[] = [];
 	const defaultNumToDraw = 7;
@@ -166,6 +167,10 @@ const CardDraw = () => {
 		setNumDraw(numDraw + 1);
 		setWinsP1(0);
 		setWinsP2(0);
+		// may remove if auto-clearing gets annoying
+		if (spread.length !== 0) {
+			clearFields()
+		} 
 	}
 
 	// This is fucking stupid, i don't know what i'm doing
@@ -221,10 +226,9 @@ const CardDraw = () => {
 		setSpread(newSpread);
 	}
 
-	// Reset card draw
-	// Useful for no replacement draws
-	const reset = () => {
-		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []]);
+	// Clear card draw
+	// Just for aesthetics tbh
+	const clear = () => {
 		setSpread([]);
 		setModalOpened(-1);
 		setProtectOrder(0);
@@ -233,28 +237,77 @@ const CardDraw = () => {
 		clearFields();
 	}
 
+	// Reset card draw
+	// Useful for no replacement draws
+	const reset = () => {
+		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []]);
+		clear();
+	}
+
 	// Reset removed pool and toggle no replacement setting
 	const changeNoRP = (value: boolean) => {
 		setNoRP(value)
 		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []])
 	}
 	
+	// Handle all confirm-able changes here
+	const [dboxOpened, setDboxOpened] = useState<boolean>(false);
+	const [dboxMessage, setDboxMessage] = useState<string>("");
+	const [dboxAction, setDboxAction] = useState<any>(() => null);
+	// TODO: Make dialog boxes pop up for params,dupe protection, card-redraw change
+
+	// Reset
+	const handleReset = () => {
+		if (eligibleCharts[1].length !== 0) {
+			setDboxMessage("Resetting everything will reset the available charts to select from the pool. Continue?");
+			setDboxAction(() => reset);
+			setDboxOpened(true);	
+		}
+	}
+	// Clear
+	const handleClear = () => {
+		if (spread.length !== 0) {
+			setDboxMessage("Continue with set clear? This will not affect available charts.");
+			setDboxAction(() => clear);
+			setDboxOpened(true);	
+		} else {
+			clear();
+		}		
+	}
+	// Draw
+	const handleDraw = () => {
+		if (spread.length !== 0) {
+			setDboxMessage("Continue with new card draw?");
+			setDboxAction(() => draw);
+			setDboxOpened(true);	
+		} else {
+			draw();
+		}		
+	}
+	
 	return (<>
 		{/* Modal closes when clicking outside of the modal */}
 		{modalOpened > -1 && <div className="backdrop" onClick={() => setModalOpened(-1)}></div>}
+		{dboxOpened && <div className="backdrop-dbox" onClick={() => setDboxOpened(false)}></div>}
 		<div className="header">
 			<div className="settings">
-				<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
-				<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}} />
-				<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}} />
-				<div className="checkbox">
-					<p className="checkbox-label">Dupe protection</p>
-					<input className="checkbox-input" type="checkbox" name="norp" id="norp" value="norp-enabled" onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP}/>
+				<div className="settings-inner">
+					<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
+					<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}}/>
+					<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}}/>
+					<div className="checkbox">
+						<p className="checkbox-label">Dupe protection</p>
+						<input className="checkbox-input" type="checkbox" name="norp" id="norp" value="norp-enabled" onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP}/>
+					</div>
 				</div>
+				<p className="settings-warning"><b>NOTE:</b> Changing any of these settings <u>does not prompt a dialog box</u> and will <u>RESET</u> the available charts to select from the pool if dupe protection is on. Please be careful!!</p>
 			</div>
 			<div className="actions">
-				<button onClick={draw} className="action-draw">Draw</button>
-				<button onClick={reset} className="action-reset">Reset</button>
+				<div className="actions-resets">
+					<button onClick={handleClear} className="action-clear">Clear</button>
+					<button onClick={handleReset} className="action-reset">Reset</button>
+				</div>
+				<button onClick={handleDraw} className="action-draw">Draw</button>
 			</div>
 		</div>
 		<div className="display">
@@ -320,6 +373,12 @@ const CardDraw = () => {
 				</div>
 			</div>
 		</>}
+		{dboxOpened && <DialogBox
+			setDboxOpened	= {setDboxOpened}
+			message		= {dboxMessage}
+			onConfirm	= {dboxAction}
+			onCancel	= {() => setDboxOpened(false)}
+		/>}
 	</>)
 }
 export default CardDraw

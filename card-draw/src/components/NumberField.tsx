@@ -11,6 +11,13 @@ const NumberField = (props: any) => {
 		return Math.min(Math.max(n, min), max);
 	}
 
+    // Performs a confirmation
+    //const confirm = async () => {
+    //    if (props.confirm) {
+    //    }
+    //    return res;
+    //}
+
     const increment = () => {
         let n = value + 1;
         n = clamp(n, props.min, props.max);

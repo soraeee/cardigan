@@ -4,23 +4,39 @@
 
 .header {
   @include mixin.flex($align: space-between);
-  padding: 24px 36px;
+  padding: 18px 36px;
   background-color: color.$dark2;
 }
 
 .settings {
-  @include mixin.flex($align: space-between, $x-align: end, $gap: 32px);
+  @include mixin.flex($dir: column, $gap: 4px);
+  &-inner {
+    @include mixin.flex($align: space-between, $x-align: end, $gap: 32px);
+  }
+  &-warning {
+    max-width: 372px;
+    text-align: justify;
+    color: color.$lite-dark;
+    letter-spacing: -0.4px;
+    & u {
+      text-decoration-thickness: 1px;
+      color: color.$warning;
+      font-weight: 700;
+    }
+  }
 }
 
 .actions {
-  @include mixin.flex($align: space-between, $x-align: end, $gap: 32px);
+  @include mixin.flex($dir: column, $align: center, $x-align: end, $gap: 4px);
+  &-resets {
+    @include mixin.flex($gap: 4px);
+  }
 }
 
 .action {
-  @include font.miso(1.8em, $weight: 700);
+  @include font.miso(2.2em, $weight: 700);
   letter-spacing: 0;
   line-height: 1em;
-  padding: 6px 36px;
   background-color: color.$dark;
   @include mixin.border($radius: 6px, $color: color.$neutral);
   cursor: pointer;
@@ -28,13 +44,26 @@
 
   &-draw {
     @extend .action;
+    padding: 2px 48px;
     color: color.$accent;
     &:hover {
       background-color: color.$accent-dark;
       border-color: color.$accent;
     }
   }
+  &-clear {
+    font-size: 1.45em;
+    padding: 2px 25px;
+    @extend .action;
+    color: color.$lite;
+    &:hover {
+      background-color: color.$dark-lite;
+      border-color: color.$lite-dark;
+    }
+  }
   &-reset {
+    font-size: 1.2em;
+    padding: 4px 12px;
     @extend .action;
     color: color.$warning;
     &:hover {
