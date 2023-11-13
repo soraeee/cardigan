@@ -9,12 +9,18 @@
 }
 
 .settings {
-  @include mixin.flex($dir: column, $gap: 4px);
+  @include mixin.flex($gap: 32px);
   &-inner {
     @include mixin.flex($align: space-between, $x-align: end, $gap: 32px);
   }
+  &-fields {
+    @include mixin.flex($dir: column, $align: center, $gap: 8px);
+  }
+  &-checks {
+    @include mixin.flex($dir: column, $align: center, $gap: 8px);
+  }
   &-warning {
-    max-width: 372px;
+    max-width: 292px;
     text-align: justify;
     color: color.$lite-dark;
     letter-spacing: -0.4px;

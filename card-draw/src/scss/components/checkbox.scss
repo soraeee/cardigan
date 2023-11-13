@@ -4,38 +4,45 @@
 
 .checkbox {
   user-select: none;
+  @include mixin.flex($align: start, $x-align: center, $gap: 4px);
+  cursor: pointer;
 
   &-label {
     font-size: 1.2em;
     font-weight: 300;
-    margin-bottom: 3.5px;
+    transition: color 0.15s;
+    &:hover {
+      color: color.$lite-dark;
+    }
   }
 
-  $dim: 48px;
+  $dim: 20px;
   &-input {
     appearance: none;
     margin: 0;
     height: $dim;
     width: $dim;
     @include mixin.border();
-    cursor: pointer;
     position: relative;
     transition: border-color 0.15s, background-color 0.15s;
+    cursor: pointer;
 
     &:after {
-      content: "Off";
-      @include font.miso(3em, color.$dark-lite, 700);
-      line-height: 1.1;
-      margin-right: 1px;
-      color: color.$dark-lite;
+      content: "";
+      height: $dim - 5;
+      width: $dim - 5;
+      margin-top: 1px;
+      margin-left: 1px;
+      background-color: transparent;
+      transform-origin: bottom left;
+      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
       display: block;
       text-align: center;
-      transition: color 0.15s;
+      transition: background-color 0.15s;
     }
 
     &:checked:after {
-      content: "On";
-      color: color.$accent;
+      background-color: color.$accent;
     }
 
     &:hover {

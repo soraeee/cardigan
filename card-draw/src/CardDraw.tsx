@@ -25,9 +25,6 @@ const CardDraw = () => {
 		hasGfx:			boolean;
 	}
 
-	// Toggle to see eligible/used card pools
-	const debug = true;
-
 	const chartarr: Chart[] = [];
 	const defaultNumToDraw = 7;
 	const [defaultMin, defaultMax] = [1, 11];
@@ -45,7 +42,11 @@ const CardDraw = () => {
 	// fuck this lol, only way i can think of trying to tell Card that a new draw happened without lifting cardState up
 	const [numDraw, setNumDraw] = useState<number>(0);
 
+	// Checkbox stuff
 	const [noRP, setNoRP] = useState<boolean>(true);
+	const [debug, setDebug] = useState<boolean>(true);
+	const [autoclear, setAutoclear] = useState<boolean>(true);
+	const [noConfirms, setNoConfirms] = useState<boolean>(false);
 
 	// init
 	useEffect(() => {
@@ -171,9 +172,8 @@ const CardDraw = () => {
 		setNumDraw(numDraw + 1);
 		setWinsP1(0);
 		setWinsP2(0);
-		// may remove if auto-clearing gets annoying
-		if (spread.length !== 0) {
-			clearFields()
+		if (spread.length !== 0 && autoclear) {
+			clearFields();
 		} 
 	}
 
@@ -270,7 +270,7 @@ const CardDraw = () => {
 	}
 	// Clear
 	const handleClear = () => {
-		if (spread.length !== 0) {
+		if (spread.length !== 0 && !noConfirms) {
 			setDboxMessage("Continue with set clear? This will not affect available charts.");
 			setDboxAction(() => clear);
 			setDboxOpened(true);	
@@ -280,7 +280,7 @@ const CardDraw = () => {
 	}
 	// Draw
 	const handleDraw = () => {
-		if (spread.length !== 0) {
+		if (spread.length !== 0 && !noConfirms) {
 			setDboxMessage("Continue with new card draw?");
 			setDboxAction(() => draw);
 			setDboxOpened(true);	
@@ -295,16 +295,40 @@ const CardDraw = () => {
 		{dboxOpened && <div className="backdrop-dbox" onClick={() => setDboxOpened(false)}></div>}
 		<div className="header">
 			<div className="settings">
-				<div className="settings-inner">
-					<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
-					<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}}/>
-					<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}}/>
-					<div className="checkbox">
-						<p className="checkbox-label">Dupe protection</p>
-						<input className="checkbox-input" type="checkbox" name="norp" id="norp" value="norp-enabled" onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP}/>
+				<div className="settings-fields">
+					<div className="settings-inner">
+						<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
+						<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}}/>
+						<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}}/>
 					</div>
+					<p className="settings-warning"><b>NOTE:</b> Changing <b className="text-p2">tier ranges</b> and <b className="text-p2">dupe protection</b> <u>does not prompt a dialog box</u> and will <u>RESET</u> the available charts to select from the pool if dupe protection is on. Please be careful!!</p>
 				</div>
-				<p className="settings-warning"><b>NOTE:</b> Changing any of these settings <u>does not prompt a dialog box</u> and will <u>RESET</u> the available charts to select from the pool if dupe protection is on. Please be careful!!</p>
+				<div className="settings-checks">
+					<label className="checkbox">
+						<input className="checkbox-input" type="checkbox"
+						name="norp" id="norp" value="norp-enabled"
+						onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP}/>
+						<p className="checkbox-label">Dupe protection</p>
+					</label>
+					<label className="checkbox">
+						<input className="checkbox-input" type="checkbox"
+						name="debug" id="debug" value="debug-enabled"
+						onChange={() => setDebug(!debug) } defaultChecked={debug}/>
+						<p className="checkbox-label">Debug menu</p>
+					</label>
+					<label className="checkbox">
+						<input className="checkbox-input" type="checkbox"
+						name="autoclear" id="autoclear" value="autoclear-enabled"
+						onChange={() => setAutoclear(!autoclear) } defaultChecked={autoclear}/>
+						<p className="checkbox-label">Clear pool/players on new draw</p>
+					</label>
+					<label className="checkbox">
+						<input className="checkbox-input" type="checkbox"
+						name="noconfirms" id="noconfirms" value="noconfirms-enabled"
+						onChange={() => setNoConfirms(!noConfirms) } defaultChecked={noConfirms}/>
+						<p className="checkbox-label">Disable non-reset confirmations</p>
+					</label>
+				</div>
 			</div>
 			<div className="actions">
 				<div className="actions-resets">
