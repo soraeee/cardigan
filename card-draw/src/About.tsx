@@ -1,6 +1,3 @@
-import './index.css';
-import './reset.css';
-
 function About() {
 	return (<>
 		<div className="about-wrapper">

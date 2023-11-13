@@ -1,6 +1,3 @@
-import './index.css';
-import './reset.css';
-
 function Footer(props: any) {
 	return (<>
 		<footer className="footer">

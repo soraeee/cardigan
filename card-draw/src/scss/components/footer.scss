@@ -3,6 +3,7 @@
 @use '../util/mixins' as mixin;
 
 .footer {
+  @include mixin.flex($dir: row, $align: center);
   grid-area: footer;
   background: color.$dark2;
   width: 100%;

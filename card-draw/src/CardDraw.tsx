@@ -40,7 +40,7 @@ const CardDraw = () => {
 	// Modal will open when chart's ID matches this state
 	const [modalOpened, setModalOpened] = useState<number>(-1);
 
-	// fuck this lol, only way i can think of trying to tell Card that a new draw happened without lifting cardState up
+	// only way i can think of trying to tell Card that a new draw happened without lifting cardState up. help
 	const [updateCard, setupdateCard] = useState<number>(0);
 
 	// Checkbox stuff
@@ -185,7 +185,7 @@ const CardDraw = () => {
 		} 
 	}
 
-	// This is fucking stupid, i don't know what i'm doing
+	// This is stupid, i don't know what i'm doing
 	const redraw = (id: number) => {
 		// Find index of chart to redraw
 		let ind: number = -1;
@@ -200,6 +200,11 @@ const CardDraw = () => {
 		let chartPool: Chart[] = eligibleCharts[0];
 		let nextChart: Chart;
 		let spentCharts: Chart[] = eligibleCharts[1];
+		
+		// Fisher-Yates shuffle
+		for (let i = chartPool.length - 1; i >= 0; i--) {
+			swapIndices(i, getRandomInt(i), chartPool);
+		}
 
 		// Get the next chart in line
 		if (noRP) { // Redraw with no replacement enabled
@@ -324,7 +329,7 @@ const CardDraw = () => {
 						<input className="checkbox-input" type="checkbox"
 						name="debug" id="debug" value="debug-enabled"
 						onChange={() => setDebug(!debug) } defaultChecked={debug}/>
-						<p className="checkbox-label">Debug menu</p>
+						<p className="checkbox-label">Show remaining/discarded charts in the pool</p>
 					</label>
 					<label className="checkbox">
 						<input className="checkbox-input" type="checkbox"
@@ -413,7 +418,7 @@ const CardDraw = () => {
 		{debug && <>
 			<div className="debug">
 				<div className="debug-detail">
-					<b className="text-p1">yea ({eligibleCharts[0].length})</b>
+					<b className="text-p2">Charts remaining ({eligibleCharts[0].length})</b>
 					<div className="debug-list">
 					{eligibleCharts[0]
 					.sort((a:Chart, b:Chart) => Number(a.title > b.title))
@@ -425,7 +430,7 @@ const CardDraw = () => {
 					})}</div>
 				</div>
 				<div className="debug-detail">
-					<b className="text-p2">nah ({eligibleCharts[1].length})</b>
+					<b className="text-p1">Discarded charts ({eligibleCharts[1].length})</b>
 					<div className="debug-list">
 					{eligibleCharts[1]
 					.sort((a:Chart, b:Chart) => Number(a.title > b.title))
