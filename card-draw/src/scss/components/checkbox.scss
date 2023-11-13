@@ -1,0 +1,56 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+
+.checkbox {
+  user-select: none;
+  @include mixin.flex($align: start, $x-align: center, $gap: 4px);
+  cursor: pointer;
+
+  &-label {
+    font-size: 1.2em;
+    font-weight: 300;
+    transition: color 0.15s;
+    &:hover {
+      color: color.$lite-dark;
+    }
+  }
+
+  $dim: 20px;
+  &-input {
+    appearance: none;
+    margin: 0;
+    height: $dim;
+    width: $dim;
+    @include mixin.border();
+    position: relative;
+    transition: border-color 0.15s, background-color 0.15s;
+    cursor: pointer;
+
+    &:after {
+      content: "";
+      height: $dim - 5;
+      width: $dim - 5;
+      margin-top: 1px;
+      margin-left: 1px;
+      background-color: transparent;
+      transform-origin: bottom left;
+      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+      display: block;
+      text-align: center;
+      transition: background-color 0.15s;
+    }
+
+    &:checked:after {
+      background-color: color.$accent;
+    }
+
+    &:hover {
+      background-color: color.$accent-dark;
+      border-color: color.$accent;
+      &:not(:checked):after {
+        color: color.$neutral;
+      }
+    }
+  }
+}

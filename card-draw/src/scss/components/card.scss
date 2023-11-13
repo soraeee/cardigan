@@ -1,0 +1,199 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+@use "sass:map";
+
+$card-width: 720px;
+$side-width: 65px;
+
+.card {
+  @include mixin.flex($align: stretch);
+  @include mixin.border();
+  z-index: 2;
+  width: 80%;
+  max-width: $card-width;
+  min-height: 64px;
+  user-select: none;
+  transition: border-color 0.15s;
+  &:hover {
+    border-color: color.$accent;
+    cursor: pointer;
+  }
+
+  &-status {
+    @include mixin.flex($x-align: center);
+    width: $side-width;
+    border-radius: 2px 0 0 2px;
+    position: relative;
+    &-icon {
+      width: 58px;
+      fill: color.$lite;
+    }
+    &-text {
+      position: absolute;
+      font-size: 3em;
+      font-weight: 700;
+      letter-spacing: -2px;
+      color: black;
+      text-align: center;
+      top: 43%;
+      transform: translateY(-43%);
+    }
+  }
+
+  &-inner {
+    @include mixin.flex($align: space-between);
+    flex-grow: 1;
+    padding: 6px 12px;
+    border-radius: 0 2px 2px 0;
+    position: relative;
+  }
+  
+  &-left {
+    @include mixin.flex($align: normal, $x-align: center, $gap: 6px);
+  }
+  
+  $diff-dim: 38px;
+  &-diff {
+    @include mixin.flex($x-align: center);
+    width: $diff-dim;
+    height: $diff-dim;
+  }
+  
+  &-text-diff {
+    @include font.mega(1.4em);
+  }
+  
+  &-meta {
+    @include mixin.flex($dir: column, $x-align: start);
+  }
+  
+  &-meta>* {
+    margin: -2px 0;
+  }
+  
+  &-title {
+    @include mixin.flex($x-align: center, $gap: 6px);
+  }
+
+  &-text {
+    &-artist {
+      font-size: 1.2em;
+      font-weight: 300;
+      margin: -3px 0 -6px;
+    }
+    
+    &-subtitle {
+      font-size: 1.2em;
+      font-weight: 300;
+      margin: -4px 0 0;
+    }
+    
+    &-nocmod {
+      display: inline-block;
+      background-color: color.$warning;
+      color: black;
+      padding: 2px 4px;
+      border-radius: 4px;
+    } 
+    
+    &-title {
+      font-size: 2.2em;
+      font-weight: 700;
+      line-height: normal;
+    }
+    
+    &-tier {
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+    
+    &-bpm {
+      font-size: 1.1em;
+      text-align: right;
+    }
+  }
+
+  &-right {
+    @include mixin.flex($dir: column, $x-align: end);
+    width: 74px;
+    & > * {
+      margin: -2px 0;
+    }
+  }
+}
+.vcard {
+  @include mixin.flex($align: stretch, $x-align: stretch);
+  @include mixin.border($color: color.$neutral);
+  z-index: 2;
+  width: 80%;
+  max-width: $card-width;
+  transition: border-color 0.15s;
+  &:hover {
+    border-color: color.$lite-dark;
+    cursor: pointer;
+  }
+
+  $padding: 4px 11px;
+  &-status {
+    @include mixin.flex($dir: row, $align: center, $x-align: center, $gap: 4px);
+    padding: $padding;
+    width: $side-width;
+    border-radius: 2px 0 0 2px;
+    &-text {
+      font-size: 1em;
+      font-weight: 700;
+      letter-spacing: -0.33px;
+      color: color.$dark-lite;
+    }
+  }
+
+  &-inner {
+    @include mixin.flex($align: space-between);
+    flex-grow: 1;
+    user-select: none;
+    position: relative;
+    background-color: color.$neutral;
+    padding: $padding;
+  }
+  
+  &-left {
+    @include mixin.flex($align: normal, $x-align: center, $gap: 4px);
+  }
+  
+  $diff-dim: 20px;
+  &-diff {
+    @include mixin.flex($x-align: center);
+    width: $diff-dim;
+    height: $diff-dim;
+  }
+  
+  &-text-diff {
+    @include font.mega(0.75em);
+  }
+  
+  &-title {
+    @include mixin.flex($x-align: center, $gap: 4px);
+  }
+
+  &-text {
+    &-nocmod {
+      display: inline-block;
+      color: color.$lite-dark;
+      &::before { content: "(" }
+      &::after { content: ")" }
+    } 
+    
+    &-title {
+      font-size: 1.3em;
+      font-weight: 700;
+    }
+  }
+}
+
+// I'M JUST BUILT [DIFF]ERENT
+@each $diff in map.keys(color.$diffs) {
+  .diff-#{$diff} {
+    background-color: map.get(color.$diffs, $diff);
+  }
+}

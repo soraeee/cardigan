@@ -1,11 +1,14 @@
 import chartJSON from './pack.json'
 import { useState, useEffect } from 'react';
-import './index.css';
-import './reset.css';
-import Card from './Card';
-import NumberField from './NumberField';
+import Card from './components/Card';
+import NumberField from './components/NumberField';
+import DialogBox from './components/DialogBox';
+import Ring1 from './assets/ring/ring1.svg?react';
+import Ring2 from './assets/ring/ring2.svg?react';
+import Ring3 from './assets/ring/ring3.svg?react';
+import Ring4 from './assets/ring/ring4.svg?react';
 
-function CardDraw() {
+const CardDraw = () => {
 
 	interface Chart {
 		id:				number;
@@ -22,10 +25,6 @@ function CardDraw() {
 		hasGfx:			boolean;
 	}
 
-	// Toggle to see eligible/used card pools
-	const debug = false;
-
-	// All charts from the JSON file
 	const chartarr: Chart[] = [];
 
 	const defaultNumToDraw = 7;
@@ -44,14 +43,17 @@ function CardDraw() {
 	// fuck this lol, only way i can think of trying to tell Card that a new draw happened without lifting cardState up
 	const [updateCard, setupdateCard] = useState<number>(0);
 
+	// Checkbox stuff
 	const [noRP, setNoRP] = useState<boolean>(true);
+	const [debug, setDebug] = useState<boolean>(true);
+	const [autoclear, setAutoclear] = useState<boolean>(true);
+	const [noConfirms, setNoConfirms] = useState<boolean>(false);
 
 	// init
 	useEffect(() => {
 		//populateCharts();
 		setEligibleCharts([chartarr, []]);
 	}, []);
-
 	// Gets transliterated string, if available
 	const translit = (chart: {[index: string]:any}, prop: string) => {
 		return (chart[`${prop}translit`] != "") ? chart[`${prop}translit`] : chart[`${prop}`];
@@ -63,37 +65,35 @@ function CardDraw() {
 	const populateCharts = () => {
 		// Process chart metadata to something that we actually need
 		chartJSON.charts.forEach(chart => {
-			{
-				// Convert "[Txx] name" format into a Tier value
-				const tier: number = Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]);
+			// Convert "[Txx] name" format into a Tier value
+			const tier: number = Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]);
 
-				const songtitle: string = translit(chart, "title").replace(/\[T\d{1,2}\]\s?/, "");
-				const songartist: string = translit(chart, "artist");
-				const songsubtitle: string = translit(chart, "subtitle");
+			const songtitle: string = translit(chart, "title").replace(/\[T\d{1,2}\]\s?/, "");
+			const songartist: string = translit(chart, "artist");
+			const songsubtitle: string = translit(chart, "subtitle");
 
-				let displaybpmFormatted = strround(chart.displaybpm[0]);
-				if (chart.displaybpm[0] !== chart.displaybpm[1]) {
-					displaybpmFormatted += " - " + strround(chart.displaybpm[1]);
-				}
-
-				const hasGfx = chart.gfxPath != "";
-
-				// Add properly formatted metadata to array
-				chartarr.push({
-					id:				Number(chart.sid),
-					title:			songtitle.replace(/\(No CMOD\)/, "").trim(),
-					artist:			songartist,
-					subtitle:		songsubtitle,
-					difficulty:		chart.difficulties[0].difficulty,
-					difficultyslot:	chart.difficulties[0].slot,
-					displaybpm:		chart.displaybpm,
-					bpmstring:		displaybpmFormatted,
-					tier:			tier,
-					nocmod:			/\(No CMOD\)/.test(songtitle),
-					gfxPath:		chart.gfxPath,
-					hasGfx:			hasGfx,
-				});
+			let displaybpmFormatted = strround(chart.displaybpm[0]);
+			if (chart.displaybpm[0] !== chart.displaybpm[1]) {
+				displaybpmFormatted += " - " + strround(chart.displaybpm[1]);
 			}
+
+			const hasGfx = chart.gfxPath != "";
+
+			// Add properly formatted metadata to array
+			chartarr.push({
+				id:				Number(chart.sid),
+				title:			songtitle.replace(/\(No CMOD\)/, "").trim(),
+				artist:			songartist,
+				subtitle:		songsubtitle,
+				difficulty:		chart.difficulties[0].difficulty,
+				difficultyslot:	chart.difficulties[0].slot,
+				displaybpm:		chart.displaybpm,
+				bpmstring:		displaybpmFormatted,
+				tier:			tier,
+				nocmod:			/\(No CMOD\)/.test(songtitle),
+				gfxPath:		chart.gfxPath,
+				hasGfx:			hasGfx,
+			});
 		});
 	}
 
@@ -116,6 +116,23 @@ function CardDraw() {
 		})
 		setEligibleCharts([chartsInRange, []]);
 	}
+
+	// Calculate win-loss stats
+	const [winsP1, setWinsP1] = useState<number>(0);
+	const [winsP2, setWinsP2] = useState<number>(0);
+	const winsTotal	= winsP1 + winsP2;
+	const lossesP1	= winsTotal - winsP1;
+	const lossesP2	= winsTotal - winsP2;
+
+	// Get, clear values of input fields
+	const [matchName, setMatchName] = useState<string>('');
+	const [p1Name, setP1Name] = useState<string>('');
+	const [p2Name, setP2Name] = useState<string>('');
+	const inputSetFuncs = [setMatchName, setP1Name, setP2Name];
+	const changeMatchName = (e: any) => setMatchName(e.target.value);
+	const changeP1Name = (e: any) => setP1Name(e.target.value);
+	const changeP2Name = (e: any) => setP2Name(e.target.value);
+	const clearFields = () => inputSetFuncs.forEach(func => func(''));
 
 	// Draw n number of charts from the available pool
 	const draw = () => {
@@ -161,6 +178,11 @@ function CardDraw() {
 		setModalOpened(-1);
 		setProtectOrder(0);
 		setupdateCard(updateCard + 1);
+		setWinsP1(0);
+		setWinsP2(0);
+		if (spread.length !== 0 && autoclear) {
+			clearFields();
+		} 
 	}
 
 	// This is fucking stupid, i don't know what i'm doing
@@ -216,13 +238,22 @@ function CardDraw() {
 		setSpread(newSpread);
 	}
 
+	// Clear card draw
+	// Just for aesthetics tbh
+	const clear = () => {
+		setSpread([]);
+		setModalOpened(-1);
+		setProtectOrder(0);
+		setWinsP1(0);
+		setWinsP2(0);
+		clearFields();
+	}
+
 	// Reset card draw
 	// Useful for no replacement draws
 	const reset = () => {
 		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []]);
-		setSpread([]);
-		setModalOpened(-1);
-		setProtectOrder(0);
+		clear();
 	}
 
 	// Reset removed pool and toggle no replacement setting
@@ -230,29 +261,135 @@ function CardDraw() {
 		setNoRP(value)
 		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []])
 	}
+	
+	// Handle all confirm-able changes here
+	const [dboxOpened, setDboxOpened] = useState<boolean>(false);
+	const [dboxMessage, setDboxMessage] = useState<string>("");
+	const [dboxAction, setDboxAction] = useState<any>(() => null);
+	// TODO: Make dialog boxes pop up for params,dupe protection, card-redraw change
 
+	// Reset
+	const handleReset = () => {
+		if (eligibleCharts[1].length !== 0) {
+			setDboxMessage("Resetting everything will reset the available charts to select from the pool. Continue?");
+			setDboxAction(() => reset);
+			setDboxOpened(true);	
+		} else {
+			reset();
+		}
+	}
+	// Clear
+	const handleClear = () => {
+		if (spread.length !== 0 && !noConfirms) {
+			setDboxMessage("Continue with set clear? This will not affect available charts.");
+			setDboxAction(() => clear);
+			setDboxOpened(true);	
+		} else {
+			clear();
+		}		
+	}
+	// Draw
+	const handleDraw = () => {
+		if (spread.length !== 0 && !noConfirms) {
+			setDboxMessage("Continue with new card draw?");
+			setDboxAction(() => draw);
+			setDboxOpened(true);	
+		} else {
+			draw();
+		}		
+	}
+	
 	return (<>
+		{/* Modal closes when clicking outside of the modal */}
+		{modalOpened > -1 && <div className="backdrop" onClick={() => setModalOpened(-1)}></div>}
+		{dboxOpened && <div className="backdrop-dbox" onClick={() => setDboxOpened(false)}></div>}
 		<div className="header">
 			<div className="settings">
-				<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
-				<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}} />
-				<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}} />
-				<div className="settings-checkbox">
-					<p className="checkbox-label">Dupe protection</p>
-					<input className="checkbox-input" type="checkbox" name="norp" id="norp" value="norp-enabled" onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP}/>
+				<div className="settings-fields">
+					<div className="settings-inner">
+						<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
+						<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}}/>
+						<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}}/>
+					</div>
+					<p className="settings-warning"><b>NOTE:</b> Changing <b className="text-p2">tier ranges</b> and <b className="text-p2">dupe protection</b> <u>does not prompt a dialog box</u> and will <u>RESET</u> the available charts to select from the pool if dupe protection is on. Please be careful!!</p>
+				</div>
+				<div className="settings-checks">
+					<label className="checkbox">
+						<input className="checkbox-input" type="checkbox"
+						name="norp" id="norp" value="norp-enabled"
+						onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP}/>
+						<p className="checkbox-label">Dupe protection</p>
+					</label>
+					<label className="checkbox">
+						<input className="checkbox-input" type="checkbox"
+						name="debug" id="debug" value="debug-enabled"
+						onChange={() => setDebug(!debug) } defaultChecked={debug}/>
+						<p className="checkbox-label">Debug menu</p>
+					</label>
+					<label className="checkbox">
+						<input className="checkbox-input" type="checkbox"
+						name="autoclear" id="autoclear" value="autoclear-enabled"
+						onChange={() => setAutoclear(!autoclear) } defaultChecked={autoclear}/>
+						<p className="checkbox-label">Clear pool/players on new draw</p>
+					</label>
+					<label className="checkbox">
+						<input className="checkbox-input" type="checkbox"
+						name="noconfirms" id="noconfirms" value="noconfirms-enabled"
+						onChange={() => setNoConfirms(!noConfirms) } defaultChecked={noConfirms}/>
+						<p className="checkbox-label">Disable non-reset confirmations</p>
+					</label>
 				</div>
 			</div>
 			<div className="actions">
-				<button onClick={draw} className="action-draw">Draw</button>
-				<button onClick={reset} className="action-reset">Reset</button>
+				<div className="actions-resets">
+					<button onClick={handleClear} className="action-clear">Clear</button>
+					<button onClick={handleReset} className="action-reset">Reset</button>
+				</div>
+				<button onClick={handleDraw} className="action-draw">Draw</button>
 			</div>
 		</div>
+		<div className="display">
+			<div className="match">
+				<div className="input">
+					<input className="match-name" type="text" placeholder="Pool name" value={matchName} onChange={changeMatchName}/>
+				</div>
+				<div className="match-players">
+					<div className="player-p1">
+						<div className="player-id">
+							<p className="player-id-text">P1</p>
+						</div>
+						<div className="player-info">
+							<input className="player-name"type="text" placeholder="Player 1" value={p1Name} onChange={changeP1Name} />
+							<p className="player-score">({winsP1}-{lossesP1})</p>
+						</div>
+					</div>
+					<div className="player-p2">
+						<div className="player-id">
+							<p className="player-id-text">P2</p>
+						</div>
+						<div className="player-info">
+							<input className="player-name"type="text" placeholder="Player 2" value={p2Name} onChange={changeP2Name} />
+							<p className="player-score">({winsP2}-{lossesP2})</p>
+						</div>
+					</div>
+				</div>
+			</div>
 		{/* Show message when no card draw is present */}
-		<div className="cardDisplay">
 			{spread.length === 0 && <div className="nodraw">
-				<img src="nodraw.png" className="nodraw-img" />
-				<p className="nodraw-text">No charts currently drawn :o</p>
-				<p className="nodraw-text-sub">Press "Draw" for a new set of charts</p>
+				<div className="ring">
+						<Ring1 className="ring-a"/>
+						<Ring2 className="ring-b"/>
+						<Ring3 className="ring-c"/>
+						<Ring1 className="ring-d"/>
+						<Ring3 className="ring-e"/>
+						<Ring3 className="ring-f"/>
+						<Ring3 className="ring-g"/>
+						<Ring4 className="ring-h"/>
+				</div>
+				<div className="nodraw-text">
+					<p className="nodraw-text-head">Waiting for next round to start...</p>
+					<p className="nodraw-text-sub">Press "Draw" for a new set of charts</p>
+				</div>
 			</div>}
 			{spread.map((chart) => {
 				return (<Card
@@ -266,21 +403,47 @@ function CardDraw() {
 					setProtectOrder	= {setProtectOrder}
 					updateCard		= {updateCard}
 					redraw			= {redraw}
+					// AAAAAA
+					onChange		= {(n: number, pn: number) => {
+						pn === 1 ? setWinsP1(winsP1 + n) : setWinsP2(winsP2 + n)
+					}}
 				/>)
 			})}
 		</div>
 		{debug && <>
 			<div className="debug">
 				<div className="debug-detail">
-					<p className="text-p1">yea ({eligibleCharts[0].length})</p>
-					{eligibleCharts[0].map(chart => <span>{chart.title}, </span>)}
+					<b className="text-p1">yea ({eligibleCharts[0].length})</b>
+					<div className="debug-list">
+					{eligibleCharts[0]
+					.sort((a:Chart, b:Chart) => Number(a.title > b.title))
+					.sort((a:Chart, b:Chart) => Number(a.tier > b.tier))
+					.map(chart => {
+						const tier = String(chart.tier).padStart(2,'0');
+						const title = chart.title.length > 17 ? `${chart.title.slice(0,17).trim()}…` : chart.title;
+						return <p>[{tier}] {title}</p>
+					})}</div>
 				</div>
 				<div className="debug-detail">
-					<p className="text-p2">nah ({eligibleCharts[1].length})</p>
-					{eligibleCharts[1].map(chart => <span>{chart.title}, </span>)}
+					<b className="text-p2">nah ({eligibleCharts[1].length})</b>
+					<div className="debug-list">
+					{eligibleCharts[1]
+					.sort((a:Chart, b:Chart) => Number(a.title > b.title))
+					.sort((a:Chart, b:Chart) => Number(a.tier > b.tier))
+					.map(chart => {
+						const tier = String(chart.tier).padStart(2,'0');
+						const title = chart.title.length > 17 ? `${chart.title.slice(0,17).trim()}…` : chart.title;
+						return <p>[{tier}] {title}</p>
+					})}</div>
 				</div>
 			</div>
 		</>}
+		{dboxOpened && <DialogBox
+			setDboxOpened	= {setDboxOpened}
+			message		= {dboxMessage}
+			onConfirm	= {dboxAction}
+			onCancel	= {() => setDboxOpened(false)}
+		/>}
 	</>)
 }
 export default CardDraw

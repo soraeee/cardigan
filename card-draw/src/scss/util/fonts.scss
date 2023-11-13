@@ -1,0 +1,39 @@
+@use '../util/color' as color;
+
+@mixin load-font($name, $file, $w: normal, $st: normal) {
+  @font-face {
+    font-family: $name;
+    font-style: $st;
+    font-weight: $w;
+    src: url("../fonts/" + $file + ".woff");
+    font-display: swap;
+  }
+}
+
+@include load-font("Miso", "miso", 400);
+@include load-font("Miso", "miso-light", 300);
+@include load-font("Miso", "miso-bold", 700);
+@include load-font("Mega", "mega");
+
+@mixin miso($size, $color: color.$lite, $weight: 400) {
+  font: $size "Miso", "Inter", system-ui, "Avenir", "Helvetica", "Arial", sans-serif;
+  color: $color;
+  font-weight: $weight;
+  line-height: 1.5;
+  letter-spacing: -1px;
+}
+
+@mixin mega($size, $color: black) {
+  font: $size "Mega", "Inter", system-ui, "Avenir", "Helvetica", "Arial", sans-serif;
+  color: $color;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin-right: -0.11em;
+}
+
+@mixin mono($size, $color: color.$lite) {
+  font: $size "Ubuntu Mono", "Consolas", monospace;
+  color: $color;
+  letter-spacing: 0;
+  line-height: 1;
+}

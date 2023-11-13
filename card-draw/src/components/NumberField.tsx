@@ -1,8 +1,6 @@
 /// <reference types="vite-plugin-svgr/client" />
 import { useState } from 'react';
-import './index.css';
-import './reset.css';
-import Caret from './assets/caret.svg?react';
+import Caret from '../assets/caret.svg?react';
 
 const NumberField = (props: any) => {
 
@@ -12,6 +10,13 @@ const NumberField = (props: any) => {
 	const clamp = (n: number, min: number, max: number) => {
 		return Math.min(Math.max(n, min), max);
 	}
+
+    // Performs a confirmation
+    //const confirm = async () => {
+    //    if (props.confirm) {
+    //    }
+    //    return res;
+    //}
 
     const increment = () => {
         let n = value + 1;
@@ -28,7 +33,6 @@ const NumberField = (props: any) => {
     }
 
     const otherChange = (e: any) => {
-        //console.log(e.currentTarget.value);
         let n = !isNaN(Number(e.currentTarget.value)) ? Number(e.currentTarget.value) : value;
         n = clamp(n, props.min, props.max);
         setValue(n);

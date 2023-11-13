@@ -1,0 +1,18 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+
+.debug {
+  @include mixin.flex($align: space-evenly);
+  margin-bottom: 32px;
+  &-detail {
+    @include font.mono(11px);
+    background-color: color.$dark2;
+    width: 47%;
+    padding: 16px;
+  }
+  &-list {
+    //@include mixin.flex($dir: row, $wrap: wrap, $align: start, $gap: 2px);
+    column-count: 3;
+  }
+}

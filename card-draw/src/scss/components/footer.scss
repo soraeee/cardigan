@@ -1,0 +1,23 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+
+.footer {
+  grid-area: footer;
+  background: color.$dark2;
+  width: 100%;
+  text-align: center;
+  padding: 16px;
+  margin: 0 auto;
+  &-text {
+    font-size: 1.25em;
+    letter-spacing: -0.5px;
+    & > a {
+      text-decoration: underline;
+      transition: filter 0.15s;
+      &:hover {
+        filter: drop-shadow(0 0 0.2rem);
+      }
+    }
+  }
+}
