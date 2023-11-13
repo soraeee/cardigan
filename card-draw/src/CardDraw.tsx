@@ -266,6 +266,8 @@ const CardDraw = () => {
 			setDboxMessage("Resetting everything will reset the available charts to select from the pool. Continue?");
 			setDboxAction(() => reset);
 			setDboxOpened(true);	
+		} else {
+			reset();
 		}
 	}
 	// Clear
