@@ -10,6 +10,7 @@
 @use 'components/match';
 @use 'components/modal';
 @use 'components/numfield';
+@use 'components/scrollbar';
 @use 'components/settings';
 
 html {
@@ -41,7 +42,6 @@ b { font-weight: 700 }
   max-width: 100%;
   padding: 48px;
   //background-color: #00ff00;
-  margin: 0 auto;
 }
 
 .backdrop {
@@ -49,8 +49,8 @@ b { font-weight: 700 }
   top: 0;
   left: 0;
   background: color.$darken;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   z-index: 1;
   &-dbox {
     @extend .backdrop;
@@ -65,13 +65,53 @@ b { font-weight: 700 }
   @include mixin.flex($dir: column, $x-align: center);
   margin: 0 auto;
   user-select: none;
-  &-img {
-    width: 100%;
-  }
+  min-height: 520px;
+  width: 100%;
+  background: color.$dark;
+  perspective: 250px;
+  z-index: -1;
+  overflow: hidden;
   &-text {
-    font-size: 3em;
+    text-align: center;
+    &-head {
+      font-size: 3em;
+      font-weight: 700;
+    }
     &-sub {
       font-size: 2em;
     }
   }
+}
+
+@mixin ring($width: 100px, $color: black, $spin: 20s) {
+  position: absolute;
+  transform-style: preserve-3d;
+  width: $width;
+  animation: spin $spin linear infinite;
+  fill: $color;
+}
+
+@keyframes spin { 
+  100% { 
+      -webkit-transform: rotateZ(360deg); 
+      transform:rotateZ(360deg); 
+  } 
+}
+
+.ring {
+  @include mixin.flex($dir: row, $x-align: center);
+  position: relative;
+  transform: rotateX(55deg) rotateY(-23deg) scale(0.5);
+  left: -20px;
+  top: 25px;
+  z-index: -2;
+  opacity: 1;
+  &-e { @include ring(470px, color.$warning-dark, 30s) }
+  &-c { @include ring(580px, color.$dark-lite, 20s) }
+  &-a { @include ring(740px, color.$neutral, 120s) }
+  &-b { @include ring(820px, color.$dark-lite) }
+  &-f { @include ring(980px, color.$accent-dark, 200s) }
+  &-g { @include ring(1180px, color.$neutral, 100s) }
+  &-d { @include ring(1600px, color.$p2-dark, 240s) }
+  &-h { @include ring(1900px,color.$dark-lite) }
 }

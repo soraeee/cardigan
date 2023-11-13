@@ -3,6 +3,10 @@ import { useState, useEffect } from 'react';
 import Card from './components/Card';
 import NumberField from './components/NumberField';
 import DialogBox from './components/DialogBox';
+import Ring1 from './assets/ring/ring1.svg?react';
+import Ring2 from './assets/ring/ring2.svg?react';
+import Ring3 from './assets/ring/ring3.svg?react';
+import Ring4 from './assets/ring/ring4.svg?react';
 
 const CardDraw = () => {
 
@@ -338,9 +342,20 @@ const CardDraw = () => {
 			</div>
 		{/* Show message when no card draw is present */}
 			{spread.length === 0 && <div className="nodraw">
-				<img src="nodraw.png" className="nodraw-img" />
-				<p className="nodraw-text">No charts currently drawn :o</p>
-				<p className="nodraw-text-sub">Press "Draw" for a new set of charts</p>
+				<div className="ring">
+						<Ring1 className="ring-a"/>
+						<Ring2 className="ring-b"/>
+						<Ring3 className="ring-c"/>
+						<Ring1 className="ring-d"/>
+						<Ring3 className="ring-e"/>
+						<Ring3 className="ring-f"/>
+						<Ring3 className="ring-g"/>
+						<Ring4 className="ring-h"/>
+				</div>
+				<div className="nodraw-text">
+					<p className="nodraw-text-head">Waiting for next round to start...</p>
+					<p className="nodraw-text-sub">Press "Draw" for a new set of charts</p>
+				</div>
 			</div>}
 			{spread.map((chart) => {
 				return (<Card
@@ -364,12 +379,28 @@ const CardDraw = () => {
 		{debug && <>
 			<div className="debug">
 				<div className="debug-detail">
-					<p className="text-p1">yea ({eligibleCharts[0].length})</p>
-					{eligibleCharts[0].map(chart => <span>{chart.title}, </span>)}
+					<b className="text-p1">yea ({eligibleCharts[0].length})</b>
+					<div className="debug-list">
+					{eligibleCharts[0]
+					.sort((a:Chart, b:Chart) => Number(a.title > b.title))
+					.sort((a:Chart, b:Chart) => Number(a.tier > b.tier))
+					.map(chart => {
+						const tier = String(chart.tier).padStart(2,'0');
+						const title = chart.title.length > 17 ? `${chart.title.slice(0,17).trim()}…` : chart.title;
+						return <p>[{tier}] {title}</p>
+					})}</div>
 				</div>
 				<div className="debug-detail">
-					<p className="text-p2">nah ({eligibleCharts[1].length})</p>
-					{eligibleCharts[1].map(chart => <span>{chart.title}, </span>)}
+					<b className="text-p2">nah ({eligibleCharts[1].length})</b>
+					<div className="debug-list">
+					{eligibleCharts[1]
+					.sort((a:Chart, b:Chart) => Number(a.title > b.title))
+					.sort((a:Chart, b:Chart) => Number(a.tier > b.tier))
+					.map(chart => {
+						const tier = String(chart.tier).padStart(2,'0');
+						const title = chart.title.length > 17 ? `${chart.title.slice(0,17).trim()}…` : chart.title;
+						return <p>[{tier}] {title}</p>
+					})}</div>
 				</div>
 			</div>
 		</>}

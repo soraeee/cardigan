@@ -8,8 +8,11 @@
   &-detail {
     @include font.mono(11px);
     background-color: color.$dark2;
-    width: 45%;
+    width: 47%;
     padding: 16px;
-    text-align: justify;
+  }
+  &-list {
+    //@include mixin.flex($dir: row, $wrap: wrap, $align: start, $gap: 2px);
+    column-count: 3;
   }
 }

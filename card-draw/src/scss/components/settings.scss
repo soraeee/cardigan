@@ -18,6 +18,7 @@
     text-align: justify;
     color: color.$lite-dark;
     letter-spacing: -0.4px;
+    user-select: none;
     & u {
       text-decoration-thickness: 1px;
       color: color.$warning;
