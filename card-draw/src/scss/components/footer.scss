@@ -21,4 +21,8 @@
       }
     }
   }
+
+  @include mixin.mobile {
+    flex-wrap: wrap;
+  }
 }

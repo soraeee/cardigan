@@ -6,6 +6,12 @@
   @include mixin.flex($align: space-between);
   padding: 18px 36px;
   background-color: color.$dark2;
+
+  @include mixin.mobile {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px 10px 20px 10px;
+  }
 }
 
 .settings {
@@ -31,12 +37,30 @@
       font-weight: 700;
     }
   }
+
+  @include mixin.mobile {
+    gap: 16px;
+    flex-wrap: wrap;
+
+    &-inner {
+      justify-content: center;
+    }
+
+    &-warning {
+      max-width: 100%;
+      padding: 0 32px;
+    }
+  }
 }
 
 .actions {
   @include mixin.flex($dir: column, $align: center, $x-align: end, $gap: 4px);
   &-resets {
     @include mixin.flex($gap: 4px);
+  }
+
+  @include mixin.mobile {
+    margin-top: 24px;
   }
 }
 
