@@ -16,6 +16,10 @@ $side-width: 65px;
   user-select: none;
   transition: border-color 0.15s;
 
+  @include mixin.mobile {
+    width: calc(100% - 32px);
+  }
+
   &:hover {
     border-color: color.$accent;
     cursor: pointer;
@@ -114,6 +118,7 @@ $side-width: 65px;
 
       @include mixin.mobile {
         font-size: 1.8em;
+        margin-top: 4px;
       }
     }
     
