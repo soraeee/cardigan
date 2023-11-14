@@ -15,6 +15,11 @@ $side-width: 65px;
   min-height: 64px;
   user-select: none;
   transition: border-color 0.15s;
+
+  @include mixin.mobile {
+    width: calc(100% - 32px);
+  }
+
   &:hover {
     border-color: color.$accent;
     cursor: pointer;
@@ -47,6 +52,10 @@ $side-width: 65px;
     padding: 6px 12px;
     border-radius: 0 2px 2px 0;
     position: relative;
+
+    @include mixin.mobile {
+      padding: 6px 8px;
+    }
   }
   
   &-left {
@@ -74,6 +83,11 @@ $side-width: 65px;
   
   &-title {
     @include mixin.flex($x-align: center, $gap: 6px);
+
+    @include mixin.mobile {
+      flex-wrap: wrap;
+      justify-content: left;
+    }
   }
 
   &-text {
@@ -101,6 +115,11 @@ $side-width: 65px;
       font-size: 2.2em;
       font-weight: 700;
       line-height: normal;
+
+      @include mixin.mobile {
+        font-size: 1.8em;
+        margin-top: 4px;
+      }
     }
     
     &-tier {
@@ -119,6 +138,10 @@ $side-width: 65px;
     width: 74px;
     & > * {
       margin: -2px 0;
+    }
+
+    @include mixin.mobile {
+      width: auto;
     }
   }
 }

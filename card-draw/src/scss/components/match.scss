@@ -23,6 +23,13 @@
   &-players {
     @include mixin.flex($dir: column, $gap: 4px);
   }
+
+  @include mixin.mobile {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
 }
 
 .player {

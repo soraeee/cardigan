@@ -2,7 +2,7 @@
 /// <reference types="vite-plugin-svgr/client" />
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import CardModal from './CardModal';
-import Reset from '../assets/Reset.svg?react';
+import Reset from '../assets/reset.svg?react';
 import Protect from '../assets/protect.svg?react';
 import Winner from '../assets/winner.svg?react';
 

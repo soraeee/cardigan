@@ -14,16 +14,28 @@
   backdrop-filter: blur(6px);
   padding: 8px 12px;
 
+  @include mixin.mobile {
+    gap: 6px;
+  }
+
   &-section {
     @include mixin.flex($x-align: center, $gap: 4px);
     &-inner {
       @include mixin.flex($gap: 4px);
+
+      @include mixin.mobile {
+        gap: 2px;
+      }
     }
   }
 
   &-text-major {
     font-size: 1.8em;
     font-weight: 700;
+
+    @include mixin.mobile {
+      font-size: 1.2em;
+    }
   }
   
   &-button {
@@ -40,6 +52,10 @@
     & > svg {
       width: 25px;
       fill: color.$lite;
+
+      @include mixin.mobile {
+        width: 22px;
+      }
     }
   }
 
@@ -57,6 +73,10 @@
   &-settings {
     width: 28px;
     fill: color.$lite-dark;
+
+    @include mixin.mobile {
+      width: 22px;
+    }
   }
 
   &-tooltip {

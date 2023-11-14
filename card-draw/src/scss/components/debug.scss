@@ -15,4 +15,11 @@
     //@include mixin.flex($dir: row, $wrap: wrap, $align: start, $gap: 2px);
     column-count: 3;
   }
+
+  @include mixin.mobile {
+    flex-wrap: wrap;
+    &-detail {
+      width: 100%;
+    }
+  }
 }
