@@ -1,5 +1,5 @@
 # rip-card-draw
-Basic card draw app for Rumble in the Prarie 13.5, a head-to-head In the Groove tournament held at the University of Urbana-Champaign.  
+Basic card draw app for Rumble in the Prairie 13.5, a head-to-head In the Groove tournament held at the University of Urbana-Champaign.  
   
 [Visit the site here!](https://soraeee.github.io/rip-card-draw/)  
   
