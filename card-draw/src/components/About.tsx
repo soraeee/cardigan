@@ -11,7 +11,7 @@ function About(props: any) {
 
 			<p className="about-header">About</p>
 			<p className="about-text">This is a webapp for running card draws using the RIP 13.5 Singles Pack.</p>
-			<p className="about-text">RIP, otherwise known as Rumble in the Prarie, is a bi-annual tournament held at the University of Urbana-Champaign for the rhythm game In the Groove.</p>
+			<p className="about-text">RIP, otherwise known as Rumble in the Prairie, is a bi-annual tournament held at the University of Urbana-Champaign for the rhythm game In the Groove.</p>
 			<br />
 
 			<p className="about-header">Usage</p>
