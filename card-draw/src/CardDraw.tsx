@@ -357,6 +357,19 @@ const CardDraw = (props: any) => {
 			</div>
 		</div>
 		<div className="display">
+			
+			<div className="ring-container">
+				<div className="ring">
+					<Ring1 className="ring-a"/>
+					<Ring2 className="ring-b"/>
+					<Ring3 className="ring-c"/>
+					<Ring1 className="ring-d"/>
+					<Ring3 className="ring-e"/>
+					<Ring3 className="ring-f"/>
+					<Ring3 className="ring-g"/>
+					<Ring4 className="ring-h"/>
+				</div>
+			</div>
 			<div className="match">
 				<div className="input">
 					<input className="match-name" type="text" placeholder="Pool name" value={matchName} onChange={changeMatchName}/>
@@ -384,16 +397,6 @@ const CardDraw = (props: any) => {
 			</div>
 		{/* Show message when no card draw is present */}
 			{spread.length === 0 && <div className="nodraw">
-				<div className="ring">
-						<Ring1 className="ring-a"/>
-						<Ring2 className="ring-b"/>
-						<Ring3 className="ring-c"/>
-						<Ring1 className="ring-d"/>
-						<Ring3 className="ring-e"/>
-						<Ring3 className="ring-f"/>
-						<Ring3 className="ring-g"/>
-						<Ring4 className="ring-h"/>
-				</div>
 				<div className="nodraw-text">
 					<p className="nodraw-text-head">Waiting for next round to start...</p>
 					<p className="nodraw-text-sub">Press "Draw" for a new set of charts</p>
