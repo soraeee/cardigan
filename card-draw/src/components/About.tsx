@@ -1,6 +1,14 @@
-function About() {
+/// <reference types="vite-plugin-svgr/client" />
+import Close from '../assets/close.svg?react';
+
+function About(props: any) {
 	return (<>
-		<div className="about-wrapper">
+		<div className="about">
+
+			<div className="about-button">
+				<Close onClick={() => props.setShowAbout(false)} className="about-close" />
+			</div>
+
 			<p className="about-header">About</p>
 			<p className="about-text">This is a webapp for running card draws using the RIP 13.5 Singles Pack.</p>
 			<p className="about-text">RIP, otherwise known as Rumble in the Prarie, is a bi-annual tournament held at the University of Urbana-Champaign for the rhythm game In the Groove.</p>

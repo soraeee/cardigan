@@ -1,0 +1,46 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+
+.warningmodal {
+	@include mixin.flex($dir: row, $align: space-around, $x-align: center, $gap: 10px);
+	background-color: color.$dark-lite;
+	top: 10%;
+	left: 50%;
+	transform: translate(-50%, -90%);
+	width: auto;
+	height: 50px;
+	position: fixed;
+    padding: 16px 16px;
+	z-index: 3;
+	box-shadow: 0 0 5px 5px color.$darken;
+
+	border-radius: 2%;
+	line-height: normal;
+
+	&-text {
+		font-size: 1.5em;
+		font-weight: 300;
+	}
+	&-icon {
+		display: block;
+		margin: auto;
+		width: 32px;
+	}
+	&-close {
+    	fill: color.$lite;
+		cursor: pointer;
+		transition: fill 0.15s;
+		&:hover {
+		  fill: color.$p1-dark;
+		}
+	}
+	&-info {
+		&-0 {
+			fill: color.$accent;
+		}
+		&-1 {
+			fill: color.$warning;
+		}
+	}
+}

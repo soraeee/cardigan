@@ -8,7 +8,7 @@ import Ring2 from './assets/ring/ring2.svg?react';
 import Ring3 from './assets/ring/ring3.svg?react';
 import Ring4 from './assets/ring/ring4.svg?react';
 
-const CardDraw = () => {
+const CardDraw = (props: any) => {
 
 	interface Chart {
 		id:				number;
@@ -142,6 +142,7 @@ const CardDraw = () => {
 		// Don't explode when there aren't enough charts to draw
 		if (chartPool.length + spentCharts.length < numToDraw) {
 			console.log("Not enough charts to draw!")
+			props.setWarning({enabled: true, message: "Not enough charts to draw!", type: 1})
 			return
 		};
 
@@ -154,6 +155,7 @@ const CardDraw = () => {
 		// Check if there are less charts left in the pool than the number to draw, and add charts back to the pool if true
 		// caveat with this algo - when this is the case, the remaining charts will always show up first in the draw. idk if that's a huge issue, lol
 		if (chartPool.length < numToDraw) {
+			props.setWarning({enabled: true, message: "Chart pool refilled!", type: 0})
 			// Shuffle spent charts
 			for (let i = spentCharts.length - 1; i >= 0; i--) {
 				swapIndices(i, getRandomInt(i), spentCharts);
@@ -210,6 +212,7 @@ const CardDraw = () => {
 		if (noRP) { // Redraw with no replacement enabled
 			// Check if there are less charts left in the pool than the number to draw, and add charts back to the pool if true
 			if (chartPool.length === 0) {
+				props.setWarning({enabled: true, message: "Chart pool refilled!", type: 0})
 				// Get current draw
 				const spreadCharts: Chart[] = spread;
 

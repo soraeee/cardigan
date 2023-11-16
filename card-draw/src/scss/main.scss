@@ -12,6 +12,8 @@
 @use 'components/numfield';
 @use 'components/scrollbar';
 @use 'components/settings';
+@use 'components/about';
+@use 'components/warningmodal';
 
 html {
   scroll-behavior: smooth;
