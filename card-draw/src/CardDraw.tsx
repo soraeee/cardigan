@@ -45,7 +45,7 @@ const CardDraw = (props: any) => {
 
 	// Checkbox stuff
 	const [noRP, setNoRP] = useState<boolean>(true);
-	const [debug, setDebug] = useState<boolean>(true);
+	const [debug, setDebug] = useState<boolean>(false);
 	const [autoclear, setAutoclear] = useState<boolean>(true);
 	const [noConfirms, setNoConfirms] = useState<boolean>(false);
 
