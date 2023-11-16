@@ -46,7 +46,7 @@ b { font-weight: 700 }
   @include mixin.flex($dir: column, $x-align: center, $gap: 8px);
   margin: 0 auto;
   max-width: 100%;
-  padding: 48px;
+  padding: 24px 0 24px 0;
   //background-color: #00ff00;
 
   @include mixin.mobile {
@@ -55,7 +55,7 @@ b { font-weight: 700 }
 }
 
 .backdrop {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background: color.$darken;
