@@ -349,11 +349,11 @@ const CardDraw = (props: any) => {
 				</div>
 			</div>
 			<div className="actions">
+				<button onClick={handleDraw} className="action-draw">Draw</button>
 				<div className="actions-resets">
 					<button onClick={handleClear} className="action-clear">Clear</button>
 					<button onClick={handleReset} className="action-reset">Reset</button>
 				</div>
-				<button onClick={handleDraw} className="action-draw">Draw</button>
 			</div>
 		</div>
 		<div className="display">

@@ -54,9 +54,9 @@
 }
 
 .actions {
-  @include mixin.flex($dir: column, $align: center, $x-align: end, $gap: 4px);
+  @include mixin.flex($dir: row, $align: space-around, $x-align: start, $gap: 2px);
   &-resets {
-    @include mixin.flex($gap: 4px);
+    @include mixin.flex($gap: 4px, $dir: column);
   }
 
   @include mixin.mobile {
@@ -75,7 +75,7 @@
 
   &-draw {
     @extend .action;
-    padding: 2px 48px;
+    padding: 14px 48px;
     color: color.$accent;
     &:hover {
       background-color: color.$accent-dark;
