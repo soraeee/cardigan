@@ -3,7 +3,7 @@
 @use '../util/mixins' as mixin;
 
 .header {
-  @include mixin.flex($dir: column, $align: space-between);
+  @include mixin.flex($dir: column, $align: start, $gap: 24px);
   padding: 24px;
   background-color: color.$dark2;
 

@@ -3,12 +3,12 @@
 @use '../util/mixins' as mixin;
 
 .debug {
-  @include mixin.flex($align: space-evenly);
+  @include mixin.flex($align: space-evenly, $gap: 16px);
   margin-bottom: 32px;
   &-detail {
     @include font.mono(11px);
     background-color: color.$dark2;
-    width: 47%;
+    width: 100%;
     padding: 16px;
   }
   &-list {

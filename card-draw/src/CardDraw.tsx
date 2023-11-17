@@ -420,36 +420,36 @@ const CardDraw = (props: any) => {
 					}}
 				/>)
 			})}
+			{debug && <>
+				<div className="debug">
+					<div className="debug-detail">
+						<b className="text-p2">Charts remaining ({eligibleCharts[0].length})</b>
+						<div className="debug-list">
+						{eligibleCharts[0]
+						.sort((a:Chart, b:Chart) => Number(a.title > b.title))
+						.sort((a:Chart, b:Chart) => Number(a.tier > b.tier))
+						.map(chart => {
+							const tier = String(chart.tier).padStart(2,'0');
+							const title = chart.title.length > 17 ? `${chart.title.slice(0,17).trim()}…` : chart.title;
+							return <p>[{tier}] {title}</p>
+						})}</div>
+					</div>
+					<div className="debug-detail">
+						<b className="text-p1">Discarded charts ({eligibleCharts[1].length})</b>
+						<div className="debug-list">
+						{eligibleCharts[1]
+						.sort((a:Chart, b:Chart) => Number(a.title > b.title))
+						.sort((a:Chart, b:Chart) => Number(a.tier > b.tier))
+						.map(chart => {
+							const tier = String(chart.tier).padStart(2,'0');
+							const title = chart.title.length > 17 ? `${chart.title.slice(0,17).trim()}…` : chart.title;
+							return <p>[{tier}] {title}</p>
+						})}</div>
+					</div>
+				</div>
+			</>}
 		</div>
 		<div className = "fade"></div>
-		{debug && <>
-			<div className="debug">
-				<div className="debug-detail">
-					<b className="text-p2">Charts remaining ({eligibleCharts[0].length})</b>
-					<div className="debug-list">
-					{eligibleCharts[0]
-					.sort((a:Chart, b:Chart) => Number(a.title > b.title))
-					.sort((a:Chart, b:Chart) => Number(a.tier > b.tier))
-					.map(chart => {
-						const tier = String(chart.tier).padStart(2,'0');
-						const title = chart.title.length > 17 ? `${chart.title.slice(0,17).trim()}…` : chart.title;
-						return <p>[{tier}] {title}</p>
-					})}</div>
-				</div>
-				<div className="debug-detail">
-					<b className="text-p1">Discarded charts ({eligibleCharts[1].length})</b>
-					<div className="debug-list">
-					{eligibleCharts[1]
-					.sort((a:Chart, b:Chart) => Number(a.title > b.title))
-					.sort((a:Chart, b:Chart) => Number(a.tier > b.tier))
-					.map(chart => {
-						const tier = String(chart.tier).padStart(2,'0');
-						const title = chart.title.length > 17 ? `${chart.title.slice(0,17).trim()}…` : chart.title;
-						return <p>[{tier}] {title}</p>
-					})}</div>
-				</div>
-			</div>
-		</>}
 		{dboxOpened && <DialogBox
 			setDboxOpened	= {setDboxOpened}
 			message		= {dboxMessage}
