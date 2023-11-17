@@ -6,8 +6,8 @@ Basic card draw app for Rumble in the Prairie 13.5, a head-to-head In the Groove
 Note: This is not intended to directly compete with [DDRTools](https://github.com/noahm/DDRCardDraw) - go support their project too!  
  
 ## Screenshots  
-![Screenshot of the home screen](https://i.imgur.com/kxU77GY.png)
-![Screenshot of an active card draw](https://i.imgur.com/fAjC6ia.png)  
+![Screenshot of the home screen](https://i.imgur.com/fmRuwYe.png)
+![Screenshot of an active card draw](https://i.imgur.com/FMdzPi6.png)  
 
 ## Installation  
 Clone the repository to the location of your choice.  
