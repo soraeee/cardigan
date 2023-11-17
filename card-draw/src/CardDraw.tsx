@@ -423,6 +423,7 @@ const CardDraw = (props: any) => {
 		</div>
 		{debug && <>
 			<div className="debug">
+				<div className = "fade"></div>
 				<div className="debug-detail">
 					<b className="text-p2">Charts remaining ({eligibleCharts[0].length})</b>
 					<div className="debug-list">

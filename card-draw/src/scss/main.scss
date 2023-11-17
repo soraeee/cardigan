@@ -113,7 +113,7 @@ b { font-weight: 700 }
   margin: 0 auto;
   user-select: none;
   perspective: 250px;
-  min-height: 100vh;
+  min-height: 80vh;
   width: 100%;
   z-index: -1;
   overflow: hidden;
@@ -145,4 +145,15 @@ b { font-weight: 700 }
   &-g { @include ring(1180px, color.$neutral, 100s) }
   &-d { @include ring(1600px, color.$p2-dark, 240s) }
   &-h { @include ring(1900px,color.$dark-lite) }
+}
+
+.fade {
+  position: absolute;
+  background-color: #00ff00;
+  min-height: 40vh;
+  width: 100%;
+  overflow: hidden;
+  top: 80%;
+  z-index: -1;
+  background: linear-gradient(#00000000 5%, color.$dark 30%, color.$dark 100%);
 }
