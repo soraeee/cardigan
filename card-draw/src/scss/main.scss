@@ -111,22 +111,13 @@ b { font-weight: 700 }
   @include mixin.flex($dir: column, $x-align: center);
   position: absolute;
   margin: 0 auto;
+  top: 20%;
   user-select: none;
   perspective: 250px;
-  min-height: 80vh;
+  min-height: 80%;
   width: 100%;
   z-index: -1;
   overflow: hidden;
-  &-text {
-    text-align: center;
-    &-head {
-      font-size: 3em;
-      font-weight: 700;
-    }
-    &-sub {
-      font-size: 2em;
-    }
-  }
 }
 
 .ring {
