@@ -3,8 +3,8 @@
 @use '../util/mixins' as mixin;
 
 .header {
-  @include mixin.flex($align: space-between);
-  padding: 12px 24px;
+  @include mixin.flex($dir: column, $align: space-between);
+  padding: 24px;
   background-color: color.$dark2;
 
   @include mixin.mobile {
@@ -15,7 +15,7 @@
 }
 
 .settings {
-  @include mixin.flex($gap: 32px);
+  @include mixin.flex($dir: column, $gap: 24px);
   &-inner {
     @include mixin.flex($align: space-between, $x-align: end, $gap: 32px);
   }

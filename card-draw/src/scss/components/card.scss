@@ -3,14 +3,14 @@
 @use '../util/mixins' as mixin;
 @use "sass:map";
 
-$card-width: 720px;
+$card-width: 690px;
 $side-width: 65px;
 
 .card {
   @include mixin.flex($align: stretch);
   @include mixin.border();
   z-index: 2;
-  width: 80%;
+  width: 100%;
   max-width: $card-width;
   min-height: 64px;
   user-select: none;

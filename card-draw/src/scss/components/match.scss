@@ -4,8 +4,8 @@
 
 .match {
   @include mixin.flex($align: space-between, $x-align: center, $gap: 12px);
-  width: 80%;
-  max-width: 720px;
+  width: 100%;
+  max-width: 690px;
   &-name {
     @include font.miso(2.25em, color.$lite, 700);
     @include mixin.border($color: transparent);
