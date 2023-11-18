@@ -149,7 +149,7 @@ $side-width: 65px;
   @include mixin.flex($align: stretch, $x-align: stretch);
   @include mixin.border($color: color.$neutral);
   z-index: 2;
-  width: 80%;
+  width: 100%;
   max-width: $card-width;
   transition: border-color 0.15s;
   &:hover {
