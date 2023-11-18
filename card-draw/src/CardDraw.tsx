@@ -48,6 +48,7 @@ const CardDraw = (props: any) => {
 	const [debug, setDebug] = useState<boolean>(false);
 	const [autoclear, setAutoclear] = useState<boolean>(true);
 	const [noConfirms, setNoConfirms] = useState<boolean>(false);
+	const [showBackground, setShowBackground] = useState<boolean>(true);
 
 	// init
 	useEffect(() => {
@@ -346,6 +347,12 @@ const CardDraw = (props: any) => {
 						onChange={() => setNoConfirms(!noConfirms) } defaultChecked={noConfirms}/>
 						<p className="checkbox-label">Disable non-reset confirmations</p>
 					</label>
+					<label className="checkbox">
+						<input className="checkbox-input" type="checkbox"
+						name="showbackground" id="showbackground" value="showbackground-enabled"
+						onChange={() => setShowBackground(!showBackground) } defaultChecked={showBackground}/>
+						<p className="checkbox-label">Show animated background</p>
+					</label>
 				</div>
 			</div>
 			<div className="actions">
@@ -358,7 +365,7 @@ const CardDraw = (props: any) => {
 		</div>
 		<div className="display">
 			
-			<div className="ring-container">
+			{showBackground && <div className="ring-container">
 				<div className="ring">
 					<Ring1 className="ring-a"/>
 					<Ring2 className="ring-b"/>
@@ -369,7 +376,7 @@ const CardDraw = (props: any) => {
 					<Ring3 className="ring-g"/>
 					<Ring4 className="ring-h"/>
 				</div>
-			</div>
+			</div>}
 			<div className="match">
 				<div className="input">
 					<input className="match-name" type="text" placeholder="Pool name" value={matchName} onChange={changeMatchName}/>
