@@ -1,0 +1,28 @@
+@use '../util/color' as color;
+@use '../util/fonts' as font;
+@use '../util/mixins' as mixin;
+
+.pack-select {
+	@include mixin.flex($dir: column, $gap: 4px);
+
+	select {
+		@include font.miso(1.5em, $weight: 400);
+		user-select: none;
+		background-color: color.$dark;
+		color: white;
+
+		margin: 0;
+		padding: 0 0 4px 0;
+
+		@include mixin.border();
+		transition: border-color 0.15s;
+
+		&:hover {
+			border-color: color.$accent;
+		}
+
+		&:focus {
+			outline: unset;
+		}
+	}
+}

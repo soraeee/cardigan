@@ -1,4 +1,6 @@
-import chartJSON from './pack.json'
+import rip135 from './assets/packs/rip135.json'
+import eclipse2023 from './assets/packs/eclipse2023.json'
+
 import { useState, useEffect } from 'react';
 import Card from './components/Card';
 import NumberField from './components/NumberField';
@@ -25,7 +27,7 @@ const CardDraw = (props: any) => {
 		hasGfx:			boolean;
 	}
 
-	const chartarr: Chart[] = [];
+	let chartarr: Chart[] = [];
 
 	const defaultNumToDraw = 7;
 	const [defaultMin, defaultMax] = [1, 11];
@@ -46,13 +48,18 @@ const CardDraw = (props: any) => {
 	// Checkbox stuff
 	const [noRP, setNoRP] = useState<boolean>(true);
 	const [debug, setDebug] = useState<boolean>(false);
-	const [autoclear, setAutoclear] = useState<boolean>(true);
+	const [autoclear, setAutoclear] = useState<boolean>(false);
 	const [noConfirms, setNoConfirms] = useState<boolean>(false);
 	const [showBackground, setShowBackground] = useState<boolean>(true);
 
+	// Pack selector
+	// I want to make this dynamic and scalable but it is 2AM and i cannot figure this out
+	const [currentPack, setCurrentPack] = useState<number>(1);
+	const packs = [rip135, eclipse2023]
+
 	// init
 	useEffect(() => {
-		//populateCharts();
+		populateCharts(currentPack);
 		setEligibleCharts([chartarr, []]);
 	}, []);
 	// Gets transliterated string, if available
@@ -63,9 +70,10 @@ const CardDraw = (props: any) => {
 	// Rounds number and converts to a string
 	const strround = (n: number) => String(Math.round(n));
 
-	const populateCharts = () => {
+	const populateCharts = (p: number) => {
+		chartarr = [];
 		// Process chart metadata to something that we actually need
-		chartJSON.charts.forEach(chart => {
+		packs[p].charts.forEach(chart => {
 			// Convert "[Txx] name" format into a Tier value
 			const tier: number = Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]);
 
@@ -98,7 +106,22 @@ const CardDraw = (props: any) => {
 		});
 	}
 
-	populateCharts();
+	populateCharts(currentPack);
+
+	const switchPack = (a: string) => {
+		const pack = (a as unknown) as number // thanks typescript
+		setCurrentPack(pack)
+		populateCharts(pack);
+		setSpread([]);
+		setModalOpened(-1);
+		setProtectOrder(0);
+
+		// Change eligible charts to be within range
+		const chartsInRange: Chart[] = chartarr.filter(chart => {
+			if (chart["tier"] >= range[0] && chart["tier"] <= range[1]) return chart
+		})
+		setEligibleCharts([chartsInRange, []]);
+	}
 
 	const swapIndices = (a: number, b: number, array: any[]) => {
 		const c = array[a];
@@ -321,6 +344,15 @@ const CardDraw = (props: any) => {
 						<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}}/>
 					</div>
 					<p className="settings-warning"><b>NOTE:</b> Changing <b className="text-p2">tier ranges</b> and <b className="text-p2">dupe protection</b> <u>does not prompt a dialog box</u> and will <u>RESET</u> the available charts to select from the pool if dupe protection is on. Please be careful!!</p>
+				</div>
+				<div className="pack-select">
+					<div>
+						<p className="numfield-title">Pack to draw from</p>
+					</div>
+					<select name="packs" id="packs" onChange={(v) => switchPack(v.target.value)}>
+						<option value="0">RIP 13.5</option>
+						<option value="1" selected>Eclipse 2023</option>
+					</select>
 				</div>
 				<div className="settings-checks">
 					<label className="checkbox">
