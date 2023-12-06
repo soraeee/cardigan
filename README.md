@@ -1,13 +1,14 @@
-# rip-card-draw
-Basic card draw app for Rumble in the Prairie 13.5, a head-to-head In the Groove tournament held at the University of Urbana-Champaign.  
-  
-[Visit the site here!](https://soraeee.github.io/rip-card-draw/)  
-  
-Note: This is not intended to directly compete with [DDRTools](https://github.com/noahm/DDRCardDraw) - go support their project too!  
+<p align="center">
+  <a href = "https://soraeee.github.io/cardigan"><img src="https://github.com/soraeee/cardigan/assets/46469913/90cf9316-bd0e-4e41-aaa8-48e743140527" alt="Cardigan logo"/></a>
+  <p>A card draw app with sleek visuals for running ITG head-to-head tournaments, built with React.</p>
+  <p>Note: This is not intended to directly compete with <a href = "https://github.com/noahm/DDRCardDraw">DDRTools</a> - go support their project too!</p>
+</p>
+
+
  
 ## Screenshots  
-![Screenshot of the home screen](https://i.imgur.com/fmRuwYe.png)
-![Screenshot of an active card draw](https://i.imgur.com/FMdzPi6.png)  
+![Screenshot of the home screen](https://i.imgur.com/OjEr5zm.png)
+![Screenshot of an active card draw](https://i.imgur.com/vGnVsvJ.png)  
 
 ## Installation  
 Clone the repository to the location of your choice.  
