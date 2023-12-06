@@ -31,7 +31,7 @@ html {
 .content {
   @include mixin.flex($dir: row-reverse);
   grid-area: content;
-  min-height: calc(100vh - 52px);
+  min-height: 100vh;
 
 
   @media only screen and (max-width: 420px) {
@@ -144,10 +144,10 @@ b { font-weight: 700 }
 .fade {
   position: absolute;
   background-color: #00ff00;
-  min-height: 40vh;
-  top: 60vh;
+  min-height: 35vh;
+  top: 65vh;
   width: 100%;
   overflow: hidden;
   z-index: -1;
-  background: linear-gradient(#00000000 5%, color.$dark 80%, color.$dark 100%);
+  background: linear-gradient(#00000000 5%, color.$dark 95%, color.$dark 100%);
 }

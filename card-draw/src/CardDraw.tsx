@@ -5,10 +5,13 @@ import { useState, useEffect } from 'react';
 import Card from './components/Card';
 import NumberField from './components/NumberField';
 import DialogBox from './components/DialogBox';
+import About from './components/About';
+import Footer from './Footer';
 import Ring1 from './assets/ring/ring1.svg?react';
 import Ring2 from './assets/ring/ring2.svg?react';
 import Ring3 from './assets/ring/ring3.svg?react';
 import Ring4 from './assets/ring/ring4.svg?react';
+import Logo from './assets/logo.svg?react';
 
 const CardDraw = (props: any) => {
 
@@ -56,6 +59,9 @@ const CardDraw = (props: any) => {
 	// I want to make this dynamic and scalable but it is 2AM and i cannot figure this out
 	const [currentPack, setCurrentPack] = useState<number>(1);
 	const packs = [rip135, eclipse2023]
+
+	// Moved from app.tsx lol
+    const [showAbout, setShowAbout] = useState<boolean>(false);
 
 	// init
 	useEffect(() => {
@@ -333,66 +339,77 @@ const CardDraw = (props: any) => {
 	
 	return (<>
 		{/* Modal closes when clicking outside of the modal */}
+        {showAbout && <About setShowAbout = {setShowAbout} />}
 		{modalOpened > -1 && <div className="backdrop" onClick={() => setModalOpened(-1)}></div>}
+
+		{/* Probably redundant? */}
 		{dboxOpened && <div className="backdrop-dbox" onClick={() => setDboxOpened(false)}></div>}
+		{showAbout && <div className="backdrop-dbox" onClick={() => setShowAbout(false)}></div>}
+
 		<div className="header">
-			<div className="settings">
-				<div className="settings-fields">
-					<div className="settings-inner">
-						<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
-						<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}}/>
-						<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}}/>
+			<div className="header-controls">
+				<div className="settings">
+					<div className="settings-fields">
+						<div className="settings-inner">
+							<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
+							<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}}/>
+							<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}}/>
+						</div>
+						<p className="settings-warning"><b>NOTE:</b> Changing <b className="text-p2">tier ranges</b> and <b className="text-p2">dupe protection</b> <u>does not prompt a dialog box</u> and will <u>RESET</u> the available charts to select from the pool if dupe protection is on. Please be careful!!</p>
 					</div>
-					<p className="settings-warning"><b>NOTE:</b> Changing <b className="text-p2">tier ranges</b> and <b className="text-p2">dupe protection</b> <u>does not prompt a dialog box</u> and will <u>RESET</u> the available charts to select from the pool if dupe protection is on. Please be careful!!</p>
-				</div>
-				<div className="pack-select">
-					<div>
-						<p className="numfield-title">Pack to draw from</p>
+					<div className="pack-select">
+						<div>
+							<p className="numfield-title">Pack to draw from</p>
+						</div>
+						<select name="packs" id="packs" onChange={(v) => switchPack(v.target.value)}>
+							<option value="0">RIP 13.5</option>
+							<option value="1" selected>Eclipse 2023</option>
+						</select>
 					</div>
-					<select name="packs" id="packs" onChange={(v) => switchPack(v.target.value)}>
-						<option value="0">RIP 13.5</option>
-						<option value="1" selected>Eclipse 2023</option>
-					</select>
+					<div className="settings-checks">
+						<label className="checkbox">
+							<input className="checkbox-input" type="checkbox"
+							name="norp" id="norp" value="norp-enabled"
+							onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP}/>
+							<p className="checkbox-label">Dupe protection</p>
+						</label>
+						<label className="checkbox">
+							<input className="checkbox-input" type="checkbox"
+							name="debug" id="debug" value="debug-enabled"
+							onChange={() => setDebug(!debug) } defaultChecked={debug}/>
+							<p className="checkbox-label">Show remaining/discarded charts in the pool</p>
+						</label>
+						<label className="checkbox">
+							<input className="checkbox-input" type="checkbox"
+							name="autoclear" id="autoclear" value="autoclear-enabled"
+							onChange={() => setAutoclear(!autoclear) } defaultChecked={autoclear}/>
+							<p className="checkbox-label">Clear pool/players on new draw</p>
+						</label>
+						<label className="checkbox">
+							<input className="checkbox-input" type="checkbox"
+							name="noconfirms" id="noconfirms" value="noconfirms-enabled"
+							onChange={() => setNoConfirms(!noConfirms) } defaultChecked={noConfirms}/>
+							<p className="checkbox-label">Disable non-reset confirmations</p>
+						</label>
+						<label className="checkbox">
+							<input className="checkbox-input" type="checkbox"
+							name="showbackground" id="showbackground" value="showbackground-enabled"
+							onChange={() => setShowBackground(!showBackground) } defaultChecked={showBackground}/>
+							<p className="checkbox-label">Show animated background</p>
+						</label>
+					</div>
 				</div>
-				<div className="settings-checks">
-					<label className="checkbox">
-						<input className="checkbox-input" type="checkbox"
-						name="norp" id="norp" value="norp-enabled"
-						onChange={(e) => { changeNoRP(e.target.checked) }} defaultChecked={noRP}/>
-						<p className="checkbox-label">Dupe protection</p>
-					</label>
-					<label className="checkbox">
-						<input className="checkbox-input" type="checkbox"
-						name="debug" id="debug" value="debug-enabled"
-						onChange={() => setDebug(!debug) } defaultChecked={debug}/>
-						<p className="checkbox-label">Show remaining/discarded charts in the pool</p>
-					</label>
-					<label className="checkbox">
-						<input className="checkbox-input" type="checkbox"
-						name="autoclear" id="autoclear" value="autoclear-enabled"
-						onChange={() => setAutoclear(!autoclear) } defaultChecked={autoclear}/>
-						<p className="checkbox-label">Clear pool/players on new draw</p>
-					</label>
-					<label className="checkbox">
-						<input className="checkbox-input" type="checkbox"
-						name="noconfirms" id="noconfirms" value="noconfirms-enabled"
-						onChange={() => setNoConfirms(!noConfirms) } defaultChecked={noConfirms}/>
-						<p className="checkbox-label">Disable non-reset confirmations</p>
-					</label>
-					<label className="checkbox">
-						<input className="checkbox-input" type="checkbox"
-						name="showbackground" id="showbackground" value="showbackground-enabled"
-						onChange={() => setShowBackground(!showBackground) } defaultChecked={showBackground}/>
-						<p className="checkbox-label">Show animated background</p>
-					</label>
+				<div className="actions">
+					<button onClick={handleDraw} className="action-draw">Draw</button>
+					<div className="actions-resets">
+						<button onClick={handleClear} className="action-clear">Clear</button>
+						<button onClick={handleReset} className="action-reset">Reset</button>
+					</div>
 				</div>
 			</div>
-			<div className="actions">
-				<button onClick={handleDraw} className="action-draw">Draw</button>
-				<div className="actions-resets">
-					<button onClick={handleClear} className="action-clear">Clear</button>
-					<button onClick={handleReset} className="action-reset">Reset</button>
-				</div>
+			<div className="header-info">
+				<Logo className="logo"/>
+            	<Footer showAbout={showAbout} setShowAbout={setShowAbout} />
 			</div>
 		</div>
 		<div className="display">

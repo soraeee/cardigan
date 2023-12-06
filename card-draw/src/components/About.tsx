@@ -10,8 +10,8 @@ function About(props: any) {
 			</div>
 
 			<p className="about-header">About</p>
-			<p className="about-text">This is a webapp for running card draws using the RIP 13.5 Singles Pack.</p>
-			<p className="about-text">RIP, otherwise known as Rumble in the Prairie, is a bi-annual tournament held at the University of Urbana-Champaign for the rhythm game In the Groove.</p>
+			<p className="about-text">Cardigan is a webapp for running card draws using various ITG tournament packs.</p>
+			<p className="about-text">Originally created for <a className="link" href="https://rip.ddrillini.club/" target="_blank">Rumble in the Prairie 13.5</a>, Cardigan now supports a variety of ITG tournaments and plans to support more upon request.</p>
 			<br />
 
 			<p className="about-header">Usage</p>
@@ -28,7 +28,7 @@ function About(props: any) {
 
 			<p className="about-header">FAQ</p>
 			<p className="about-question">Why make a new website for card draws? Doesn't <a className="link" href="http://ddr.tools/" target="_blank">DDRTools</a> already exist?</p>
-			<p className="about-text">We needed a card draw app for RIP 13.5 that supported draws with dupe protection.</p>
+			<p className="about-text">When making this webapp for RIP13.5, we needed something that supported draws with dupe protection.</p>
 			<p className="about-text">The reasonable solution here would have been to contact the maintainer of DDRTools and ask him to implement dupe protection, but it's more fun to build a new app from scratch instead of being reasonable.</p>
 			<p className="about-text">(also sorae really needed practice with React)</p>
 			<p className="about-text">Either way, please support DDRTools as well! We don't intend to compete with their project.</p>
@@ -47,6 +47,30 @@ function About(props: any) {
 
 			<p className="about-question">I hit the juckport 1 trillion$</p>
 			<p className="about-text">good job</p>
+
+			<br />
+			
+			<p className="about-header">Credits & Acknowledgements</p>
+			<p className="about-question">Andrew "sorae" Vo</p>
+			<p className="about-text">Website design and functionality</p>
+			<p className="about-text">sm2json script</p>
+			<br />
+			<p className="about-question">Spencer "CERiNG" Gunning</p>
+			<p className="about-text">Website design and functionality</p>
+			<p className="about-text">sm2json script</p>
+			<p className="about-text">Cardigan logo</p>
+			<br />
+			<p className="about-question">Tetaes</p>
+			<p className="about-text">sm2json script</p>
+			<br />
+			<p className="about-question">Mirin</p>
+			<p className="about-text">Requested the existence of this website</p>
+			<br />
+			<p className="about-question">Sam Oldenburg</p>
+			<p className="about-text">Mobile un-scuffing</p>
+			<br />
+			<p className="about-question">You :)</p>
+			<p className="about-text">your epic !</p>
 		</div>
 	</>)
 }

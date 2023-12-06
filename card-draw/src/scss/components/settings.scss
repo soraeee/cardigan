@@ -3,7 +3,7 @@
 @use '../util/mixins' as mixin;
 
 .header {
-  @include mixin.flex($dir: column, $align: start, $gap: 24px);
+  @include mixin.flex($dir: column, $align: space-between, $gap: 24px);
   padding: 24px;
   background-color: color.$dark2;
 
@@ -11,6 +11,13 @@
     flex-wrap: wrap;
     justify-content: center;
     padding: 10px 10px 20px 10px;
+  }
+
+  &-controls{
+    @include mixin.flex($dir: column, $align: start, $gap: 24px);
+  }
+  &-info{
+    @include mixin.flex($dir: column, $align: end, $gap: 2px);
   }
 }
 
