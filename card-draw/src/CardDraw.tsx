@@ -1,5 +1,6 @@
 import rip135 from './assets/packs/rip135.json'
 import eclipse2023 from './assets/packs/eclipse2023.json'
+import rip14 from './assets/packs/rip14.json'
 
 import { useState, useEffect } from 'react';
 import Card from './components/Card';
@@ -57,8 +58,8 @@ const CardDraw = (props: any) => {
 
 	// Pack selector
 	// I want to make this dynamic and scalable but it is 2AM and i cannot figure this out
-	const [currentPack, setCurrentPack] = useState<number>(1);
-	const packs = [rip135, eclipse2023]
+	const [currentPack, setCurrentPack] = useState<number>(2);
+	const packs = [rip135, eclipse2023, rip14]
 
 	// Moved from app.tsx lol
     const [showAbout, setShowAbout] = useState<boolean>(false);
@@ -363,7 +364,8 @@ const CardDraw = (props: any) => {
 						</div>
 						<select name="packs" id="packs" onChange={(v) => switchPack(v.target.value)}>
 							<option value="0">RIP 13.5</option>
-							<option value="1" selected>Eclipse 2023</option>
+							<option value="1" >Eclipse 2023</option>
+							<option value="2" selected>RIP 14</option>
 						</select>
 					</div>
 					<div className="settings-checks">
