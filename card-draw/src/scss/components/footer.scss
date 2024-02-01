@@ -23,6 +23,6 @@
   }
 
   @include mixin.mobile {
-    flex-wrap: wrap;
+    display: none;
   }
 }

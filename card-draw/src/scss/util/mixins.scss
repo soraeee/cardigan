@@ -1,5 +1,4 @@
 @use '../util/color' as color;
-@use '../util/breakpoints' as breakpoints;
 
 @mixin flex($dir: row, $wrap: nowrap, $align: center, $x-align: stretch, $gap: 0) {
   display: flex;
@@ -15,7 +14,7 @@
 }
 
 @mixin mobile() {
-  @media (max-width: breakpoints.$phone) { 
+  @media (max-width: 600px) { 
     @content;
   }
 }

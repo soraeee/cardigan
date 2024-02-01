@@ -8,17 +8,23 @@
   background-color: color.$dark2;
 
   @include mixin.mobile {
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px 10px 20px 10px;
+    @include mixin.flex($dir: column-reverse, $align: space-between, $gap: 24px);
   }
 
-  &-controls{
+  &-controls {
     @include mixin.flex($dir: column, $align: start, $gap: 24px);
+    @include mixin.mobile {
+      @include mixin.flex($dir: column-reverse,$align: start, $gap: 24px);
+    }
   }
-  &-info{
+
+  &-info {
     @include mixin.flex($dir: column, $align: end, $gap: 2px);
+    @include mixin.mobile {
+      width: 33%;
+    }
   }
+
 }
 
 .settings {
@@ -31,6 +37,9 @@
   }
   &-checks {
     @include mixin.flex($dir: column, $align: center, $gap: 8px);
+    @include mixin.mobile {
+      display: none;
+    }
   }
   &-warning {
     max-width: 292px;
@@ -64,6 +73,9 @@
   @include mixin.flex($dir: row, $align: space-around, $x-align: start, $gap: 2px);
   &-resets {
     @include mixin.flex($gap: 4px, $dir: column);
+    @include mixin.mobile {
+      display: none;
+    }
   }
 
   @include mixin.mobile {
