@@ -17,7 +17,7 @@ $side-width: 65px;
   transition: border-color 0.15s;
 
   @include mixin.mobile {
-    width: calc(100% - 32px);
+    width: 92vw;
   }
 
   &:hover {
@@ -155,6 +155,10 @@ $side-width: 65px;
   &:hover {
     border-color: color.$lite-dark;
     cursor: pointer;
+  }
+
+  @include mixin.mobile {
+    max-width: 92vw;
   }
 
   $padding: 4px 11px;

@@ -8,23 +8,39 @@
   background-color: color.$dark2;
 
   @include mixin.mobile {
-    @include mixin.flex($dir: column-reverse, $align: space-between, $gap: 24px);
+    @include mixin.flex($dir: column-reverse, $align: space-between, $gap: 12px);
   }
 
   &-controls {
     @include mixin.flex($dir: column, $align: start, $gap: 24px);
     @include mixin.mobile {
-      @include mixin.flex($dir: column-reverse,$align: start, $gap: 24px);
+      display: block;
     }
   }
 
   &-info {
     @include mixin.flex($dir: column, $align: end, $gap: 2px);
     @include mixin.mobile {
-      width: 33%;
+      @include mixin.flex($dir: row, $align: space-between, $x-align: center);
+      .logo { 
+        width: 112px;
+      }
+      .mobile-menu {
+        display: block;
+      }
     }
   }
+}
 
+.mobile-menu { 
+  display: none;
+  width: 42px;
+  fill: color.$lite;
+  cursor: pointer;
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .settings {
@@ -37,9 +53,6 @@
   }
   &-checks {
     @include mixin.flex($dir: column, $align: center, $gap: 8px);
-    @include mixin.mobile {
-      display: none;
-    }
   }
   &-warning {
     max-width: 292px;
@@ -56,7 +69,7 @@
 
   @include mixin.mobile {
     gap: 16px;
-    flex-wrap: wrap;
+    display: none;
 
     &-inner {
       justify-content: center;
@@ -71,15 +84,15 @@
 
 .actions {
   @include mixin.flex($dir: row, $align: space-around, $x-align: start, $gap: 2px);
+  @include mixin.mobile {
+    justify-content: space-between;
+    gap: 16px;
+  }
   &-resets {
     @include mixin.flex($gap: 4px, $dir: column);
     @include mixin.mobile {
-      display: none;
+      @include mixin.flex($gap: 12px, $dir: row);
     }
-  }
-
-  @include mixin.mobile {
-    margin-top: 24px;
   }
 }
 
@@ -100,6 +113,9 @@
       background-color: color.$accent-dark;
       border-color: color.$accent;
     }
+    @include mixin.mobile {
+      padding: 8px 52px;
+    }
   }
   &-clear {
     font-size: 1.45em;
@@ -109,6 +125,10 @@
     &:hover {
       background-color: color.$dark-lite;
       border-color: color.$lite-dark;
+    }
+    @include mixin.mobile {
+      font-size: 1.6em;
+      padding: 12.5px 10px;
     }
   }
   &-reset {
@@ -120,5 +140,28 @@
       background-color: color.$warning-dark;
       border-color: color.$warning;
     }
+    @include mixin.mobile {
+      font-size: 1.6em;
+      padding: 12.5px 10px;
+    }
+  }
+}
+
+.mobile-detail {
+  display: none;
+  @include font.miso(1.1em);
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1em;
+  & b {
+    color: color.$p2;
+  }
+  & u {
+    text-decoration-thickness: 1px;
+    color: color.$warning;
+    font-weight: 700;
+  }
+  @include mixin.mobile {
+    @include mixin.flex($dir: column, $align: center, $gap: 2px);
   }
 }

@@ -14,6 +14,9 @@
   right: 0;
   user-select: none;
   z-index: 4;
+  @include mixin.mobile {
+    width: 92vw;
+  }
   
   &-upper {
     @include mixin.flex($align: space-between, $x-align: center);

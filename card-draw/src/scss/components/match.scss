@@ -28,6 +28,7 @@
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 8px;
     margin-bottom: 16px;
   }
 }
@@ -84,6 +85,9 @@
     width: 240px;
     margin-right: calc($pw * -2 - 8px);
     transition: border-color 0.15s;
+    @include mixin.mobile {
+      width: 267px;
+    }
   }
   &-score {
     @include font.miso(0.66em, inherit, 400);

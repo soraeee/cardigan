@@ -34,7 +34,7 @@ html {
   min-height: 100vh;
 
   @include mixin.mobile {
-    @include mixin.flex($dir: column);
+    @include mixin.flex($dir: column, $align: start);
   }
 }
 
@@ -87,6 +87,17 @@ b { font-weight: 700 }
       font-size: 2em;
     }
   }
+  @include mixin.mobile {
+    &-text {
+      &-head {
+        font-size: 2em;
+        font-weight: 700;
+      }
+      &-sub {
+        font-size: 1.5em;
+      }
+    }
+  }
 }
 
 @mixin ring($width: 100px, $color: black, $spin: 20s) {
@@ -116,6 +127,9 @@ b { font-weight: 700 }
   width: 100%;
   z-index: -1;
   overflow: hidden;
+  @include mixin.mobile {
+    display: none;
+  }
 }
 
 .ring {
@@ -145,4 +159,7 @@ b { font-weight: 700 }
   overflow: hidden;
   z-index: -1;
   background: linear-gradient(#00000000 5%, color.$dark 95%, color.$dark 100%);
+  @include mixin.mobile {
+    display: none;
+  }
 }
