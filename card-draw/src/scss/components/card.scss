@@ -17,8 +17,10 @@ $side-width: 65px;
   transition: border-color 0.15s;
 
   @include mixin.mobile {
+    z-index: unset;
     width: 92vw;
   }
+
 
   &:hover {
     border-color: color.$accent;
@@ -54,6 +56,7 @@ $side-width: 65px;
     position: relative;
 
     @include mixin.mobile {
+      position: revert;
       padding: 6px 8px;
     }
   }
@@ -152,6 +155,7 @@ $side-width: 65px;
   width: 100%;
   max-width: $card-width;
   transition: border-color 0.15s;
+
   &:hover {
     border-color: color.$lite-dark;
     cursor: pointer;

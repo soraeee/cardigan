@@ -73,7 +73,7 @@ b { font-weight: 700 }
   @include mixin.flex($dir: column, $x-align: center);
   margin: 0 auto;
   user-select: none;
-  min-height: 520px;
+  min-height: calc(100vh - 48px - 164px);
   width: 100%;
   z-index: -1;
   overflow: hidden;
@@ -88,6 +88,7 @@ b { font-weight: 700 }
     }
   }
   @include mixin.mobile {
+    min-height: calc(100vh - 206px - 48px - 172px);
     &-text {
       &-head {
         font-size: 2em;
@@ -96,6 +97,14 @@ b { font-weight: 700 }
       &-sub {
         font-size: 1.5em;
       }
+    }
+  }
+  // There is definitely a better way to do this
+  &-nofields {
+    @extend .nodraw;
+    min-height: calc(100vh - 48px);
+    @include mixin.mobile { 
+      min-height: calc(100vh - 206px - 48px);
     }
   }
 }

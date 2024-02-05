@@ -33,8 +33,10 @@
       margin-right: -12px;
       cursor: pointer;
       transition: background-color 0.15s;
-      &:hover {
-        background-color: color.$warning-dark;
+      @include mixin.desktop {
+        &:hover {
+          background-color: color.$warning-dark;
+        }
       }
     }
     &-close {
@@ -71,17 +73,21 @@
     &-yes {
       @extend .dbox-options-button;
       color: color.$accent;
-      &:hover {
-        background-color: color.$accent-dark;
-        border-color: color.$accent;
+      @include mixin.desktop {
+        &:hover {
+          background-color: color.$accent-dark;
+          border-color: color.$accent;
+        }
       }
     }
     &-no {
       @extend .dbox-options-button;
       color: color.$warning;
-      &:hover {
-        background-color: color.$warning-dark;
-        border-color: color.$warning;
+      @include mixin.desktop {
+        &:hover {
+          background-color: color.$warning-dark;
+          border-color: color.$warning;
+        }
       }
     }
   }
