@@ -13,6 +13,7 @@ import Ring2 from './assets/ring/ring2.svg?react';
 import Ring3 from './assets/ring/ring3.svg?react';
 import Ring4 from './assets/ring/ring4.svg?react';
 import Logo from './assets/logo.svg?react';
+import List from './assets/list.svg?react';
 
 const CardDraw = (props: any) => {
 
@@ -33,8 +34,14 @@ const CardDraw = (props: any) => {
 
 	let chartarr: Chart[] = [];
 
+	// Pack selector
+	// I want to make this dynamic and scalable but it is 2AM and i cannot figure this out
+	const [currentPack, setCurrentPack] = useState<number>(2);
+	const packs = [rip135, eclipse2023, rip14]
+
 	const defaultNumToDraw = 7;
-	const [defaultMin, defaultMax] = [1, 11];
+	const packTiers = packs[currentPack].charts.map(chart => Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]));
+	const [defaultMin, defaultMax] = [Math.min(...packTiers), Math.max(...packTiers)];
 
 	// Current card draw state
 	const [numToDraw, setNumToDraw] = useState<number>(defaultNumToDraw);
@@ -53,13 +60,10 @@ const CardDraw = (props: any) => {
 	const [noRP, setNoRP] = useState<boolean>(true);
 	const [debug, setDebug] = useState<boolean>(false);
 	const [autoclear, setAutoclear] = useState<boolean>(false);
+	const [noFields, setNoFields] = useState<boolean>(false);
 	const [noConfirms, setNoConfirms] = useState<boolean>(false);
 	const [showBackground, setShowBackground] = useState<boolean>(true);
-
-	// Pack selector
-	// I want to make this dynamic and scalable but it is 2AM and i cannot figure this out
-	const [currentPack, setCurrentPack] = useState<number>(2);
-	const packs = [rip135, eclipse2023, rip14]
+	const [mobileMenu, setMobileMenu] = useState<boolean>(true);
 
 	// Moved from app.tsx lol
     const [showAbout, setShowAbout] = useState<boolean>(false);
@@ -68,6 +72,10 @@ const CardDraw = (props: any) => {
 	useEffect(() => {
 		populateCharts(currentPack);
 		setEligibleCharts([chartarr, []]);
+		// Animated background automatically starts off width <= 600px
+		if (window.innerWidth <= 600) {
+			setShowBackground(false);
+		}
 	}, []);
 	// Gets transliterated string, if available
 	const translit = (chart: {[index: string]:any}, prop: string) => {
@@ -127,6 +135,9 @@ const CardDraw = (props: any) => {
 		const chartsInRange: Chart[] = chartarr.filter(chart => {
 			if (chart["tier"] >= range[0] && chart["tier"] <= range[1]) return chart
 		})
+
+		const changedTiers = packs[pack].charts.map(chart => Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]));
+		changeDrawRange(Math.min(...changedTiers), Math.max(...changedTiers));
 		setEligibleCharts([chartsInRange, []]);
 	}
 
@@ -175,7 +186,7 @@ const CardDraw = (props: any) => {
 			console.log("Not enough charts to draw!")
 			props.setWarning({enabled: true, message: "Not enough charts to draw!", type: 1})
 			return
-		};
+		}
 
 		// Fisher-Yates shuffle
 		for (let i = chartPool.length - 1; i >= 0; i--) {
@@ -277,6 +288,29 @@ const CardDraw = (props: any) => {
 		setSpread(newSpread);
 	}
 
+	// Handle mobile interface
+	const toggleMobileMenu = () => {
+		setMobileMenu(!mobileMenu);
+		if (mobileMenu)  {
+			document.getElementById('settings')!.classList.add('settings-showmobile');
+		} else {
+			document.getElementById('settings')!.classList.remove('settings-showmobile');
+		}
+		document.getElementById('mobile-detail')!.style.display = mobileMenu ? 'none' : 'flex';
+	}
+
+	// Handle noFields
+	const toggleNoFields = () => {
+		setNoFields(!noFields);
+		if (!noFields) {
+			document.getElementById('nodraw')!.classList.add('nodraw-nofields');
+			document.getElementById('nodraw')!.classList.remove('nodraw');
+		} else {
+			document.getElementById('nodraw')!.classList.remove('nodraw-nofields');
+			document.getElementById('nodraw')!.classList.add('nodraw');
+		}
+	}
+
 	// Clear card draw
 	// Just for aesthetics tbh
 	const clear = () => {
@@ -349,7 +383,7 @@ const CardDraw = (props: any) => {
 
 		<div className="header">
 			<div className="header-controls">
-				<div className="settings">
+				<div className="settings" id="settings">
 					<div className="settings-fields">
 						<div className="settings-inner">
 							<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
@@ -389,29 +423,40 @@ const CardDraw = (props: any) => {
 						</label>
 						<label className="checkbox">
 							<input className="checkbox-input" type="checkbox"
+							name="nofields" id="nofields" value="nofields-enabled"
+							onChange={() => toggleNoFields() } defaultChecked={noFields}/>
+							<p className="checkbox-label">Disable pool/player fields</p>
+						</label>
+						<label className="checkbox">
+							<input className="checkbox-input" type="checkbox"
 							name="noconfirms" id="noconfirms" value="noconfirms-enabled"
 							onChange={() => setNoConfirms(!noConfirms) } defaultChecked={noConfirms}/>
 							<p className="checkbox-label">Disable non-reset confirmations</p>
 						</label>
-						<label className="checkbox">
+						<label className="checkbox" id="checkbox-showbackground">
 							<input className="checkbox-input" type="checkbox"
 							name="showbackground" id="showbackground" value="showbackground-enabled"
-							onChange={() => setShowBackground(!showBackground) } defaultChecked={showBackground}/>
+							onChange={() => setShowBackground(!showBackground) } defaultChecked={showBackground && window.innerWidth > 600}/>
 							<p className="checkbox-label">Show animated background</p>
 						</label>
 					</div>
 				</div>
-				<div className="actions">
+				<div className="actions" id="actions">
 					<button onClick={handleDraw} className="action-draw">Draw</button>
 					<div className="actions-resets">
 						<button onClick={handleClear} className="action-clear">Clear</button>
 						<button onClick={handleReset} className="action-reset">Reset</button>
 					</div>
 				</div>
+				<div className="mobile-detail" id="mobile-detail">
+					<p>Drawing <b>{numToDraw}</b> songs from <u>{packs[currentPack].packName}</u>, tiers <b>{range[0]}</b>-<b>{range[1]}</b></p>
+					<p>Dupe protection is <b>{noRP ? "on" : "off"}</b>.</p>
+				</div>
 			</div>
 			<div className="header-info">
 				<Logo className="logo"/>
-            	<Footer showAbout={showAbout} setShowAbout={setShowAbout} />
+				<List className="mobile-menu" onClick={() => toggleMobileMenu()}/>
+				<Footer showAbout={showAbout} setShowAbout={setShowAbout} />
 			</div>
 		</div>
 		<div className="display">
@@ -428,7 +473,7 @@ const CardDraw = (props: any) => {
 					<Ring4 className="ring-h"/>
 				</div>
 			</div>}
-			<div className="match">
+			{!noFields && <div className="match">
 				<div className="input">
 					<input className="match-name" type="text" placeholder="Pool name" value={matchName} onChange={changeMatchName}/>
 				</div>
@@ -452,9 +497,9 @@ const CardDraw = (props: any) => {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>}
 		{/* Show message when no card draw is present */}
-			{spread.length === 0 && <div className="nodraw">
+			{spread.length === 0 && <div className="nodraw" id="nodraw">
 				<div className="nodraw-text">
 					<p className="nodraw-text-head">Waiting for next round to start...</p>
 					<p className="nodraw-text-sub">Press "Draw" for a new set of charts</p>

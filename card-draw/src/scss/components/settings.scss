@@ -8,17 +8,26 @@
   background-color: color.$dark2;
 
   @include mixin.mobile {
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px 10px 20px 10px;
+    @include mixin.flex($dir: column-reverse, $align: space-between, $gap: 12px);
   }
 
-  &-controls{
+  &-controls {
     @include mixin.flex($dir: column, $align: start, $gap: 24px);
   }
-  &-info{
+
+  &-info {
     @include mixin.flex($dir: column, $align: end, $gap: 2px);
+    @include mixin.mobile {
+      @include mixin.flex($dir: row, $align: space-between, $x-align: center);
+    }
   }
+}
+
+.mobile-menu { 
+  display: none;
+  width: 42px;
+  fill: color.$lite;
+  cursor: pointer;
 }
 
 .settings {
@@ -31,6 +40,9 @@
   }
   &-checks {
     @include mixin.flex($dir: column, $align: center, $gap: 8px);
+    @include mixin.mobile {
+      gap: 0;
+    }
   }
   &-warning {
     max-width: 292px;
@@ -47,7 +59,7 @@
 
   @include mixin.mobile {
     gap: 16px;
-    flex-wrap: wrap;
+    display: none;
 
     &-inner {
       justify-content: center;
@@ -62,12 +74,15 @@
 
 .actions {
   @include mixin.flex($dir: row, $align: space-around, $x-align: start, $gap: 2px);
+  @include mixin.mobile {
+    justify-content: space-between;
+    gap: 0px;
+  }
   &-resets {
     @include mixin.flex($gap: 4px, $dir: column);
-  }
-
-  @include mixin.mobile {
-    margin-top: 24px;
+    @include mixin.mobile {
+      @include mixin.flex($gap: 12px, $dir: row);
+    }
   }
 }
 
@@ -84,9 +99,16 @@
     @extend .action;
     padding: 14px 48px;
     color: color.$accent;
-    &:hover {
-      background-color: color.$accent-dark;
-      border-color: color.$accent;
+    @include mixin.desktop {
+      &:hover {
+        background-color: color.$accent-dark;
+        border-color: color.$accent;
+      }
+    }
+    @include mixin.mobile {
+      width: 43vw;
+      max-width: 180px;
+      padding: 8px 0;
     }
   }
   &-clear {
@@ -94,9 +116,15 @@
     padding: 2px 25px;
     @extend .action;
     color: color.$lite;
-    &:hover {
-      background-color: color.$dark-lite;
-      border-color: color.$lite-dark;
+    @include mixin.desktop {
+      &:hover {
+        background-color: color.$dark-lite;
+        border-color: color.$lite-dark;
+      }
+    }
+    @include mixin.mobile {
+      font-size: 1.5em;
+      padding: 13.5px 10px;
     }
   }
   &-reset {
@@ -104,9 +132,46 @@
     padding: 4px 12px;
     @extend .action;
     color: color.$warning;
-    &:hover {
+    @include mixin.desktop {
+      &:hover {
       background-color: color.$warning-dark;
       border-color: color.$warning;
+      }
     }
+    @include mixin.mobile {
+      font-size: 1.5em;
+      padding: 13.5px 10px;
+    }
+  }
+}
+
+.mobile-detail {
+  display: none;
+  @include font.miso(1.1em);
+  text-align: center;
+  margin-top: -12px;
+  line-height: 1em;
+  & b {
+    color: color.$p2;
+  }
+  & u {
+    text-decoration-thickness: 1px;
+    color: color.$warning;
+    font-weight: 700;
+  }
+  @include mixin.mobile {
+    @include mixin.flex($dir: column, $align: center, $gap: 2px);
+  }
+}
+
+@include mixin.mobile {
+  .logo { 
+    width: 112px;
+  }
+  .mobile-menu {
+    display: block;
+  }
+  .settings-showmobile {
+    display: flex;
   }
 }

@@ -3,7 +3,7 @@
 @use '../util/mixins' as mixin;
 
 .match {
-  @include mixin.flex($align: space-between, $x-align: center, $gap: 12px);
+  @include mixin.flex($align: center, $x-align: center, $gap: 16px);
   width: 100%;
   max-width: 690px;
   &-name {
@@ -16,7 +16,12 @@
     width: 100%;
     text-transform: uppercase;
     transition: border-color 0.15s;
-    &:hover, &:focus {
+    @include mixin.desktop {
+      &:hover {
+        border-color: color.$lite-dark;
+      }
+    }
+    &:focus {
       border-color: color.$lite-dark;
     }
   }
@@ -28,6 +33,7 @@
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 8px;
     margin-bottom: 16px;
   }
 }
@@ -42,7 +48,12 @@
     & > .player-id {
       background-color: color.$p1;
     }
-    & .player-name:hover, & .player-name:focus {
+    @include mixin.desktop {
+      & .player-name:hover  {
+        border-color: color.$p1-dark;
+      }
+    }
+    & .player-name:focus {
       border-color: color.$p1-dark;
     }
   }
@@ -52,7 +63,12 @@
     & > .player-id {
       background-color: color.$p2;
     }
-    & .player-name:hover, & .player-name:focus {
+    @include mixin.desktop {
+      & .player-name:hover  {
+        border-color: color.$p2-dark;
+      }
+    }
+    & .player-name:focus {
       border-color: color.$p2-dark;
     }
   }
@@ -84,6 +100,9 @@
     width: 240px;
     margin-right: calc($pw * -2 - 8px);
     transition: border-color 0.15s;
+    @include mixin.mobile {
+      width: 267px;
+    }
   }
   &-score {
     @include font.miso(0.66em, inherit, 400);

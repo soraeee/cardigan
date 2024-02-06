@@ -16,13 +16,15 @@
     & > a {
       text-decoration: underline;
       transition: filter 0.15s;
-      &:hover {
-        filter: drop-shadow(0 0 0.15rem);
+      @include mixin.desktop {
+        &:hover {
+          filter: drop-shadow(0 0 0.15rem);
+        }
       }
     }
   }
 
   @include mixin.mobile {
-    flex-wrap: wrap;
+    display: none;
   }
 }

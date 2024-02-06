@@ -33,9 +33,8 @@ html {
   grid-area: content;
   min-height: 100vh;
 
-
-  @media only screen and (max-width: 420px) {
-    max-width: 100vw;
+  @include mixin.mobile {
+    @include mixin.flex($dir: column, $align: start);
   }
 }
 
@@ -51,10 +50,6 @@ b { font-weight: 700 }
   width: 100%;
   padding: 24px 0;
   //background-color: #00ff00;
-
-  @include mixin.mobile {
-    padding: 16px 0;
-  }
 }
 
 .backdrop {
@@ -78,7 +73,7 @@ b { font-weight: 700 }
   @include mixin.flex($dir: column, $x-align: center);
   margin: 0 auto;
   user-select: none;
-  min-height: 520px;
+  min-height: calc(100vh - 48px - 164px);
   width: 100%;
   z-index: -1;
   overflow: hidden;
@@ -90,6 +85,26 @@ b { font-weight: 700 }
     }
     &-sub {
       font-size: 2em;
+    }
+  }
+  @include mixin.mobile {
+    min-height: calc(100vh - 206px - 48px - 172px);
+    &-text {
+      &-head {
+        font-size: 2em;
+        font-weight: 700;
+      }
+      &-sub {
+        font-size: 1.5em;
+      }
+    }
+  }
+  // There is definitely a better way to do this
+  &-nofields {
+    @extend .nodraw;
+    min-height: calc(100vh - 48px);
+    @include mixin.mobile { 
+      min-height: calc(100vh - 206px - 48px);
     }
   }
 }
@@ -121,6 +136,9 @@ b { font-weight: 700 }
   width: 100%;
   z-index: -1;
   overflow: hidden;
+  @include mixin.mobile {
+    display: none;
+  }
 }
 
 .ring {
@@ -150,4 +168,7 @@ b { font-weight: 700 }
   overflow: hidden;
   z-index: -1;
   background: linear-gradient(#00000000 5%, color.$dark 95%, color.$dark 100%);
+  @include mixin.mobile {
+    display: none;
+  }
 }

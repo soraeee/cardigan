@@ -3,59 +3,63 @@
 @use '../util/mixins' as mixin;
 
 .about {
-	background-color: color.$dark2;
-	overflow: auto;
-	top: 12.5%;
-	left: 25%;
-	width: 50%;
-	height: 75%;
-	position: fixed;
+  background-color: color.$dark2;
+  overflow: auto;
+  top: 12.5%;
+  left: 25%;
+  width: 50%;
+  height: 75%;
+  position: fixed;
     padding: 16px 24px;
-	z-index: 4;
+  z-index: 4;
 
-	border-radius: 2%;
-	line-height: normal;
-	
-	&-header {
-		font-size: 3em;
-		font-weight: 700;
-		color: color.$accent;
-	}
+  border-radius: 2%;
+  line-height: normal;
+  
+  &-header {
+    font-size: 3em;
+    font-weight: 700;
+    color: color.$accent;
+  }
 
-	&-text {
-		font-size: 1.5em;
-		font-weight: 300;
-	}
+  &-text {
+    font-size: 1.5em;
+    font-weight: 300;
+  }
 
-	&-question {
-		font-size: 2em;
-		font-weight: 800;
-	}
+  &-question {
+    font-size: 2em;
+    font-weight: 800;
+  }
 
-	&-button {	
-		position: fixed;
-		left: 71%;
-		padding: 5px 12px;
-		border-radius: 0 2px 0 0;
-		margin-right: -12px;
-	}
+  &-button {	
+    position: fixed;
+    left: 71%;
+    padding: 5px 12px;
+    border-radius: 0 2px 0 0;
+    margin-right: -12px;
+  }
 
-	&-close {
-		width: 30px;
-    	fill: color.$lite;
-		cursor: pointer;
-		transition: fill 0.15s;
-		&:hover {
-		  fill: color.$p1-dark;
-		}
-	}
+  &-close {
+    width: 30px;
+      fill: color.$lite;
+    cursor: pointer;
+    transition: fill 0.15s;
+    @include mixin.desktop {
+      &:hover {
+        fill: color.$p1-dark;
+      }
+    }
+  }
 }
 
 .link {
-	text-decoration: underline;
-	transition: filter 0.15s;
+  text-decoration: underline;
+  transition: filter 0.15s;
 
-	&:hover {
-        filter: drop-shadow(0 0 0.15rem);
-	}
+  @include mixin.desktop {
+    &:hover {
+      filter: drop-shadow(0 0 0.15rem);
+    }
+  }
 }

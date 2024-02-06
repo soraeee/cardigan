@@ -2,115 +2,165 @@
 @use '../util/fonts' as font;
 @use '../util/mixins' as mixin;
 
-.modal {
-  @include mixin.flex($x-align: center, $gap: 14px);
-  z-index: 3;
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background-color: color.$darker;
-  backdrop-filter: blur(6px);
-  padding: 8px 12px;
 
-  @include mixin.mobile {
-    gap: 6px;
-  }
-
-  &-section {
-    @include mixin.flex($x-align: center, $gap: 4px);
-    &-inner {
-      @include mixin.flex($gap: 4px);
-
-      @include mixin.mobile {
-        gap: 2px;
-      }
-    }
-  }
-
-  &-text-major {
-    font-size: 1.8em;
-    font-weight: 700;
-
-    @include mixin.mobile {
-      font-size: 1.2em;
-    }
-  }
-  
-  &-button {
-    @include mixin.flex($align: center);
-    @include mixin.border($radius: 6px);
-    position: relative;
-    padding: 4px;
-    background-color: color.$dark;
-    cursor: pointer;
-    transition: border-color 0.15s, background-color 0.15s;
-    &:hover {
-      border-color: color.$accent;
-    }
-    & > svg {
-      width: 25px;
-      fill: color.$lite;
-
-      @include mixin.mobile {
-        width: 22px;
-      }
-    }
-  }
-
-  &-close {
-    position: relative;
-    padding: 3px 16px;
-    background-color: color.$neutral;
-    &-icon {
-      width: 23px;
-      margin-bottom: -3px;
-      fill: color.$lite;
-    }
-  }
-  
-  &-settings {
-    width: 28px;
-    fill: color.$lite-dark;
-
-    @include mixin.mobile {
-      width: 22px;
-    }
-  }
-
-  &-tooltip {
-    opacity: 0;
-    font-size: 1.2em;
-    font-weight: 700;
-    width: 60px;
-    background-color: color.$darkest;
-    color: color.$lite;
-    text-align: center;
-    border-radius: 4px;
-    padding: 4px 0;
-    position: absolute;
-    left: -13px;
-    top: -32px;
+@include mixin.desktop {
+  .modal {
+    @include mixin.flex($x-align: center, $gap: 14px);
     z-index: 3;
-    transition: opacity 0.15s, top 0.15s ease-in-out;
-    &::after {
-      content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: color.$darker;
+    backdrop-filter: blur(6px);
+    padding: 8px 12px;
+
+    &-section {
+      @include mixin.flex($x-align: center, $gap: 4px);
+      &-inner {
+        @include mixin.flex($gap: 4px);
+      }
+    }
+
+    &-text-major {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+    
+    &-button {
+      @include mixin.flex($align: center);
+      @include mixin.border($radius: 6px);
+      position: relative;
+      padding: 4px;
+      background-color: color.$dark;
+      cursor: pointer;
+      transition: border-color 0.15s, background-color 0.15s;
+      &:hover {
+        border-color: color.$accent;
+      }
+      & > svg {
+        width: 25px;
+        fill: color.$lite;
+      }
+    }
+
+    &-close {
+      position: relative;
+      padding: 3px 16px;
+      background-color: color.$neutral;
+      &-icon {
+        width: 23px;
+        margin-bottom: -3px;
+        fill: color.$lite;
+      }
+    }
+    
+    &-settings {
+      width: 28px;
+      fill: color.$lite-dark;
+    }
+
+    &-tooltip {
+      opacity: 0;
+      font-size: 1.2em;
+      font-weight: 700;
+      width: 60px;
+      background-color: color.$darkest;
+      color: color.$lite;
+      text-align: center;
+      border-radius: 4px;
+      padding: 4px 0;
       position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: color.$darkest transparent transparent transparent;
+      left: -13px;
+      top: -32px;
+      z-index: 3;
+      transition: opacity 0.15s, top 0.15s ease-in-out;
+      &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: color.$darkest transparent transparent transparent;
+      }
+    }
+    &-close &-tooltip {
+      left: -2px;
+    }
+    &-button:hover &-tooltip, 
+    &-close:hover &-tooltip {
+      opacity: 1;
+      top: -34px;
     }
   }
-  &-close &-tooltip {
-    left: -2px;
-  }
-  &-button:hover &-tooltip, 
-  &-close:hover &-tooltip {
-    opacity: 1;
-    top: -34px;
+}
+
+@include mixin.mobile {
+  .modal {
+    @include mixin.flex($dir: column, $align: space-evenly, $x-align: center);
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: color.$darker;
+    backdrop-filter: blur(6px);
+
+    &-section {
+      @include mixin.flex($dir: column, $x-align: center, $gap: 12px);
+      &-inner {
+        @include mixin.flex($gap: 24px);
+      }
+    }
+
+    &-text-major {
+      font-size: 2.2em;
+      font-weight: 700;
+    }
+    
+    &-button {
+      @include mixin.flex($dir: column, $align: center);
+      @include mixin.border($radius: 6px);
+      position: relative;
+      padding: 10px 20px;
+      background-color: color.$dark;
+      cursor: pointer;
+      transition: border-color 0.15s, background-color 0.15s;
+      & > svg {
+        width: 48px;
+        fill: color.$lite;
+      }
+    }
+
+    &-close {
+      position: relative;
+      padding: 3px 16px;
+      background-color: color.$neutral;
+      &-icon {
+        width: 23px;
+        margin-bottom: -3px;
+        fill: color.$lite;
+      }
+    }
+    
+    &-settings {
+      width: 36px;
+      fill: color.$lite-dark;
+    }
+
+    &-tooltip {
+      font-size: 1.4em;
+      font-weight: 400;
+      color: color.$lite;
+      text-align: center;
+    }
+    &-close &-tooltip {
+      left: -2px;
+      display: none;
+    }
   }
 }
