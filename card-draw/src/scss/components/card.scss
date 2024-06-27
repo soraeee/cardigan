@@ -134,13 +134,23 @@ $side-width: 65px;
       font-size: 1.1em;
       text-align: right;
     }
+
+    &-tierlessinfo {
+      font-size: 1.3em;
+      font-weight: 600;
+      text-align: right;
+    }
   }
 
   &-right {
-    @include mixin.flex($dir: column, $x-align: end);
-    width: 74px;
+    @include mixin.flex($dir: column, $gap: 2px, $x-align: end);
+    width: 200px;
     & > * {
       margin: -2px 0;
+    }
+
+    &-group {
+      @include mixin.flex($dir: column, $align: end, $x-align: end);
     }
 
     @include mixin.mobile {

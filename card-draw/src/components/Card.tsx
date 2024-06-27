@@ -12,17 +12,25 @@ const Card = (props: any) => {
 
 	interface Chart {
 		id:				number;
+
 		title:			string;
 		subtitle:		string;
 		artist:			string;
+
 		difficulty:		number;
 		difficultyslot:	string;
+
 		displaybpm:		number[];
 		bpmstring:		string;
+
 		tier:			number;
 		nocmod:			boolean;
+
 		gfxPath:		string;
 		hasGfx:			boolean;
+
+		credit:			string;
+		description:	string;
 	}
 
 	// Reset card state on a new draw
@@ -188,7 +196,13 @@ const Card = (props: any) => {
 					</div>
 				</div>
 				<div className={"card-right"}>
-					<p className={"card-text-tier"}>Tier {props.chart.tier}</p>
+					{!props.tierless
+						? <p className={"card-text-tier"}>Tier {props.chart.tier}</p>
+						: <>
+							<p className={"card-text-tierlessinfo"}>{props.chart.credit}</p>
+							<p className={"card-text-tierlessinfo"}>{props.chart.description}</p>
+						</>
+					}
 					<p className={"card-text-bpm"}>{props.chart.bpmstring} BPM</p>
 				</div>
 				{props.modalOpened === props.chart.id && <CardModal

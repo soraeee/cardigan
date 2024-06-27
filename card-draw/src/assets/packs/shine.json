@@ -1,0 +1,1178 @@
+{
+	"packName": "SHINE Invitational",
+	"packBanner": "./bn-pack.png",
+	"charts": [
+	  {
+		"sid": 0,
+		"title": "[10] Dark One",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "kors k",
+		"artisttranslit": "",
+		"displaybpm": [
+		  174,
+		  174
+		],
+		"gfxPath": "311b554b6f.jpg",
+		"folderName": "[10] Dark One",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 10,
+			"notecount": 691,
+			"holdsrollscount": 20,
+			"minescount": 10,
+			"description": "Chief Skittles",
+			"credit": null,
+			"chartname": null,
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 1,
+		"title": "[10] Hugs and Hexagons (No CMOD)",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Isqa",
+		"artisttranslit": "",
+		"displaybpm": [
+		  140,
+		  140
+		],
+		"gfxPath": "14b03b2b6e.jpg",
+		"folderName": "[10] Hugs and Hexagons",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 10,
+			"notecount": 511,
+			"holdsrollscount": 108,
+			"minescount": 37,
+			"description": "FL+ BR FS RH",
+			"credit": "Exschwasion",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 2,
+		"title": "[10] Multi-Thread",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Mameyudoufu",
+		"artisttranslit": "",
+		"displaybpm": [
+		  126,
+		  126
+		],
+		"gfxPath": "968c9c212a.jpg",
+		"folderName": "[10] Multi-Thread",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 10,
+			"notecount": 536,
+			"holdsrollscount": 69,
+			"minescount": 24,
+			"description": "FS, BR, SS",
+			"credit": "CopperPuppy",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 3,
+		"title": "[10] Pinwheel",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Skybreak, Atura & THREESIXTY",
+		"artisttranslit": "",
+		"displaybpm": [
+		  92,
+		  92
+		],
+		"gfxPath": "39d78a1df9.jpg",
+		"folderName": "[10] Pinwheel",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 10,
+			"notecount": 567,
+			"holdsrollscount": 107,
+			"minescount": 0,
+			"description": "BU RH+ SJ XO",
+			"credit": "ITGAlex",
+			"chartname": "The Dark Souls of Rhythms",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 4,
+		"title": "[10] Time Traveler",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Knower",
+		"artisttranslit": "",
+		"displaybpm": [
+		  160,
+		  160
+		],
+		"gfxPath": "90b9e2e2db.jpg",
+		"folderName": "[10] Time Traveler",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 10,
+			"notecount": 521,
+			"holdsrollscount": 28,
+			"minescount": 14,
+			"description": "",
+			"credit": "Valex",
+			"chartname": "",
+			"mods": true
+		  }
+		]
+	  },
+	  {
+		"sid": 5,
+		"title": "[11] 愛散 ~AI Chill~",
+		"titletranslit": "[11] AI Chill",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "あいちむ",
+		"artisttranslit": "Aichimu",
+		"displaybpm": [
+		  127,
+		  127
+		],
+		"gfxPath": "7f71683d73.jpg",
+		"folderName": "[11] AI Chill",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 11,
+			"notecount": 544,
+			"holdsrollscount": 131,
+			"minescount": 32,
+			"description": "FS+ BU DS XO SJ-",
+			"credit": "teri",
+			"chartname": null,
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 6,
+		"title": "[11] Artifacter",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "CAPACITY GATE",
+		"artisttranslit": "",
+		"displaybpm": [
+		  181,
+		  181
+		],
+		"gfxPath": "39eaa403a7.jpg",
+		"folderName": "[11] Artifacter",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 11,
+			"notecount": 694,
+			"holdsrollscount": 24,
+			"minescount": 14,
+			"description": "Sudzi781",
+			"credit": null,
+			"chartname": null,
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 7,
+		"title": "[11] Butterfly Twist",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Yooh",
+		"artisttranslit": "",
+		"displaybpm": [
+		  160,
+		  160
+		],
+		"gfxPath": "96ff3356de.jpg",
+		"folderName": "[11] Butterfly Twist",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 11,
+			"notecount": 513,
+			"holdsrollscount": 82,
+			"minescount": 67,
+			"description": "XO+, FS+, SS",
+			"credit": "CERiNG",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 8,
+		"title": "[11] Echolocation (No CMOD)",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "meganeko",
+		"artisttranslit": "",
+		"displaybpm": [
+		  140,
+		  140
+		],
+		"gfxPath": "83211fd873.jpg",
+		"folderName": "[11] Echolocation",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 11,
+			"notecount": 673,
+			"holdsrollscount": 71,
+			"minescount": 31,
+			"description": "",
+			"credit": "Maxx",
+			"chartname": "",
+			"mods": false
+		  },
+		  {
+			"slot": "Challenge",
+			"type": "dance-double",
+			"difficulty": 12,
+			"notecount": 659,
+			"holdsrollscount": 113,
+			"minescount": 24,
+			"description": "",
+			"credit": "sangyule",
+			"chartname": "if you don't like the chart, blame on cmmf",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 9,
+		"title": "[11] Exoseven",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "PSYQUO vs. PTB10",
+		"artisttranslit": "",
+		"displaybpm": [
+		  112,
+		  112
+		],
+		"gfxPath": "5e838d20e1.jpg",
+		"folderName": "[11] Exoseven",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 11,
+			"notecount": 617,
+			"holdsrollscount": 54,
+			"minescount": 21,
+			"description": "FS+ BR BT DS SS XO",
+			"credit": "Kingly",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 10,
+		"title": "[11] Mr. Werewolf",
+		"titletranslit": "",
+		"subtitle": "(android52 Edit)",
+		"subtitletranslit": "",
+		"artist": "t+pazolite",
+		"artisttranslit": "",
+		"displaybpm": [
+		  175,
+		  175
+		],
+		"gfxPath": "59512aa7c8.jpg",
+		"folderName": "[11] Mr. Werewolf (android52 Edit)",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 11,
+			"notecount": 717,
+			"holdsrollscount": 141,
+			"minescount": 36,
+			"description": "BR BU FS SJ XO",
+			"credit": "ITGAlex",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 11,
+		"title": "[11] S-Bahn",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "BEMANI Sound Team 'DARK TRAIN'",
+		"artisttranslit": "",
+		"displaybpm": [
+		  142,
+		  142
+		],
+		"gfxPath": "529b8dcce3.jpg",
+		"folderName": "[11] S-Bahn",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 11,
+			"notecount": 658,
+			"holdsrollscount": 15,
+			"minescount": 0,
+			"description": "DS, XO+, FS+",
+			"credit": "Scrypts",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 12,
+		"title": "[11] Speedrun",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Ace Aura x Skybreak",
+		"artisttranslit": "",
+		"displaybpm": [
+		  150,
+		  150
+		],
+		"gfxPath": "d221d29d7c.jpg",
+		"folderName": "[11] Speedrun",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 11,
+			"notecount": 656,
+			"holdsrollscount": 46,
+			"minescount": 0,
+			"description": "BXF BU",
+			"credit": "Chief Skittles",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 13,
+		"title": "[11] spooky",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Tsubusare BOZZ",
+		"artisttranslit": "",
+		"displaybpm": [
+		  175,
+		  175
+		],
+		"gfxPath": "4f20568be4.jpg",
+		"folderName": "[11] spooky",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 11,
+			"notecount": 666,
+			"holdsrollscount": 72,
+			"minescount": 3,
+			"description": "XO+",
+			"credit": "Talkion",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 14,
+		"title": "[11] Voxel",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Ryoqucha",
+		"artisttranslit": "",
+		"displaybpm": [
+		  128,
+		  128
+		],
+		"gfxPath": "00ca86efa9.jpg",
+		"folderName": "[11] Voxel",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 11,
+			"notecount": 732,
+			"holdsrollscount": 83,
+			"minescount": 33,
+			"description": "",
+			"credit": "CopperPuppy",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 15,
+		"title": "[12] Antipattern",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Strayframe & BilliumMoto",
+		"artisttranslit": "",
+		"displaybpm": [
+		  140,
+		  140
+		],
+		"gfxPath": "113f2e1b35.jpg",
+		"folderName": "[12] Antipattern",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 12,
+			"notecount": 732,
+			"holdsrollscount": 41,
+			"minescount": 16,
+			"description": "[dt+ fs+ xo br bu]",
+			"credit": "mang",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 16,
+		"title": "[12] Libertas",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Zekk",
+		"artisttranslit": "",
+		"displaybpm": [
+		  160,
+		  160
+		],
+		"gfxPath": "5baa1e05ec.jpg",
+		"folderName": "[12] Libertas",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 12,
+			"notecount": 792,
+			"holdsrollscount": 46,
+			"minescount": 10,
+			"description": "BU BR XO- FS-",
+			"credit": "Benpai",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 17,
+		"title": "[12] Our Styles",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Hommarju & Zekk",
+		"artisttranslit": "",
+		"displaybpm": [
+		  174,
+		  174
+		],
+		"gfxPath": "1b29eac144.jpg",
+		"folderName": "[12] Our Styles",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 12,
+			"notecount": 930,
+			"holdsrollscount": 72,
+			"minescount": 0,
+			"description": "BR XO FS",
+			"credit": "ITGAlex",
+			"chartname": "Tech Rating: 7/10",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 18,
+		"title": "[12] Plus Ultra Cloud 9 (Hard)",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "polysha",
+		"artisttranslit": "",
+		"displaybpm": [
+		  175,
+		  175
+		],
+		"gfxPath": "ad6185b566.jpg",
+		"folderName": "[12] Plus Ultra Cloud 9 (SH)",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 12,
+			"notecount": 683,
+			"holdsrollscount": 78,
+			"minescount": 0,
+			"description": "BR-, SJ-",
+			"credit": "cmmf",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 19,
+		"title": "[12] pseudonymph",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "のの",
+		"artisttranslit": "nitro",
+		"displaybpm": [
+		  150,
+		  150
+		],
+		"gfxPath": "aea328cade.jpg",
+		"folderName": "[12] pseudonymph",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 12,
+			"notecount": 712,
+			"holdsrollscount": 75,
+			"minescount": 16,
+			"description": "FS, XO, BR, BU, 64ths",
+			"credit": "Valex",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 20,
+		"title": "[12] Psycho",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "More Plastic & URBANO",
+		"artisttranslit": "",
+		"displaybpm": [
+		  130,
+		  130
+		],
+		"gfxPath": "20eff748ac.jpg",
+		"folderName": "[12] Psycho",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 12,
+			"notecount": 623,
+			"holdsrollscount": 19,
+			"minescount": 62,
+			"description": "Kerpa & Tony S.",
+			"credit": "",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 21,
+		"title": "[12] Sector",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "RYOQUCHA",
+		"artisttranslit": "",
+		"displaybpm": [
+		  160,
+		  160
+		],
+		"gfxPath": "1ec6243f00.jpg",
+		"folderName": "[12] Sector",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 12,
+			"notecount": 633,
+			"holdsrollscount": 51,
+			"minescount": 10,
+			"description": "BXF BU LA RH- JA- DS-",
+			"credit": "Zaia",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 22,
+		"title": "[12] ShakeLine",
+		"titletranslit": "",
+		"subtitle": "(@hikeii flip)",
+		"subtitletranslit": "",
+		"artist": "G-Buck",
+		"artisttranslit": "",
+		"displaybpm": [
+		  138,
+		  138
+		],
+		"gfxPath": "7af93001ba.jpg",
+		"folderName": "[12] ShakeLine",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 12,
+			"notecount": 796,
+			"holdsrollscount": 131,
+			"minescount": 68,
+			"description": "KS+ FS+ DS+",
+			"credit": "Zaia",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 23,
+		"title": "[12] Shamshir",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Blacklolita",
+		"artisttranslit": "",
+		"displaybpm": [
+		  134.992,
+		  134.992
+		],
+		"gfxPath": "065a505444.jpg",
+		"folderName": "[12] Shamshir",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 12,
+			"notecount": 592,
+			"holdsrollscount": 2,
+			"minescount": 49,
+			"description": "[FS SS]",
+			"credit": "Mirin",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 24,
+		"title": "[12] The Terrorist",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Dustvoxx",
+		"artisttranslit": "",
+		"displaybpm": [
+		  125,
+		  125
+		],
+		"gfxPath": "f512725503.jpg",
+		"folderName": "[12] The Terrorist",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 12,
+			"notecount": 809,
+			"holdsrollscount": 86,
+			"minescount": 30,
+			"description": "FS XO SS 32nds",
+			"credit": "ITGAlex",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 25,
+		"title": "[13] Chromatic Burst",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "JAKAZiD",
+		"artisttranslit": "",
+		"displaybpm": [
+		  170,
+		  170
+		],
+		"gfxPath": "4b60c1cb53.jpg",
+		"folderName": "[13] Chromatic Burst",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 13,
+			"notecount": 679,
+			"holdsrollscount": 81,
+			"minescount": 30,
+			"description": "BXF- XO+ SJ GH- SS-",
+			"credit": "Talkion",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 26,
+		"title": "[13] Coconut",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "BeutNoise & SEED",
+		"artisttranslit": "",
+		"displaybpm": [
+		  145,
+		  145
+		],
+		"gfxPath": "e659e6962c.jpg",
+		"folderName": "[13] Coconut",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 13,
+			"notecount": 629,
+			"holdsrollscount": 10,
+			"minescount": 48,
+			"description": "FS/JA BR+ SS XO BU",
+			"credit": "A. Astral",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 27,
+		"title": "[13] δ for the DELTA",
+		"titletranslit": "[13] DELTA for the DELTA",
+		"subtitle": "(Camellia's 'PLANETARYDUBSTEP' Remix)",
+		"subtitletranslit": "",
+		"artist": "かめりあ",
+		"artisttranslit": "Camellia",
+		"displaybpm": [
+		  144,
+		  144
+		],
+		"gfxPath": "2dfce78886.jpg",
+		"folderName": "[13] DELTA for the DELTA",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 13,
+			"notecount": 973,
+			"holdsrollscount": 99,
+			"minescount": 12,
+			"description": "STR 3/3/2/2 BU+ XO+ BR+ FS+ DT DR DS SJ SS",
+			"credit": "Zaia",
+			"chartname": "",
+			"mods": true
+		  }
+		]
+	  },
+	  {
+		"sid": 28,
+		"title": "[13] GOODDRILL",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "EBIMAYO",
+		"artisttranslit": "",
+		"displaybpm": [
+		  172,
+		  172
+		],
+		"gfxPath": "225321785c.jpg",
+		"folderName": "[13] GOODDRILL",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 13,
+			"notecount": 946,
+			"holdsrollscount": 119,
+			"minescount": 31,
+			"description": "STR[2/2/16*/4/4/2/1/2] FS XO",
+			"credit": "DRILLBOT",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 29,
+		"title": "[13] JITTER FANTA",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "METAROOM",
+		"artisttranslit": "",
+		"displaybpm": [
+		  155,
+		  155
+		],
+		"gfxPath": "b4880449e7.jpg",
+		"folderName": "[13] JITTER FANTA",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 13,
+			"notecount": 791,
+			"holdsrollscount": 32,
+			"minescount": 32,
+			"description": "Team Charlie Vibrate",
+			"credit": "Maxx & CopperPuppy",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 30,
+		"title": "[13] logicx-1.wav",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "HYØUKA & TBN (Kou!)",
+		"artisttranslit": "",
+		"displaybpm": [
+		  160,
+		  160
+		],
+		"gfxPath": "ba3ce00bb4.jpg",
+		"folderName": "[13] logicx-1 wav",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 13,
+			"notecount": 868,
+			"holdsrollscount": 112,
+			"minescount": 46,
+			"description": "BR+ FS+ DS+ BU JA-",
+			"credit": "Maractus",
+			"chartname": "Reaper Media Folder",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 31,
+		"title": "[13] Scualee",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Aoi",
+		"artisttranslit": "",
+		"displaybpm": [
+		  150,
+		  150
+		],
+		"gfxPath": "a82575147d.jpg",
+		"folderName": "[13] Scualee",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 13,
+			"notecount": 883,
+			"holdsrollscount": 65,
+			"minescount": 7,
+			"description": "BXF, DS, BU-",
+			"credit": "cmmf & sorae",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 32,
+		"title": "[13] sparky spark",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "kamome sano",
+		"artisttranslit": "",
+		"displaybpm": [
+		  155,
+		  155
+		],
+		"gfxPath": "525a0d8e0a.jpg",
+		"folderName": "[13] sparky spark",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 13,
+			"notecount": 862,
+			"holdsrollscount": 59,
+			"minescount": 15,
+			"description": "BU BXF DS FL",
+			"credit": "RakkiiCB",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 33,
+		"title": "[13] Tricolor⁂circuS",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "ああ…翡翠茶漬け…",
+		"artisttranslit": "AAAA + Hino Isuka + Umeboshi Chazuke",
+		"displaybpm": [
+		  180,
+		  180
+		],
+		"gfxPath": "5d14e4b71e.jpg",
+		"folderName": "[13] Tricolor circuS",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 13,
+			"notecount": 1001,
+			"holdsrollscount": 44,
+			"minescount": 0,
+			"description": "BR",
+			"credit": "sorae",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 34,
+		"title": "[13] VOLAQUAS",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "BEMANI Sound Team \"DJ TOTTO VS 兎々\"",
+		"artisttranslit": "BEMANI Sound Team \"DJ TOTTO VS Totto\"",
+		"displaybpm": [
+		  212,
+		  212
+		],
+		"gfxPath": "597fe552b6.jpg",
+		"folderName": "[13] VOLAQUAS",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 13,
+			"notecount": 941,
+			"holdsrollscount": 4,
+			"minescount": 0,
+			"description": "",
+			"credit": "Zaia",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 35,
+		"title": "[14] clairvoyance",
+		"titletranslit": "",
+		"subtitle": "(siqlo vs. Aoi's \"liarvoyants\" RMX)",
+		"subtitletranslit": "",
+		"artist": "ikaruga_nex & 影虎。",
+		"artisttranslit": "",
+		"displaybpm": [
+		  175,
+		  175
+		],
+		"gfxPath": "eb2896505f.jpg",
+		"folderName": "[14] clairvoyance",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 14,
+			"notecount": 1015,
+			"holdsrollscount": 67,
+			"minescount": 20,
+			"description": "BR BU- DS- DT FS+ XO+",
+			"credit": "Talkion vs. sorae",
+			"chartname": "i do not see it",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 36,
+		"title": "[14] Duplication",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Zekk",
+		"artisttranslit": "",
+		"displaybpm": [
+		  202,
+		  202
+		],
+		"gfxPath": "6c80188cee.jpg",
+		"folderName": "[14] Duplication",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 14,
+			"notecount": 1044,
+			"holdsrollscount": 100,
+			"minescount": 7,
+			"description": "BR FS",
+			"credit": "sorae",
+			"chartname": "Copied from Copied from",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 37,
+		"title": "[14] Friction[!]Function",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Feryquitous",
+		"artisttranslit": "",
+		"displaybpm": [
+		  150,
+		  150
+		],
+		"gfxPath": "91bbfe457c.jpg",
+		"folderName": "[14] Friction[!]Function",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 14,
+			"notecount": 921,
+			"holdsrollscount": 28,
+			"minescount": 20,
+			"description": "",
+			"credit": "Mirin",
+			"chartname": "",
+			"mods": true
+		  }
+		]
+	  },
+	  {
+		"sid": 38,
+		"title": "[14] We Could Get More Machinegun Psystyle!",
+		"titletranslit": "",
+		"subtitle": "[And More Genre Switches]",
+		"subtitletranslit": "",
+		"artist": "Camellia",
+		"artisttranslit": "",
+		"displaybpm": [
+		  160,
+		  160
+		],
+		"gfxPath": "a4e660ff02.jpg",
+		"folderName": "[14] We Could Get More Machinegun Psystyle",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 14,
+			"notecount": 1052,
+			"holdsrollscount": 39,
+			"minescount": 37,
+			"description": "",
+			"credit": "Maxx & Zaia",
+			"chartname": "",
+			"mods": false
+		  }
+		]
+	  },
+	  {
+		"sid": 39,
+		"title": "[15] 9876734123",
+		"titletranslit": "",
+		"subtitle": "",
+		"subtitletranslit": "",
+		"artist": "Silentroom",
+		"artisttranslit": "",
+		"displaybpm": [
+		  157,
+		  157
+		],
+		"gfxPath": "2398d65e2d.jpg",
+		"folderName": "[15] 9876734123",
+		"difficulties": [
+		  {
+			"slot": "Challenge",
+			"type": "dance-single",
+			"difficulty": 15,
+			"notecount": 1064,
+			"holdsrollscount": 15,
+			"minescount": 18,
+			"description": "bXF+ BU+ JA SS",
+			"credit": null,
+			"chartname": null,
+			"mods": false
+		  }
+		]
+	  }
+	]
+  }

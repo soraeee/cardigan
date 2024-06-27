@@ -43,7 +43,7 @@ const NumberField = (props: any) => {
         <div className="numfield">
             <p className="numfield-title">{props.desc}</p>
             <div className="numfield-inner">
-                <input className="numfield-value" type="text" value={value} onChange={otherChange}/>
+                <input className="numfield-value" type="text" value={props.val} onChange={otherChange}/>
                 <div className="numfield-controls">
                     <button className="numfield-increment" onClick={increment}><Caret className="caret-increment"/></button>
                     <button className="numfield-decrement" onClick={decrement}><Caret className="caret-decrement"/></button>

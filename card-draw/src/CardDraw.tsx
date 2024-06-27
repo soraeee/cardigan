@@ -1,6 +1,7 @@
 import rip135 from './assets/packs/rip135.json'
 import eclipse2023 from './assets/packs/eclipse2023.json'
 import rip14 from './assets/packs/rip14.json'
+import shine from './assets/packs/shine.json'
 
 import { useState, useEffect } from 'react';
 import Card from './components/Card';
@@ -19,29 +20,53 @@ const CardDraw = (props: any) => {
 
 	interface Chart {
 		id:				number;
+
 		title:			string;
 		subtitle:		string;
 		artist:			string;
+
 		difficulty:		number;
 		difficultyslot:	string;
+
 		displaybpm:		number[];
 		bpmstring:		string;
+
 		tier:			number;
 		nocmod:			boolean;
+
 		gfxPath:		string;
 		hasGfx:			boolean;
+
+		credit:			string;
+		description:	string;
 	}
 
 	let chartarr: Chart[] = [];
 
 	// Pack selector
 	// I want to make this dynamic and scalable but it is 2AM and i cannot figure this out
-	const [currentPack, setCurrentPack] = useState<number>(2);
-	const packs = [rip135, eclipse2023, rip14]
+	// format: [pack json file, tierless]
+	const packs: any = [
+		[rip135, false], 
+		[eclipse2023, false], 
+		[rip14, false],
+		[shine, true]
+	]
+	const [currentPack, setCurrentPack] = useState<number>(packs.length - 1);
 
 	const defaultNumToDraw = 7;
-	const packTiers = packs[currentPack].charts.map(chart => Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]));
-	const [defaultMin, defaultMax] = [Math.min(...packTiers), Math.max(...packTiers)];
+
+	let [defaultMin, defaultMax]: number[] = [0, 0]
+
+	// Use difficulty block ranges if tiers don't exist for the pack
+	if (!packs[currentPack][1]) {	
+		const packTiers = packs[currentPack][0].charts.map((chart: any) => Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]));
+		[defaultMin, defaultMax] = [Math.min(...packTiers), Math.max(...packTiers)];
+
+	} else {
+		const packDiffs = packs[currentPack][0].charts.map((chart: any) => Number(chart.title.match(/\[(\d{1,2})\]\s?/)![1]));
+		[defaultMin, defaultMax] = [Math.min(...packDiffs), Math.max(...packDiffs)];
+	}
 
 	// Current card draw state
 	const [numToDraw, setNumToDraw] = useState<number>(defaultNumToDraw);
@@ -88,17 +113,30 @@ const CardDraw = (props: any) => {
 	const populateCharts = (p: number) => {
 		chartarr = [];
 		// Process chart metadata to something that we actually need
-		packs[p].charts.forEach(chart => {
-			// Convert "[Txx] name" format into a Tier value
-			const tier: number = Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]);
+		packs[p][0].charts.forEach((chart: any) => {
+			let tier: number;
+			let songtitle: string;
+			if (!packs[p][1]) {
+				// Convert "[Txx] name" format into a Tier value
+				tier = Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]);
+				songtitle = translit(chart, "title").replace(/\[T\d{1,2}\]\s?/, "");
+			} else {
+				// If pack is tierless just use the chart difficulty as the "tier"
+				tier = chart.difficulties[0].difficulty;
+				songtitle = translit(chart, "title").replace(/\[\d{1,2}\]\s?/, "");
+			}
 
-			const songtitle: string = translit(chart, "title").replace(/\[T\d{1,2}\]\s?/, "");
 			const songartist: string = translit(chart, "artist");
 			const songsubtitle: string = translit(chart, "subtitle");
 
 			let displaybpmFormatted = strround(chart.displaybpm[0]);
 			if (chart.displaybpm[0] !== chart.displaybpm[1]) {
 				displaybpmFormatted += " - " + strround(chart.displaybpm[1]);
+			}
+
+			const streamNotation = /(.*)(STR[\d\s\/\|\-\+\[\]\*]*)(.*)/
+			if (chart.difficulties[0].description.match(streamNotation)) {
+				chart.difficulties[0].description = chart.difficulties[0].description.replace(streamNotation, "$1$3")
 			}
 
 			const hasGfx = chart.gfxPath != "";
@@ -117,6 +155,8 @@ const CardDraw = (props: any) => {
 				nocmod:			/\(No CMOD\)/.test(songtitle),
 				gfxPath:		chart.gfxPath,
 				hasGfx:			hasGfx,
+				credit:			chart.difficulties[0].credit,
+				description:	chart.difficulties[0].description,
 			});
 		});
 	}
@@ -136,8 +176,17 @@ const CardDraw = (props: any) => {
 			if (chart["tier"] >= range[0] && chart["tier"] <= range[1]) return chart
 		})
 
-		const changedTiers = packs[pack].charts.map(chart => Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]));
-		changeDrawRange(Math.min(...changedTiers), Math.max(...changedTiers));
+		// Change tier range of the newly selected pack
+		if (!packs[pack][1]) {	
+			const changedTiers = packs[pack][0].charts.map((chart: any) => Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]));
+			changeDrawRange(Math.min(...changedTiers), Math.max(...changedTiers));
+	
+		} else {
+			// This is stupid, I'd at least like to be able to read `charts.difficulties[0].difficulty` but ultimately it depends on how the pack is formatted
+			// Hoping nobody makes me put a pack in here without [difficulty] in the title LUL
+			const changedDiffs = packs[pack][0].charts.map((chart: any) => Number(chart.title.match(/\[(\d{1,2})\]\s?/)![1]));
+			changeDrawRange(Math.min(...changedDiffs), Math.max(...changedDiffs));
+		}
 		setEligibleCharts([chartsInRange, []]);
 	}
 
@@ -386,9 +435,9 @@ const CardDraw = (props: any) => {
 				<div className="settings" id="settings">
 					<div className="settings-fields">
 						<div className="settings-inner">
-							<NumberField desc="# to draw" initValue={defaultNumToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
-							<NumberField desc="Tier min." initValue={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}}/>
-							<NumberField desc="Tier max." initValue={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}}/>
+							<NumberField desc="# to draw" initValue={defaultNumToDraw} val={numToDraw} min={1} max={Infinity} onChange={(n: number) => { setNumToDraw(n) }}/>
+							<NumberField desc={!packs[currentPack][1] ? "Tier min." : "Diff min."} initValue={range[0]} val={range[0]} min={defaultMin} max={range[1]} onChange={(n: number) => { changeDrawRange(n, range[1])}}/>
+							<NumberField desc={!packs[currentPack][1] ? "Tier max." : "Diff max."} initValue={range[1]} val={range[1]} min={range[0]} max={defaultMax} onChange={(n: number) => { changeDrawRange(range[0], n)}}/>
 						</div>
 						<p className="settings-warning"><b>NOTE:</b> Changing <b className="text-p2">tier ranges</b> and <b className="text-p2">dupe protection</b> <u>does not prompt a dialog box</u> and will <u>RESET</u> the available charts to select from the pool if dupe protection is on. Please be careful!!</p>
 					</div>
@@ -396,10 +445,13 @@ const CardDraw = (props: any) => {
 						<div>
 							<p className="numfield-title">Pack to draw from</p>
 						</div>
+						{/* When updating packs - make sure to update this too */}
+						{/* or also TODO just find a better way to automate this lol */}
 						<select name="packs" id="packs" onChange={(v) => switchPack(v.target.value)}>
 							<option value="0">RIP 13.5</option>
-							<option value="1" >Eclipse 2023</option>
-							<option value="2" selected>RIP 14</option>
+							<option value="1">Eclipse 2023</option>
+							<option value="2">RIP 14</option>
+							<option value="3" selected>Shine Invitational</option>
 						</select>
 					</div>
 					<div className="settings-checks">
@@ -449,7 +501,7 @@ const CardDraw = (props: any) => {
 					</div>
 				</div>
 				<div className="mobile-detail" id="mobile-detail">
-					<p>Drawing <b>{numToDraw}</b> songs from <u>{packs[currentPack].packName}</u>, tiers <b>{range[0]}</b>-<b>{range[1]}</b></p>
+					<p>Drawing <b>{numToDraw}</b> songs from <u>{packs[currentPack][0].packName}</u>, tiers <b>{range[0]}</b>-<b>{range[1]}</b></p>
 					<p>Dupe protection is <b>{noRP ? "on" : "off"}</b>.</p>
 				</div>
 			</div>
@@ -509,6 +561,7 @@ const CardDraw = (props: any) => {
 				return (<Card
 					key				= {chart.id}
 					chart			= {chart}
+					tierless		= {packs[currentPack][1]}
 					modalOpened		= {modalOpened}
 					setModalOpened	= {setModalOpened}
 					spread			= {spread}
