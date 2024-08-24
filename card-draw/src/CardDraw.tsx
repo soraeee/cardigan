@@ -172,20 +172,24 @@ const CardDraw = (props: any) => {
 		setProtectOrder(0);
 
 		// Change eligible charts to be within range
-		const chartsInRange: Chart[] = chartarr.filter(chart => {
-			if (chart["tier"] >= range[0] && chart["tier"] <= range[1]) return chart
-		})
+		let chartsInRange: Chart[];
 
 		// Change tier range of the newly selected pack
-		if (!packs[pack][1]) {	
+		if (!packs[pack][1]) {
 			const changedTiers = packs[pack][0].charts.map((chart: any) => Number(chart.title.match(/\[T(\d{1,2})\]\s?/)![1]));
 			changeDrawRange(Math.min(...changedTiers), Math.max(...changedTiers));
-	
+			chartsInRange = chartarr.filter(chart => {
+				if (chart["tier"] >= Math.min(...changedTiers) && chart["tier"] <= Math.max(...changedTiers)) return chart
+			})
 		} else {
 			// This is stupid, I'd at least like to be able to read `charts.difficulties[0].difficulty` but ultimately it depends on how the pack is formatted
 			// Hoping nobody makes me put a pack in here without [difficulty] in the title LUL
 			const changedDiffs = packs[pack][0].charts.map((chart: any) => Number(chart.title.match(/\[(\d{1,2})\]\s?/)![1]));
 			changeDrawRange(Math.min(...changedDiffs), Math.max(...changedDiffs));
+			
+			chartsInRange = chartarr.filter(chart => {
+				if (chart["difficulty"] >= Math.min(...changedDiffs) && chart["difficulty"] <= Math.max(...changedDiffs)) return chart
+			})
 		}
 		setEligibleCharts([chartsInRange, []]);
 	}
