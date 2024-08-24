@@ -223,11 +223,12 @@ const CardDraw = (props: any) => {
 	const [matchName, setMatchName] = useState<string>('');
 	const [p1Name, setP1Name] = useState<string>('');
 	const [p2Name, setP2Name] = useState<string>('');
-	const inputSetFuncs = [setMatchName, setP1Name, setP2Name];
+	const inputSetFuncs = [setP1Name, setP2Name];
 	const changeMatchName = (e: any) => setMatchName(e.target.value);
 	const changeP1Name = (e: any) => setP1Name(e.target.value);
 	const changeP2Name = (e: any) => setP2Name(e.target.value);
-	const clearFields = () => inputSetFuncs.forEach(func => func(''));
+	const clearPlayers = () => inputSetFuncs.forEach(func => func(''));
+	const clearPoolName = () => setMatchName('');
 
 	// Draw n number of charts from the available pool
 	const draw = () => {
@@ -278,7 +279,7 @@ const CardDraw = (props: any) => {
 		setWinsP1(0);
 		setWinsP2(0);
 		if (spread.length !== 0 && autoclear) {
-			clearFields();
+			clearPlayers();
 		} 
 	}
 
@@ -372,7 +373,7 @@ const CardDraw = (props: any) => {
 		setProtectOrder(0);
 		setWinsP1(0);
 		setWinsP2(0);
-		clearFields();
+		clearPlayers();
 	}
 
 	// Reset card draw
@@ -380,6 +381,7 @@ const CardDraw = (props: any) => {
 	const reset = () => {
 		setEligibleCharts([[...eligibleCharts[0], ...eligibleCharts[1]], []]);
 		clear();
+		clearPoolName();
 	}
 
 	// Reset removed pool and toggle no replacement setting
@@ -475,7 +477,7 @@ const CardDraw = (props: any) => {
 							<input className="checkbox-input" type="checkbox"
 							name="autoclear" id="autoclear" value="autoclear-enabled"
 							onChange={() => setAutoclear(!autoclear) } defaultChecked={autoclear}/>
-							<p className="checkbox-label">Clear pool/players on new draw</p>
+							<p className="checkbox-label">Clear players on new draw</p>
 						</label>
 						<label className="checkbox">
 							<input className="checkbox-input" type="checkbox"

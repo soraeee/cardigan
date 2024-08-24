@@ -16,13 +16,13 @@ function About(props: any) {
 
 			<p className="about-header">Usage</p>
 			<p className="about-text">Use the fields in the header to define the constraints for the card draw.</p>
-			<p className="about-text">Press Draw to draw a set of charts. Press Reset to clear the card draw screen.</p>
+			<p className="about-text">Press Draw to draw a set of charts. Press Clear to set up the pool for the next set of players. Press Reset to clear everything, and return all charts into the available pool.</p>
 			<p className="about-text">Dupe protection will prevent a chart from showing up in future draws once it has been drawn once, until all charts in the available pool have been drawn.</p>
 			<p className="about-text">If dupe protection is on, pressing Reset will also restore all previously drawn charts into the pool to be drawn again.</p>
 			<br />
 			<p className="about-text">After drawing, click on a card to show options for that card.</p>
 			<p className="about-text">Protect and Veto will display markers for that card to signify who has protected or vetoed that chart.</p>
-			<p className="about-text">Clear will remove any protect or veto markers.</p>
+			<p className="about-text">Reset will remove any protect or veto markers.</p>
 			<p className="about-text">Redraw will draw a new chart from the available pool of charts and replace the current chart.</p>
 			<br />
 
