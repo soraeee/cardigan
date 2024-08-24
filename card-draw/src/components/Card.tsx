@@ -164,7 +164,7 @@ const Card = (props: any) => {
 	let titleMask = {};
 	const statusWidth = (cardState[0] === 1 || cardState[0] === 3) ? 68 : 0;
 	const noCmodWidth = noCmodTag ? 38 : 0;
-	const calcWidth = cardWidth - statusWidth - noCmodWidth - 150;
+	const calcWidth = cardWidth - statusWidth - noCmodWidth - 260;
 	if (titleWidth >= calcWidth) {
 		titleMask = { 
 			"maskImage": "linear-gradient(90deg, #f0f0f0 93%, transparent 100%)",
