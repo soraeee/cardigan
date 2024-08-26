@@ -34,7 +34,7 @@ const Card = (props: any) => {
 	}
 
 	// Reset card state on a new draw
-	useEffect(() => { setCardState([0, 0]) }, [props.numDraw]);
+	useEffect(() => { setCardState([0, 0]) }, [props.updateCard]);
 
 	// player text color
 	// kind of redundant but i'm too lazy to figure out a more elegant solution
