@@ -1,7 +1,8 @@
-import rip135 from './assets/packs/rip135.json'
-import eclipse2023 from './assets/packs/eclipse2023.json'
-import rip14 from './assets/packs/rip14.json'
-import shine from './assets/packs/shine.json'
+import rip135 from './assets/packs/rip135.json';
+import eclipse2023 from './assets/packs/eclipse2023.json';
+import rip14 from './assets/packs/rip14.json';
+import shine from './assets/packs/shine.json';
+import giphs from './assets/packs/giphs.json';
 
 import { useState, useEffect } from 'react';
 import Card from './components/Card';
@@ -15,6 +16,21 @@ import Ring3 from './assets/ring/ring3.svg?react';
 import Ring4 from './assets/ring/ring4.svg?react';
 import Logo from './assets/logo.svg?react';
 import List from './assets/list.svg?react';
+
+/*
+	DOCUMENTATION ON HOW TO UPDATE WITH NEW PACKS:
+	----------------------------------------------
+	(this process sucks)
+
+	- Import the pack.json
+	- Add a new line to the packs array at line 59
+	- Add the pack to the dropdown list at line 469
+	- ????????????????
+	- Profit
+
+	- Do npm run deploy to deploy to GitHub Pages (ci/cd pipeline may vary)
+
+*/
 
 const CardDraw = (props: any) => {
 
@@ -50,7 +66,8 @@ const CardDraw = (props: any) => {
 		[rip135, false], 
 		[eclipse2023, false], 
 		[rip14, false],
-		[shine, true]
+		[shine, true],
+		[giphs, true]
 	]
 	const [currentPack, setCurrentPack] = useState<number>(packs.length - 1);
 
@@ -457,7 +474,8 @@ const CardDraw = (props: any) => {
 							<option value="0">RIP 13.5</option>
 							<option value="1">Eclipse 2023</option>
 							<option value="2">RIP 14</option>
-							<option value="3" selected>Shine Invitational</option>
+							<option value="3">Shine Invitational</option>
+							<option value="4" selected>GIP Hard Stuff</option>
 						</select>
 					</div>
 					<div className="settings-checks">
